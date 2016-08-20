@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <item
+            android:id="@+id/menu_settings"
+            android:title="@string/menu_settings"
+            android:icon="@drawable/settings48"
+            app:showAsAction="always"
+            />
+
+        <item
+            android:id="@+id/menu_openFromServer"
+            android:title="@string/menu_openFromServer"
+            android:icon="@drawable/viewfile48"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/menu_save"
+            android:title="@string/menu_save"
+            android:icon="@drawable/save48"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_saveAs"
+            android:title="@string/menu_saveAs"
+            android:icon="@drawable/saveas48"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_JTViewer"
+            android:title="@string/menu_JTViewer"
+            android:icon="@drawable/frontview48"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_openPDFFromServer"
+            android:title="@string/menu_openPDFFromServer"
+            android:icon="@drawable/document48"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_saveReport"
+            android:title="@string/menu_saveExcelReport"
+            android:icon="@drawable/sendfile48"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_takePhoto"
+            android:title="@string/menu_takePhoto"
+            android:icon="@drawable/camera48"
+            app:showAsAction="always" />
+</menu>
