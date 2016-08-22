@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jointelementinspector.jointelementinspector.MainActivity;
 import com.jointelementinspector.jointelementinspector.R;
@@ -29,6 +30,11 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         localFolders = (FolderLayout) findViewById(R.id.localFolders);
         localFolders.setIFolderItemListener(this);
         localFolders.setDir(filePath);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
     }
 
     @Override
@@ -231,10 +237,11 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
                     //wenn man die selbe Datei mehrmals einliest, sollte kein neues Object erzeuget werden, TODO vermeid duplicate
                     if (expandableListDataHeader != null) {
-                        finish();
-                        intent.putExtra("com.ExpandableListData", expandableListData);
+                        intent.putExtra("com.ExpandableListData", expandableListDataHeader);
+                        //intent.putExtra("objectID",  2);
                         setResult(Activity.RESULT_OK, intent);
                         startActivity(intent);
+                        finish();
                     }
                 }
             });

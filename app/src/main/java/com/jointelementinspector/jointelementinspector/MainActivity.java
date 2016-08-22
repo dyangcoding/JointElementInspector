@@ -1,7 +1,6 @@
 package com.jointelementinspector.jointelementinspector;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -9,31 +8,26 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parsa_plm.folderLayout.ExpandableListData;
-import com.parsa_plm.folderLayout.FolderLayout;
-import com.parsa_plm.folderLayout.IFolderItemListener;
 import com.parsa_plm.folderLayout.OpenFileActivity;
 import com.parsa_plm.jointelementinspector.fragments.*;
 
-import java.io.File;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
     private ActionMenuView amvMenu;
-    ExpandableListData headerData;
-    List<ExpandableListData> list;
+    private ExpandableListData headerData;
+    private List<ExpandableListData> list;
+    private static final int REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,18 +80,14 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
-        /*
-        if (getIntent().getExtras() != null) {
-            ExpandableListData headerData = getIntent().getExtras().getParcelable("com.ExpandableListData");
-            if (headerData != null) {
-                Log.d("xml", headerData.getPartName());
-                TextView headerDataView = (TextView) findViewById(R.id.testHeaderData);
-                if (headerDataView != null) {
-                    headerDataView.setText(headerData.getPartName());
-                }
+        // data transport from open file activity
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            ExpandableListData data = bundle.getParcelable("com.ExpandableListData");
+            if (data != null) {
+                Toast.makeText(this, "Result: " + data.toString(), Toast.LENGTH_LONG).show();
             }
         }
-        */
     }
 
     @Override
@@ -119,7 +109,7 @@ public class MainActivity extends AppCompatActivity{
 
         if (id == R.id.menu_openFromServer) {
             Intent openFileIntent = new Intent(MainActivity.this, OpenFileActivity.class);
-            startActivity(openFileIntent);
+            startActivityForResult(openFileIntent, REQUEST_CODE);
             return true;
         }
 
@@ -136,11 +126,19 @@ public class MainActivity extends AppCompatActivity{
         }
         return true;
     }
+
+    /*
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+    public void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             headerData = intent.getParcelableExtra("com.ExpandableListData");
+            if (headerData != null) {
+                Toast.makeText(this, "Result: " + "result is null" , Toast.LENGTH_LONG).show();
+            }
         }
+        android.support.v4.app.Fragment inspectorHeader = getSupportFragmentManager().findFragmentById(R.id.fragment_placeHolder_inspectionHeader);
+        inspectorHeader.onActivityResult(requestCode, resultCode, intent);
     }
+    */
 }

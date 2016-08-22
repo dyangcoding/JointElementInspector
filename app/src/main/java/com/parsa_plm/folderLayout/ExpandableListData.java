@@ -57,7 +57,14 @@ public class ExpandableListData implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeString(getPartName());
+        parcel.writeString(getPartNr());
+        parcel.writeString(getOrderNr());
+        parcel.writeString(getInspector());
+        parcel.writeString(getInspectorDate());
+        parcel.writeString(getVehicle());
+        parcel.writeString(getInspectorTimeSpan());
+        parcel.writeString(getFrequency());
     }
 
     public String getPartName() {
@@ -90,5 +97,11 @@ public class ExpandableListData implements Parcelable{
 
     public String getFrequency() {
         return this.frequency;
+    }
+    @Override
+    public String toString() {
+        return "Part Name: " + getPartName() + "Part Nr: " + getPartNr() + "Order Nr:" + getOrderNr() + "Inspector: "
+                + getInspector() + "Inspector Date: " + getInspectorDate() + "Vehicle: " + getVehicle() + "Inspector Time Span"
+                + getInspectorTimeSpan() + "Frequency: " + getFrequency();
     }
 }
