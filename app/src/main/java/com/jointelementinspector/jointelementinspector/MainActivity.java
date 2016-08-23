@@ -23,7 +23,7 @@ import com.parsa_plm.jointelementinspector.fragments.*;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
     private ActionMenuView amvMenu;
     private ExpandableListData headerData;
     private List<ExpandableListData> list;
@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity{
         // data transport from open file activity
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            ExpandableListData data = bundle.getParcelable("com.ExpandableListData");
-            if (data != null) {
-                Toast.makeText(this, "Result: " + data.toString(), Toast.LENGTH_LONG).show();
+            headerData = bundle.getParcelable("com.ExpandableListData");
+            if (headerData != null) {
+                Toast.makeText(this, "Result: " + headerData.toString(), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -141,4 +141,12 @@ public class MainActivity extends AppCompatActivity{
         inspectorHeader.onActivityResult(requestCode, resultCode, intent);
     }
     */
+    public ExpandableListData getExpandableData() {
+        return headerData != null ? headerData : null;
+    }
+
+    @Override
+    public ExpandableListData onFragmentCreated() {
+        return headerData != null ? headerData : null;
+    }
 }
