@@ -41,6 +41,7 @@ public class OverviewTabFragment extends Fragment{
         FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
         InspectionHeaderFragment headerFragment = InspectionHeaderFragment.newInstance(headerData);
         childFragTrans.add(R.id.fragment_placeHolder_inspectionHeader, headerFragment, "inspectorHeaderData");
+        // 20160824 add product structure fragment
         childFragTrans.commit();
     }
 

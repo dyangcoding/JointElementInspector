@@ -3,6 +3,8 @@ package com.parsa_plm.folderLayout;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class ExpandableListData implements Parcelable{
     private String partName;
     private String partNr;
@@ -12,6 +14,12 @@ public class ExpandableListData implements Parcelable{
     private String vehicle;
     private String inspectorTimeSpan;
     private String frequency;
+    // item Typ
+    private String itemType;
+    // this list contains child items of occurrence
+    private List<ExpandableListData> childOfOccurrence;
+    // new class for weld point for later user
+    private List<WeldPoint> weldPointsOfOccurrence;
 
     /*expandable list data constructor, later may changed
       empty string accepted, not null

@@ -22,14 +22,14 @@ public class InspectionHeaderFragment extends Fragment{
     private TextView vehicle = null;
     private TextView inspectorTimeSpan = null;
     private TextView frequency = null;
-    private static String PART_NAME = "Part Name: ";
-    private static String PART_Nr = "Part Number: ";
-    private static String ORDER_Nr = "Order Number: ";
-    private static String INSPECTOR = "Inspector: ";
-    private static String INSPECTOR_DATE = "Inspector Date: ";
-    private static String VEHICLE = "Vehicle: ";
-    private static String INSPECTOR_TIMESPAN = "Inspector Time Span: ";
-    private static String FREQUENCY = "Frequency: ";
+    private static final String PART_NAME = "Part Name: ";
+    private static final String PART_Nr = "Part Number: ";
+    private static final String ORDER_Nr = "Order Number: ";
+    private static final String INSPECTOR = "Inspector: ";
+    private static final String INSPECTOR_DATE = "Inspector Date: ";
+    private static final String VEHICLE = "Vehicle: ";
+    private static final String INSPECTOR_TIMESPAN = "Inspector Time Span: ";
+    private static final String FREQUENCY = "Frequency: ";
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
