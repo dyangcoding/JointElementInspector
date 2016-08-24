@@ -36,7 +36,8 @@ public class OverviewTabFragment extends Fragment{
             throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");
         }
         if (listener != null) headerData = listener.onFragmentCreated();
-        FragmentManager childFragmentManager = getFragmentManager();
+        // 20160824: getChildFragmentManager instead of getFragmentManager
+        FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
         InspectionHeaderFragment headerFragment = InspectionHeaderFragment.newInstance(headerData);
         childFragTrans.add(R.id.fragment_placeHolder_inspectionHeader, headerFragment, "inspectorHeaderData");

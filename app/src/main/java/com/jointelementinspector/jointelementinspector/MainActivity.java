@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                /*
                 if (headerData != null) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("com.ExpandableListData", headerData);
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                     fragmentManager.findFragmentById(R.id.fragment_placeHolder_inspectionHeader).setArguments(bundle);
                     fragmentTransaction.commit();
                 }
+                */
             }
 
             @Override
@@ -84,9 +86,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             headerData = bundle.getParcelable("com.ExpandableListData");
-            if (headerData != null) {
-                Toast.makeText(this, "Result: " + headerData.toString(), Toast.LENGTH_LONG).show();
-            }
         }
     }
 

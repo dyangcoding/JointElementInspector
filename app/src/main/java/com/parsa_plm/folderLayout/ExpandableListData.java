@@ -13,8 +13,8 @@ public class ExpandableListData implements Parcelable{
     private String inspectorTimeSpan;
     private String frequency;
 
-    /*
-        expandable list data constructor, later may changed
+    /*expandable list data constructor, later may changed
+      empty string accepted, not null
      */
     public ExpandableListData(String partName, String partNr, String orderNr, String inspector,
                               String inspectorDate, String vehicle, String inspectorTimeSpan, String frequency) {
