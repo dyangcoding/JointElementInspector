@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jointelementinspector.jointelementinspector.R;
+import com.jointelementinspector.main.R;
 
 public class ReportTabFragment extends Fragment {
     @Override

@@ -1,4 +1,4 @@
-package com.jointelementinspector.jointelementinspector;
+package com.jointelementinspector.main;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,12 +1,9 @@
-package com.jointelementinspector.jointelementinspector;
+package com.jointelementinspector.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,17 +14,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.parsa_plm.folderLayout.ExpandableListData;
-import com.parsa_plm.folderLayout.OpenFileActivity;
+import com.parsa_plm.Layout.OpenFileActivity;
 import com.parsa_plm.jointelementinspector.fragments.*;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
     private ActionMenuView amvMenu;
-    private ExpandableListData headerData;
-    private List<ExpandableListData> list;
+    private ExpandableListHeader headerData;
+    private List<ExpandableListHeader> list;
     private static final int REQUEST_CODE = 1;
+    private static final String TITLE_OVERVIEW = "Overview";
+    private static final String TITLE_Report = "Report";
+    private static final String TITLE_Photos = "Photo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         });
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
-            tabLayout.addTab(tabLayout.newTab().setText("Overview"));
-            tabLayout.addTab(tabLayout.newTab().setText("Report"));
-            tabLayout.addTab(tabLayout.newTab().setText("Photo"));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Report));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Photos));
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
         }
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 /*
                 if (headerData != null) {
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("com.ExpandableListData", headerData);
+                    bundle.putParcelable("com.ExpandableListHeader", headerData);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     pagerAdapter.getItem(0).setArguments(bundle);
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            headerData = intent.getParcelableExtra("com.ExpandableListData");
+            headerData = intent.getParcelableExtra("com.ExpandableListHeader");
             if (headerData != null) {
                 Toast.makeText(this, "Result: " + "result is null" , Toast.LENGTH_LONG).show();
             }
@@ -140,12 +139,12 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         inspectorHeader.onActivityResult(requestCode, resultCode, intent);
     }
     */
-    public ExpandableListData getExpandableData() {
+    public ExpandableListHeader getExpandableData() {
         return headerData != null ? headerData : null;
     }
 
     @Override
-    public ExpandableListData onFragmentCreated() {
+    public ExpandableListHeader onFragmentCreated() {
         return headerData != null ? headerData : null;
     }
 }

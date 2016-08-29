@@ -1,4 +1,4 @@
-package com.parsa_plm.folderLayout;
+package com.parsa_plm.Layout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jointelementinspector.jointelementinspector.R;
+import com.jointelementinspector.main.R;
 
 import java.io.File;
 import java.util.ArrayList;

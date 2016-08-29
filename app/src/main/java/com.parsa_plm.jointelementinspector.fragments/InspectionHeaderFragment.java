@@ -1,19 +1,17 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jointelementinspector.jointelementinspector.R;
-import com.parsa_plm.folderLayout.ExpandableListData;
+import com.jointelementinspector.main.R;
+import com.jointelementinspector.main.ExpandableListHeader;
 
 public class InspectionHeaderFragment extends Fragment{
-    private ExpandableListData headerData;
+    private ExpandableListHeader headerData;
     private TextView partName = null;
     private TextView partNr = null;
     private TextView orderNr = null;
@@ -40,7 +38,7 @@ public class InspectionHeaderFragment extends Fragment{
     }
 
     public InspectionHeaderFragment(){}
-    public static InspectionHeaderFragment newInstance(ExpandableListData headerData){
+    public static InspectionHeaderFragment newInstance(ExpandableListHeader headerData){
         InspectionHeaderFragment headerFragment = new InspectionHeaderFragment();
         Bundle bundle = new Bundle();
         if (headerData != null) {

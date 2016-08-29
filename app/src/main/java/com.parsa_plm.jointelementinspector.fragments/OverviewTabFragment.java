@@ -10,12 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jointelementinspector.jointelementinspector.R;
-import com.parsa_plm.folderLayout.ExpandableListData;
+import com.jointelementinspector.main.R;
+import com.jointelementinspector.main.ExpandableListHeader;
 
 
 public class OverviewTabFragment extends Fragment{
-    private ExpandableListData headerData;
+    private ExpandableListHeader headerData;
     private onFragmentInteractionListener listener;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,12 +40,15 @@ public class OverviewTabFragment extends Fragment{
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
         InspectionHeaderFragment headerFragment = InspectionHeaderFragment.newInstance(headerData);
-        childFragTrans.add(R.id.fragment_placeHolder_inspectionHeader, headerFragment, "inspectorHeaderData");
-        // 20160824 add product structure fragment
+        childFragTrans.add(R.id.fragment_placeHolder_inspectionHeader, headerFragment, "inspectorHeaderFragment");
+        // 20160824: add product structure fragment
+        ProductStructureFragment productStructureFragment = ProductStructureFragment.newInstance(headerData);
+        childFragTrans.add(R.id.fragment_placeHolder_productStructure, productStructureFragment, "productStructureFragment");
+        // 20160829: later fragment for more weld points attribute
         childFragTrans.commit();
     }
 
     public interface onFragmentInteractionListener{
-        public ExpandableListData onFragmentCreated ();
+        public ExpandableListHeader onFragmentCreated ();
     }
 }

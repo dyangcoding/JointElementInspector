@@ -1,4 +1,4 @@
-package com.jointelementinspector.jointelementinspector;
+package com.jointelementinspector.main;
 
 import org.junit.Test;
 
