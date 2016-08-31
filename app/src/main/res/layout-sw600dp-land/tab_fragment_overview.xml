@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:baselineAligned="false">
 
     <FrameLayout
         android:id="@+id/fragment_placeHolder_inspectionHeader"
         android:name="com.parsa_plm.jointelementinspector.fragments.InspectionHeaderFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
     <FrameLayout
         android:id="@+id/fragment_placeHolder_productStructure"
         android:name="com.parsa_plm.jointelementinspector.fragments.ProductStructureFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+</LinearLayout>

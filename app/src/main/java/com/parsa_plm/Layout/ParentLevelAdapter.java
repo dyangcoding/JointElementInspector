@@ -1,18 +1,24 @@
 package com.parsa_plm.Layout;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
 
 import com.jointelementinspector.main.ExpandableListHeader;
+import com.jointelementinspector.main.R;
+import com.parsa_plm.jointelementinspector.fragments.ProductStructureFragment;
 
-/**
- * Created by fabian082 on 29.08.2016.
- */
 public class ParentLevelAdapter extends BaseExpandableListAdapter{
+    // 20160831: we need context for somehow
+    private Context context;
     private ExpandableListHeader expandableListData;
 
-    public ParentLevelAdapter(ExpandableListHeader expandableListData) {
+    public ParentLevelAdapter(Context context, ExpandableListHeader expandableListData) {
+        this.context = context;
         this.expandableListData = expandableListData;
     }
     @Override
@@ -20,29 +26,30 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         return 1;
     }
 
+    // 20160831: should be 1, not the size of the child occurrence
     @Override
-    public int getChildrenCount(int i) {
-        return this.expandableListData.getChildOfOccurrence().size();
+    public int getChildrenCount(int groupPosition) {
+        return 1;
     }
 
     @Override
-    public Object getGroup(int i) {
+    public Object getGroup(int groupPosition) {
         return this.expandableListData;
     }
 
     @Override
-    public Object getChild(int i, int i1) {
-        return this.expandableListData.getChildOfOccurrence().get(i1);
+    public Object getChild(int groupPosition, int childPosition) {
+        return childPosition;
     }
 
     @Override
-    public long getGroupId(int i) {
-        return i;
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
     }
 
     @Override
-    public long getChildId(int i, int i1) {
-        return i1;
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
     }
 
     @Override
@@ -51,13 +58,28 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        return null;
+    public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
+        String headerTitle = null;
+        if (this.expandableListData != null) {
+            headerTitle = this.expandableListData.getPartNr() + this.expandableListData.getPartName();
+        }
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.expandlist_group, viewGroup, false);
+        }
+        TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader);
+        listHeader.setText(headerTitle);
+        listHeader.setTextColor(Color.RED);
+        return view;
     }
 
     @Override
-    public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        return null;
+    public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
+        ProductExpandListView secondLevelExpListView = new ProductExpandListView(this.context);
+        secondLevelExpListView.setAdapter(new SecondLevelAdapter(this.context, this.expandableListData));
+        // custom icons later
+        secondLevelExpListView.setGroupIndicator(null);
+        return secondLevelExpListView;
     }
 
     @Override

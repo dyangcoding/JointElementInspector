@@ -58,27 +58,14 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                /*
-                if (headerData != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("com.ExpandableListHeader", headerData);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    pagerAdapter.getItem(0).setArguments(bundle);
-                    fragmentManager.findFragmentById(R.id.fragment_placeHolder_inspectionHeader).setArguments(bundle);
-                    fragmentTransaction.commit();
-                }
-                */
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
         // data transport from open file activity
@@ -101,22 +88,18 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         int id = item.getItemId();
         if (id == R.id.menu_settings) {
             Toast.makeText(getApplicationContext(), "Setting coming soon", Toast.LENGTH_LONG).show();
-
             return true;
         }
-
         if (id == R.id.menu_openFromServer) {
             Intent openFileIntent = new Intent(MainActivity.this, OpenFileActivity.class);
             startActivityForResult(openFileIntent, REQUEST_CODE);
             return true;
         }
-
         if (id == R.id.menu_save) {
             Toast.makeText(getApplicationContext(), "Save comming soon", Toast.LENGTH_LONG).show();
 
             return true;
         }
-
         if (id == R.id.menu_saveAs) {
             Toast.makeText(getApplicationContext(), "SaveAs comming soon", Toast.LENGTH_LONG).show();
 
@@ -124,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         }
         return true;
     }
-
     /*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
