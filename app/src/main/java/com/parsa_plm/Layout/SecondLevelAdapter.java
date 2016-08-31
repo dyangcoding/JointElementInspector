@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.ExpandableListItem;
@@ -30,13 +31,15 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         return this.expandableListData.getChildOfOccurrence().size();
     }
 
+    // if has no children, give user feed back
     @Override
     public int getChildrenCount(int groupPosition) {
         int childCount = 0;
-        for (ExpandableListItem item : this.expandableListData.getChildOfOccurrence()) {
-            if (item.getChildItemList().size() > 0) {
-                childCount += item.getChildItemList().size();
-            }
+        ExpandableListItem parentItem = (ExpandableListItem) getGroup(groupPosition);
+        if (parentItem.getChildItemList().size() > 0) {
+            childCount = parentItem.getChildItemList().size();
+        }else {
+            Toast.makeText(this.context, " i got no children. ", Toast.LENGTH_LONG).show();
         }
         return childCount;
     }
@@ -50,7 +53,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     public Object getChild(int groupPosition, int childPosition) {
         List<WeldPoint> childList = null;
         childList = this.expandableListData.getChildOfOccurrence().get(groupPosition).getChildItemList();
-        if (childList != null) {
+        if (childList != null && childList.size() > 0) {
             return childList.get(childPosition);
         }
         return null;
@@ -74,15 +77,14 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
         ExpandableListItem headerItem = (ExpandableListItem) getGroup(groupPosition);
-        String headerTitle = headerItem.getItemNr() + headerItem.getItemName();
+        String headerTitle = headerItem.getItemNr() + " ; " + headerItem.getItemName();
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.expandlist_group_second, viewGroup, false);
         }
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader_second);
         listHeader.setText(headerTitle);
-        listHeader.setTextColor(Color.YELLOW);
-        listHeader.setPadding(7, 0, 0, 0);
+        listHeader.setPadding(10, 0, 0, 0);
         return view;
     }
 
@@ -97,6 +99,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         }
         TextView listItem = (TextView) view.findViewById(R.id.expandListItem);
         listItem.setText(itemTitle);
+        listItem.setPadding(10, 0, 0, 0);
         return view;
     }
 

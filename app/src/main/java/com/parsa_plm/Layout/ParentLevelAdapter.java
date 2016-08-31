@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.jointelementinspector.main.ExpandableListHeader;
@@ -61,7 +62,7 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
         String headerTitle = null;
         if (this.expandableListData != null) {
-            headerTitle = this.expandableListData.getPartNr() + this.expandableListData.getPartName();
+            headerTitle = this.expandableListData.getPartNr() + " ; " + this.expandableListData.getPartName();
         }
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -69,16 +70,24 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         }
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader);
         listHeader.setText(headerTitle);
-        listHeader.setTextColor(Color.RED);
         return view;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
-        ProductExpandListView secondLevelExpListView = new ProductExpandListView(this.context);
+        final ProductExpandListView secondLevelExpListView = new ProductExpandListView(this.context);
         secondLevelExpListView.setAdapter(new SecondLevelAdapter(this.context, this.expandableListData));
         // custom icons later
         secondLevelExpListView.setGroupIndicator(null);
+        secondLevelExpListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (groupPosition != previousGroup)
+                    secondLevelExpListView.collapseGroup(previousGroup);
+                previousGroup = groupPosition;
+            }
+        });
         return secondLevelExpListView;
     }
 
