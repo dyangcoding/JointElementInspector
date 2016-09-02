@@ -36,18 +36,20 @@ public class OverviewTabFragment extends Fragment{
             throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");
         }
         if (listener != null) headerData = listener.onFragmentCreated();
-        // 20160824: getChildFragmentManager instead of getFragmentManager
-        FragmentManager childFragmentManager = getChildFragmentManager();
-        FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
-        InspectionHeaderFragment headerFragment = InspectionHeaderFragment.newInstance(headerData);
-        childFragTrans.add(R.id.fragment_placeHolder_inspectionHeader, headerFragment, "inspectorHeaderFragment");
-        // 20160824: add product structure fragment
-        ProductStructureFragment productStructureFragment = ProductStructureFragment.newInstance(headerData);
-        childFragTrans.add(R.id.fragment_placeHolder_productStructure, productStructureFragment, "productStructureFragment");
-        // 20160829: later fragment for more weld points attribute
-        childFragTrans.commit();
+        // 20160902: no data no layout
+        if (headerData != null) {
+            // 20160824: getChildFragmentManager instead of getFragmentManager
+            FragmentManager childFragmentManager = getChildFragmentManager();
+            FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
+            InspectionHeaderFragment headerFragment = InspectionHeaderFragment.newInstance(headerData);
+            childFragTrans.add(R.id.fragment_placeHolder_inspectionHeader, headerFragment, "inspectorHeaderFragment");
+            // 20160824: add product structure fragment
+            ProductStructureFragment productStructureFragment = ProductStructureFragment.newInstance(headerData);
+            childFragTrans.add(R.id.fragment_placeHolder_productStructure, productStructureFragment, "productStructureFragment");
+            // 20160829: later fragment for more weld points attribute
+            childFragTrans.commit();
+        }
     }
-
     public interface onFragmentInteractionListener{
         public ExpandableListHeader onFragmentCreated ();
     }

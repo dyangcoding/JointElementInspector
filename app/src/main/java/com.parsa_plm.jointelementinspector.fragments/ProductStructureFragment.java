@@ -16,7 +16,9 @@ import com.parsa_plm.Layout.ParentLevelAdapter;
 public class ProductStructureFragment extends Fragment{
     // this contains the data to be displayed
     private ExpandableListHeader headerData;
-    private static String PRODUCT_STRUCTURE = "Product Structure";
+    private static final String PRODUCT_STRUCTURE = "Product Structure";
+    private static final String PRODUCT_STRUCTURE_PART_NAME = "Part Name";
+    private static final String PRODUCT_STRUCTURE_ITEM_TYPE = "Item Type";
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
@@ -42,6 +44,11 @@ public class ProductStructureFragment extends Fragment{
         TextView productStructureHeader = (TextView) view.findViewById(R.id.productStructureHeader);
         productStructureHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         productStructureHeader.setText(PRODUCT_STRUCTURE);
+        // 20160902: list structure item header
+        TextView productStructurePartName = (TextView) view.findViewById(R.id.productStructure_partName);
+        productStructurePartName.setText(PRODUCT_STRUCTURE_PART_NAME);
+        TextView productStructureItemType = (TextView) view.findViewById(R.id.productStructure_itemType);
+        productStructureItemType.setText(PRODUCT_STRUCTURE_ITEM_TYPE);
         final ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.parentLevel);
         // 20160831: check null value
         if (expandableListView != null) {

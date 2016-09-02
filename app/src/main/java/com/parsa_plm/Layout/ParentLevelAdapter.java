@@ -13,6 +13,8 @@ import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import com.parsa_plm.jointelementinspector.fragments.ProductStructureFragment;
 
+import org.w3c.dom.Text;
+
 public class ParentLevelAdapter extends BaseExpandableListAdapter{
     // 20160831: we need context for somehow
     private Context context;
@@ -61,8 +63,10 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
     @Override
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
         String headerTitle = null;
+        String headerType = null;
         if (this.expandableListData != null) {
             headerTitle = this.expandableListData.getPartNr() + " ; " + this.expandableListData.getPartName();
+            headerType = this.expandableListData.getType();
         }
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,6 +74,9 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         }
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader);
         listHeader.setText(headerTitle);
+        // 20160902: add item type
+        TextView listHeaderType = (TextView) view.findViewById(R.id.expandListHeader_itemType);
+        listHeaderType.setText(headerType);
         return view;
     }
 
