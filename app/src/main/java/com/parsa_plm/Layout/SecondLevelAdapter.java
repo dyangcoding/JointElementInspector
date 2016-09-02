@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +86,14 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.expandlist_group_second, viewGroup, false);
         }
+        // add image view for group icons
+        ImageView icon = (ImageView) view.findViewById(R.id.group_icon);
+        switch (headerType.trim()) {
+            case "Design Revision":
+                icon.setImageResource(R.drawable.design_obj_16);
+            case "A2_JGCRevision":
+                icon.setImageResource(R.drawable.jgc_rev_16);
+        }
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader_second);
         listHeader.setText(headerTitle);
         listHeader.setPadding(10, 0, 0, 0);
@@ -108,6 +117,9 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.expandlist_item, viewGroup, false);
         }
+        // add image view
+        ImageView icon = (ImageView) view.findViewById(R.id.item_icon);
+        icon.setImageResource(R.drawable.weld_rev_16);
         TextView listItem = (TextView) view.findViewById(R.id.expandListItem);
         listItem.setText(itemTitle);
         listItem.setPadding(10, 0, 0, 0);

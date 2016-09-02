@@ -2,11 +2,13 @@ package com.parsa_plm.Layout;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jointelementinspector.main.ExpandableListHeader;
@@ -72,6 +74,9 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.expandlist_group, viewGroup, false);
         }
+        // add image view to display icons
+        ImageView icon = (ImageView) view.findViewById(R.id.header_icon);
+        icon.setImageResource(R.drawable.io_rev_16);
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader);
         listHeader.setText(headerTitle);
         // 20160902: add item type
@@ -86,6 +91,8 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         secondLevelExpListView.setAdapter(new SecondLevelAdapter(this.context, this.expandableListData));
         // custom icons later
         secondLevelExpListView.setGroupIndicator(null);
+
+        //secondLevelExpListView.setChildIndicator(d);
         secondLevelExpListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
             @Override

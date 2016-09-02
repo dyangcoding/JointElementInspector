@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp">
+        <ImageView
+            android:id="@+id/header_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/expandListHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp"
+            android:textSize="18sp"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent" >
 
+            <View style="@style/Divider" />
+        </LinearLayout>
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/expandListHeader_itemType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp"
+            android:textSize="18sp"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
     </TableRow>
 
