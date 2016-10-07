@@ -83,6 +83,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     String vehicle = null;
                     String inspectorTimeSpan = null;
                     String frequency = null;
+                    String inspectorMethod = null;
                     // item type for header
                     String type = null;
                     String formRole = "IMAN_master_form";
@@ -182,6 +183,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                                 orderNr = eleNode.getAttribute("value");
                                             case "project_id":
                                                 vehicle = eleNode.getAttribute("value");
+                                            case "a2_InspMethod":
+                                                inspectorMethod = eleNode.getAttribute("value");
                                         }
                                     }
                                     break formLoop;
@@ -348,8 +351,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         }
                         //20160829: type and child occurrence added, null value accepted for child occurrence, in this case we have no second level data to display
                         if (partName != null && partNr != null && inspector != null && inspectorDate != null && inspectorTimeSpan != null
-                                && vehicle != null && frequency != null && orderNr != null && type != null) {
-                            expandableListHeader = new ExpandableListHeader(partName, partNr, orderNr, inspector, inspectorDate, vehicle, inspectorTimeSpan, frequency, type, childOfOccurrence);
+                                && vehicle != null && frequency != null && orderNr != null && type != null && inspectorMethod != null) {
+                            expandableListHeader = new ExpandableListHeader(partName, partNr, orderNr, inspector, inspectorDate, vehicle, inspectorTimeSpan, frequency, type, inspectorMethod, childOfOccurrence);
                         }
                     }catch (Exception e){
                         System.out.println(e);

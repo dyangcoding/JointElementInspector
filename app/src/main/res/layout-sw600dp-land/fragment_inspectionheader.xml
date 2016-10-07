@@ -19,20 +19,20 @@
             android:id="@+id/header_partName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/header_orderNr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:textSize="18sp"/>
         <TextView
             android:id="@+id/header_inspector"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:textSize="18sp"/>
     </TableRow>
 
@@ -48,21 +48,21 @@
             android:id="@+id/header_partNr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/header_inspectorDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/header_inspectorTimeSpan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:textSize="18sp"/>
     </TableRow>
 
@@ -78,14 +78,21 @@
             android:id="@+id/header_vehicle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/header_frequency"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/header_inspectorMethod"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
             android:textSize="18sp"/>
     </TableRow>
 </TableLayout>

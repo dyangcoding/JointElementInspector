@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:stretchColumns="1,2">
     <TableRow
-        android:layout_margin="1dp">
+        android:layout_margin="1dp"
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="middle">
         <ImageView
             android:id="@+id/item_icon"
             android:layout_width="match_parent"
@@ -13,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:paddingLeft="15dp"
             android:textSize="18sp"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"

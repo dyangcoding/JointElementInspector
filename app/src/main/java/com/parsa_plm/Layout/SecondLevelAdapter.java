@@ -96,7 +96,6 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         }
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader_second);
         listHeader.setText(headerTitle);
-        listHeader.setPadding(10, 0, 0, 0);
         // listHeader.setMinWidth(100);
         // 20160902: add type
         TextView listHeaderType = (TextView)view.findViewById(R.id.expandListHeader_second_itemType);
@@ -124,7 +123,6 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         icon.setPadding(15, 0, 10, 0);
         TextView listItem = (TextView) view.findViewById(R.id.expandListItem);
         listItem.setText(itemTitle);
-        //listItem.setPadding(30, 0, 0, 0);
         // 20160902: test version for item type
         TextView listItemType = (TextView) view.findViewById(R.id.expandListItem_type);
         listItemType.setText("WeldPoint");

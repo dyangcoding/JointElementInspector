@@ -77,7 +77,6 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         // add image view to display icons
         ImageView icon = (ImageView) view.findViewById(R.id.header_icon);
         icon.setImageResource(R.drawable.io_rev_16);
-        icon.setPadding(0, 0, 10, 0);
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader);
         listHeader.setText(headerTitle);
         // 20160902: add item type
@@ -93,7 +92,6 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         // custom icons later
         secondLevelExpListView.setGroupIndicator(null);
         secondLevelExpListView.setPadding(15, 0, 0, 0);
-        secondLevelExpListView.setMinimumWidth(100);
         //secondLevelExpListView.setChildIndicator(d);
         secondLevelExpListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;

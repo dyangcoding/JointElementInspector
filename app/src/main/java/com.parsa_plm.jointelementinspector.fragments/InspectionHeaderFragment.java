@@ -20,6 +20,8 @@ public class InspectionHeaderFragment extends Fragment{
     private TextView vehicle = null;
     private TextView inspectorTimeSpan = null;
     private TextView frequency = null;
+    // 20161007: add inspector method
+    private TextView getInspectorMethod = null;
     private static final String PART_NAME = "Part Name: ";
     private static final String PART_Nr = "Part Number: ";
     private static final String ORDER_Nr = "Order Number: ";
@@ -28,6 +30,7 @@ public class InspectionHeaderFragment extends Fragment{
     private static final String VEHICLE = "Vehicle: ";
     private static final String INSPECTOR_TIMESPAN = "Inspector Time Span: ";
     private static final String FREQUENCY = "Frequency: ";
+    private static final String INSPECTOR_METHOD = "Inspector Method: ";
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -59,6 +62,7 @@ public class InspectionHeaderFragment extends Fragment{
         vehicle = (TextView) view.findViewById(R.id.header_vehicle);
         inspectorTimeSpan = (TextView) view.findViewById(R.id.header_inspectorTimeSpan);
         frequency = (TextView) view.findViewById(R.id.header_frequency);
+        getInspectorMethod = (TextView) view.findViewById(R.id.header_inspectorMethod);
         if (headerData != null) {
             partName.setText(PART_NAME + headerData.getPartName());
             partNr.setText(PART_Nr + headerData.getPartNr());
@@ -68,6 +72,7 @@ public class InspectionHeaderFragment extends Fragment{
             vehicle.setText(VEHICLE + headerData.getVehicle());
             inspectorTimeSpan.setText(INSPECTOR_TIMESPAN + headerData.getInspectorTimeSpan());
             frequency.setText(FREQUENCY + headerData.getFrequency());
+            getInspectorMethod.setText(INSPECTOR_METHOD + headerData.getInspectorMethod());
         }
         return view;
     }
