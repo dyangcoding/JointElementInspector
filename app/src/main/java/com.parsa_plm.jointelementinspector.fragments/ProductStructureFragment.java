@@ -44,7 +44,7 @@ public class ProductStructureFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_productstructure, container, false);
         TextView productStructureHeader = (TextView) view.findViewById(R.id.productStructureHeader);
-        productStructureHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        productStructureHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
         productStructureHeader.setText(PRODUCT_STRUCTURE);
         // 20160902: list structure item header
         TextView productStructurePartName = (TextView) view.findViewById(R.id.productStructure_partName);

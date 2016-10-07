@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:orientation="vertical">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/productStructureHeader"
@@ -11,31 +11,37 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical" />
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <TableRow
-            android:id="@+id/tableRow1"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:background="@drawable/border"
+        android:divider="?android:attr/dividerHorizontal"
+        android:showDividers="middle">
+        <TextView
+            android:id="@+id/productStructure_partName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/productStructure_partName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
 
-            <TextView
-                android:id="@+id/productStructure_itemType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+        <TextView
+            android:id="@+id/productStructure_itemType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+    </LinearLayout>
 
-        </TableRow>
-    </TableLayout>
+
     <ExpandableListView
         android:id="@+id/parentLevel"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    </ExpandableListView>
+        android:layout_height="fill_parent"></ExpandableListView>
 
 </LinearLayout>
