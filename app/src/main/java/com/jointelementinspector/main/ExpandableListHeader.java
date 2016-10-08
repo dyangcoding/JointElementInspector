@@ -31,7 +31,7 @@ public class ExpandableListHeader implements Parcelable{
       empty string accepted, not null
      */
     public ExpandableListHeader(String partName, String partNr, String orderNr, String inspector,
-                                String inspectorDate, String vehicle, String inspectorTimeSpan, String frequency, String inspectorMethod, String type, List<ExpandableListItem> childOfOccurrence) {
+                                String inspectorDate, String vehicle, String inspectorTimeSpan, String frequency, String type, String inspectorMethod, List<ExpandableListItem> childOfOccurrence) {
         this.partName = partName;
         this.partNr = partNr;
         this.orderNr = orderNr;

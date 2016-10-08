@@ -91,12 +91,13 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         switch (headerType.trim()) {
             case "Design Revision":
                 icon.setImageResource(R.drawable.design_obj_16);
+                break;
             case "A2_JGCRevision":
                 icon.setImageResource(R.drawable.jgc_rev_16);
+                break;
         }
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader_second);
         listHeader.setText(headerTitle);
-        // listHeader.setMinWidth(100);
         // 20160902: add type
         TextView listHeaderType = (TextView)view.findViewById(R.id.expandListHeader_second_itemType);
         listHeaderType.setText(headerType);

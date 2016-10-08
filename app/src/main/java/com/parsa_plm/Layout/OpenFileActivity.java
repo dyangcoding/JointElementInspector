@@ -177,14 +177,16 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                         switch (nodeTitle){
                                             case "a2_InspDate":
                                                 inspectorDate = eleNode.getAttribute("value");
+                                                break;
                                             case "a2_Inspector":
                                                 inspector = eleNode.getAttribute("value");
+                                                break;
                                             case "a2_OrderNr":
                                                 orderNr = eleNode.getAttribute("value");
+                                                break;
                                             case "project_id":
                                                 vehicle = eleNode.getAttribute("value");
-                                            case "a2_InspMethod":
-                                                inspectorMethod = eleNode.getAttribute("value");
+                                                break;
                                         }
                                     }
                                     break formLoop;
@@ -212,6 +214,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                 }
                             }
                         }
+                        String inspectorScope = null;
                         // use id of form to find more attribute
                         if (notNullAndEmpty(idOfFormForMoreAttri)) {
                             for (int k = 0; k < form.getLength(); k++) {
@@ -225,8 +228,16 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                         switch (nodeTitle) {
                                             case "a2_InspCycle":
                                                 frequency = eleNode.getAttribute("value");
+                                                break;
+                                            case "a2_InspMethod":
+                                                inspectorMethod = eleNode.getAttribute("value");
+                                                break;
+                                            case "a2_InspScope":
+                                                inspectorScope = eleNode.getAttribute("value");
+                                                break;
                                             case "a2_InspectionTimespan":
                                                 inspectorTimeSpan = eleNode.getAttribute("value");
+                                                break;
                                         }
                                     }
                                 }

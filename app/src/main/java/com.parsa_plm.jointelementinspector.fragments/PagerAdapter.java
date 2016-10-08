@@ -20,8 +20,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 OverviewTabFragment overviewTabFragment = new OverviewTabFragment();
                 return overviewTabFragment;
             case 1:
-                ReportTabFragment reportTabFragment = new ReportTabFragment();
-                return reportTabFragment;
+                DocumentTabFragment documentTabFragment = new DocumentTabFragment();
+                return documentTabFragment;
             case 2:
                 PhotoTabFragment photoTabFragment = new PhotoTabFragment();
                 return photoTabFragment;

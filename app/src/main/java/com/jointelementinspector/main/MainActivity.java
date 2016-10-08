@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private List<ExpandableListHeader> list;
     private static final int REQUEST_CODE = 1;
     private static final String TITLE_OVERVIEW = "Overview";
-    private static final String TITLE_Report = "Report";
+    private static final String TITLE_Document = "Document";
     private static final String TITLE_Photos = "Photo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Report));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Document));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_Photos));
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
