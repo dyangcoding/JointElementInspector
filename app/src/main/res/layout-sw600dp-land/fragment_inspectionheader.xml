@@ -42,7 +42,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:divider="?android:attr/dividerHorizontal"
-        android:showDividers="middle">
+        android:showDividers="middle"
+        android:background="@drawable/border">
 
         <TextView
             android:id="@+id/header_partNr"
@@ -94,5 +95,29 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:textSize="18sp"/>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:divider="?android:attr/dividerHorizontal"
+        android:showDividers="middle"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/header_inspectorScope"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/header_inspectorNorm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="18sp"/>
+
     </TableRow>
 </TableLayout>

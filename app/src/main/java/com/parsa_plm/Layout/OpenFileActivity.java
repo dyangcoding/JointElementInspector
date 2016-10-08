@@ -84,6 +84,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     String inspectorTimeSpan = null;
                     String frequency = null;
                     String inspectorMethod = null;
+                    String inspectorScope = null;
+                    String inspectorNorm = null;
                     // item type for header
                     String type = null;
                     String formRole = "IMAN_master_form";
@@ -214,7 +216,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                 }
                             }
                         }
-                        String inspectorScope = null;
                         // use id of form to find more attribute
                         if (notNullAndEmpty(idOfFormForMoreAttri)) {
                             for (int k = 0; k < form.getLength(); k++) {
@@ -237,6 +238,9 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                                 break;
                                             case "a2_InspectionTimespan":
                                                 inspectorTimeSpan = eleNode.getAttribute("value");
+                                                break;
+                                            case "a2_InspRegNORM":
+                                                inspectorNorm = eleNode.getAttribute("value");
                                                 break;
                                         }
                                     }
@@ -362,8 +366,10 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         }
                         //20160829: type and child occurrence added, null value accepted for child occurrence, in this case we have no second level data to display
                         if (partName != null && partNr != null && inspector != null && inspectorDate != null && inspectorTimeSpan != null
-                                && vehicle != null && frequency != null && orderNr != null && type != null && inspectorMethod != null) {
-                            expandableListHeader = new ExpandableListHeader(partName, partNr, orderNr, inspector, inspectorDate, vehicle, inspectorTimeSpan, frequency, type, inspectorMethod, childOfOccurrence);
+                                && vehicle != null && frequency != null && orderNr != null
+                                && type != null && inspectorMethod != null && inspectorScope != null && inspectorNorm != null) {
+                            expandableListHeader = new ExpandableListHeader(partName, partNr, orderNr, inspector, inspectorDate, vehicle,
+                                    inspectorTimeSpan, frequency, type, inspectorMethod, inspectorScope, inspectorNorm, childOfOccurrence);
                         }
                     }catch (Exception e){
                         System.out.println(e);

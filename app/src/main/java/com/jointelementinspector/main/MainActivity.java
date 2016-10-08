@@ -96,12 +96,12 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             return true;
         }
         if (id == R.id.menu_save) {
-            Toast.makeText(getApplicationContext(), "Save comming soon", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Save coming soon", Toast.LENGTH_LONG).show();
 
             return true;
         }
         if (id == R.id.menu_saveAs) {
-            Toast.makeText(getApplicationContext(), "SaveAs comming soon", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "SaveAs coming soon", Toast.LENGTH_LONG).show();
 
             return true;
         }

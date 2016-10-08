@@ -17,6 +17,9 @@ public class ExpandableListHeader implements Parcelable{
     private String frequency;
     // 20161007 inspector method
     private String inspectorMethod;
+    // 20161008 inspector scope and norm
+    private String inspectorScope;
+    private String inspectorNorm;
     // 20160829: type for header
     private String type;
     // this list contains child items of occurrence
@@ -31,7 +34,9 @@ public class ExpandableListHeader implements Parcelable{
       empty string accepted, not null
      */
     public ExpandableListHeader(String partName, String partNr, String orderNr, String inspector,
-                                String inspectorDate, String vehicle, String inspectorTimeSpan, String frequency, String type, String inspectorMethod, List<ExpandableListItem> childOfOccurrence) {
+                                String inspectorDate, String vehicle, String inspectorTimeSpan,
+                                String frequency, String type, String inspectorMethod, String inspectorScope,
+                                String inspectorNorm, List<ExpandableListItem> childOfOccurrence) {
         this.partName = partName;
         this.partNr = partNr;
         this.orderNr = orderNr;
@@ -43,6 +48,8 @@ public class ExpandableListHeader implements Parcelable{
         // 20160829 typ child occurrence added
         this.type = type;
         this.inspectorMethod = inspectorMethod;
+        this.inspectorScope = inspectorScope;
+        this.inspectorNorm = inspectorNorm;
         this.childOfOccurrence = childOfOccurrence;
     }
 
@@ -70,6 +77,8 @@ public class ExpandableListHeader implements Parcelable{
         // 20160829 typ added
         this.type = parcel.readString();
         this.inspectorMethod = parcel.readString();
+        this.inspectorScope = parcel.readString();
+        this.inspectorNorm = parcel.readString();
         // local variable for child occurrence
         // not sure about this if it working
         List<ExpandableListItem> childItem = new ArrayList<>();
@@ -94,6 +103,8 @@ public class ExpandableListHeader implements Parcelable{
         // 20160829 typ added
         parcel.writeString(this.type);
         parcel.writeString(this.inspectorMethod);
+        parcel.writeString(this.inspectorScope);
+        parcel.writeString(this.inspectorNorm);
         parcel.writeTypedList(this.childOfOccurrence);
     }
 
@@ -131,12 +142,17 @@ public class ExpandableListHeader implements Parcelable{
 
     public String getType() { return this.type; }
 
+    public String getInspectorScope() {return this.inspectorScope; }
+
+    public String getInspectorNorm() {return this.inspectorNorm; }
+
     public String getInspectorMethod() {return this.inspectorMethod; }
     public List<ExpandableListItem> getChildOfOccurrence() { return this.childOfOccurrence; }
     @Override
     public String toString() {
         return "Part Name: " + getPartName() + "Part Nr: " + getPartNr() + "Order Nr:" + getOrderNr() + "Inspector: "
                 + getInspector() + "Inspector Date: " + getInspectorDate() + "Vehicle: " + getVehicle() + "Inspector Time Span"
-                + getInspectorTimeSpan() + "Frequency: " + getFrequency() + "Type: " + getType() + "InspectorMethod" + getInspectorMethod();
+                + getInspectorTimeSpan() + "Frequency: " + getFrequency() + "Type: " + getType()
+                + "Inspector Method: " + getInspectorMethod() + "Inspector Scope: " + getInspectorScope() + "Inspector Norm: " + getInspectorNorm();
     }
 }
