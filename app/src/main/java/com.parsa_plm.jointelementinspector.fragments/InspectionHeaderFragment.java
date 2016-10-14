@@ -1,10 +1,12 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jointelementinspector.main.R;
@@ -12,6 +14,9 @@ import com.jointelementinspector.main.ExpandableListHeader;
 
 public class InspectionHeaderFragment extends Fragment{
     private ExpandableListHeader headerData;
+    // 20161014: row header for expand
+    private TextView rowHeader = null;
+    private ImageView rowHeaderIcon = null;
     private TextView partName = null;
     private TextView partNr = null;
     private TextView orderNr = null;
@@ -25,6 +30,8 @@ public class InspectionHeaderFragment extends Fragment{
     // 20161008: add inspector Scope and Norm
     private TextView inspectorScope = null;
     private TextView inspectorNorm = null;
+    // 20161014: add header Info for expand
+    private static final String ROWHEADER = "Inspector Header Information";
     private static final String PART_NAME = "Part Name: ";
     private static final String PART_Nr = "Part Number: ";
     private static final String ORDER_Nr = "Order Number: ";
@@ -59,6 +66,8 @@ public class InspectionHeaderFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
+        rowHeader = (TextView) view.findViewById(R.id.RowHeaderInfo);
+        rowHeaderIcon = (ImageView) view.findViewById(R.id.RowHeaderIcon);
         partName = (TextView) view.findViewById(R.id.header_partName);
         partNr = (TextView) view.findViewById(R.id.header_partNr);
         orderNr = (TextView) view.findViewById(R.id.header_orderNr);
@@ -71,6 +80,8 @@ public class InspectionHeaderFragment extends Fragment{
         inspectorScope = (TextView) view.findViewById(R.id.header_inspectorScope);
         inspectorNorm = (TextView) view.findViewById(R.id.header_inspectorNorm);
         if (headerData != null) {
+            rowHeader.setText(ROWHEADER);
+            rowHeaderIcon.setImageResource(R.drawable.expandarrow48);
             partName.setText(PART_NAME + headerData.getPartName());
             partNr.setText(PART_Nr + headerData.getPartNr());
             orderNr.setText(ORDER_Nr + headerData.getOrderNr());
