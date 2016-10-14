@@ -6,13 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.jointelementinspector.main.R;
 import com.jointelementinspector.main.ExpandableListHeader;
 
-public class InspectionHeaderFragment extends Fragment{
+public class InspectionHeaderFragment extends Fragment {
     private ExpandableListHeader headerData;
     // 20161014: row header for expand
     private TextView rowHeader = null;
@@ -30,6 +34,13 @@ public class InspectionHeaderFragment extends Fragment{
     // 20161008: add inspector Scope and Norm
     private TextView inspectorScope = null;
     private TextView inspectorNorm = null;
+    // 20161014: table row
+    private TableRow row1 = null;
+    private TableRow row2 = null;
+    private TableRow row3 = null;
+    private TableRow row4 = null;
+    private TableRow row5 = null;
+    private boolean isVisible = true;
     // 20161014: add header Info for expand
     private static final String ROWHEADER = "Inspector Header Information";
     private static final String PART_NAME = "Part Name: ";
@@ -43,8 +54,9 @@ public class InspectionHeaderFragment extends Fragment{
     private static final String INSPECTOR_METHOD = "Inspector Method: ";
     private static final String INSPECTOR_SCOPE = "Inspector Scope: ";
     private static final String INSPECTOR_NORM = "Inspector Norm: ";
+
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -52,8 +64,10 @@ public class InspectionHeaderFragment extends Fragment{
         }
     }
 
-    public InspectionHeaderFragment(){}
-    public static InspectionHeaderFragment newInstance(ExpandableListHeader headerData){
+    public InspectionHeaderFragment() {
+    }
+
+    public static InspectionHeaderFragment newInstance(ExpandableListHeader headerData) {
         InspectionHeaderFragment headerFragment = new InspectionHeaderFragment();
         Bundle bundle = new Bundle();
         if (headerData != null) {
@@ -65,23 +79,62 @@ public class InspectionHeaderFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
-        rowHeader = (TextView) view.findViewById(R.id.RowHeaderInfo);
-        rowHeaderIcon = (ImageView) view.findViewById(R.id.RowHeaderIcon);
-        partName = (TextView) view.findViewById(R.id.header_partName);
-        partNr = (TextView) view.findViewById(R.id.header_partNr);
-        orderNr = (TextView) view.findViewById(R.id.header_orderNr);
-        inspector = (TextView) view.findViewById(R.id.header_inspector);
-        inspectorDate = (TextView) view.findViewById(R.id.header_inspectorDate);
-        vehicle = (TextView) view.findViewById(R.id.header_vehicle);
-        inspectorTimeSpan = (TextView) view.findViewById(R.id.header_inspectorTimeSpan);
-        frequency = (TextView) view.findViewById(R.id.header_frequency);
-        inspectorMethod = (TextView) view.findViewById(R.id.header_inspectorMethod);
-        inspectorScope = (TextView) view.findViewById(R.id.header_inspectorScope);
-        inspectorNorm = (TextView) view.findViewById(R.id.header_inspectorNorm);
+        final View headerView = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
+        rowHeader = (TextView) headerView.findViewById(R.id.RowHeaderInfo);
+        rowHeaderIcon = (ImageView) headerView.findViewById(R.id.RowHeaderIcon);
+        partName = (TextView) headerView.findViewById(R.id.header_partName);
+        partNr = (TextView) headerView.findViewById(R.id.header_partNr);
+        orderNr = (TextView) headerView.findViewById(R.id.header_orderNr);
+        inspector = (TextView) headerView.findViewById(R.id.header_inspector);
+        inspectorDate = (TextView) headerView.findViewById(R.id.header_inspectorDate);
+        vehicle = (TextView) headerView.findViewById(R.id.header_vehicle);
+        inspectorTimeSpan = (TextView) headerView.findViewById(R.id.header_inspectorTimeSpan);
+        frequency = (TextView) headerView.findViewById(R.id.header_frequency);
+        inspectorMethod = (TextView) headerView.findViewById(R.id.header_inspectorMethod);
+        inspectorScope = (TextView) headerView.findViewById(R.id.header_inspectorScope);
+        inspectorNorm = (TextView) headerView.findViewById(R.id.header_inspectorNorm);
+        row1 = (TableRow) headerView.findViewById(R.id.tableRow1);
+        row2 = (TableRow) headerView.findViewById(R.id.tableRow2);
+        row3 = (TableRow) headerView.findViewById(R.id.tableRow3);
+        row4 = (TableRow) headerView.findViewById(R.id.tableRow4);
+        row5 = (TableRow) headerView.findViewById(R.id.tableRow5);
+        //final FrameLayout lay = findViewById(R.id.fragment_placeHolder_inspectionHeader);
         if (headerData != null) {
             rowHeader.setText(ROWHEADER);
-            rowHeaderIcon.setImageResource(R.drawable.expandarrow48);
+            rowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
+            rowHeaderIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (row2 != null && row3 != null && row4 != null && row5 != null) {
+                        //int color = getResources().getColor(R.color.colorPrimary);
+                        //row1.setBackgroundColor(color);
+                        if (isVisible) {
+                            rowHeaderIcon.setImageResource(R.drawable.expandarrow48);
+                            row2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                            row2.setVisibility(View.GONE);
+                            row3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                            row3.setVisibility(View.GONE);
+                            row4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                            row4.setVisibility(View.GONE);
+                            row5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                            row5.setVisibility(View.GONE);
+                            isVisible = false;
+
+                        }else {
+                            rowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
+                            row2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                            row2.setVisibility(View.VISIBLE);
+                            row3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                            row3.setVisibility(View.VISIBLE);
+                            row4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                            row4.setVisibility(View.VISIBLE);
+                            row5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                            row5.setVisibility(View.VISIBLE);
+                            isVisible = true;
+                        }
+                    }
+                }
+            });
             partName.setText(PART_NAME + headerData.getPartName());
             partNr.setText(PART_Nr + headerData.getPartNr());
             orderNr.setText(ORDER_Nr + headerData.getOrderNr());
@@ -94,6 +147,9 @@ public class InspectionHeaderFragment extends Fragment{
             inspectorScope.setText(INSPECTOR_SCOPE + headerData.getInspectorScope());
             inspectorNorm.setText(INSPECTOR_NORM + headerData.getInspectorNorm());
         }
-        return view;
+        return headerView;
+    }
+    public Boolean getVisibilityForTableRow() {
+        return isVisible;
     }
 }
