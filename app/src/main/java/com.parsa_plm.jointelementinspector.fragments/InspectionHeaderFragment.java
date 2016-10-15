@@ -3,6 +3,7 @@ package com.parsa_plm.jointelementinspector.fragments;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,16 +99,14 @@ public class InspectionHeaderFragment extends Fragment {
         row3 = (TableRow) headerView.findViewById(R.id.tableRow3);
         row4 = (TableRow) headerView.findViewById(R.id.tableRow4);
         row5 = (TableRow) headerView.findViewById(R.id.tableRow5);
-        //final FrameLayout lay = findViewById(R.id.fragment_placeHolder_inspectionHeader);
         if (headerData != null) {
+            rowHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
             rowHeader.setText(ROWHEADER);
             rowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
             rowHeaderIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (row2 != null && row3 != null && row4 != null && row5 != null) {
-                        //int color = getResources().getColor(R.color.colorPrimary);
-                        //row1.setBackgroundColor(color);
                         if (isVisible) {
                             rowHeaderIcon.setImageResource(R.drawable.expandarrow48);
                             row2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));

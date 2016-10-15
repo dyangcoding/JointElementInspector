@@ -42,7 +42,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         if (parentItem.getChildItemList().size() > 0) {
             childCount = parentItem.getChildItemList().size();
         }else {
-            Toast.makeText(this.context, " i got no children. ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, " Es sind keine Daten vorhanden. ", Toast.LENGTH_LONG).show();
         }
         return childCount;
     }

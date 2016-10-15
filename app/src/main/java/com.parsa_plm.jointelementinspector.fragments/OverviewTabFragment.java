@@ -20,16 +20,9 @@ import com.jointelementinspector.main.ExpandableListHeader;
 public class OverviewTabFragment extends Fragment{
     private ExpandableListHeader headerData;
     private onFragmentInteractionListener listener;
-    private boolean tableVisibility = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_fragment_overview, container, false);
-        //FrameLayout headerLayout = (FrameLayout) rootView.findViewById(R.id.fragment_placeHolder_inspectionHeader);
-        //LinearLayout overviewLayout = (LinearLayout) rootView.findViewById(R.id.overviewLayout);
-        //LinearLayout.LayoutParams lParams = (LinearLayout.LayoutParams) overviewLayout.getLayoutParams();
-        //if (!tableVisibility) {
-            //headerLayout.setLayoutParams(lParams);
-        //}
         return rootView;
     }
 
@@ -52,7 +45,6 @@ public class OverviewTabFragment extends Fragment{
             FragmentManager childFragmentManager = getChildFragmentManager();
             FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
             InspectionHeaderFragment headerFragment = InspectionHeaderFragment.newInstance(headerData);
-            tableVisibility = headerFragment.getVisibilityForTableRow();
             childFragTrans.add(R.id.fragment_placeHolder_inspectionHeader, headerFragment, "inspectorHeaderFragment");
             // 20160824: add product structure fragment
             ProductStructureFragment productStructureFragment = ProductStructureFragment.newInstance(headerData);

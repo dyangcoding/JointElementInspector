@@ -11,4 +11,5 @@
     <string name="folderPath">Path</string>
     <string name="partName">Part Name</string>
     <string name="itemType">Item Type</string>
+    <string name="tableRowIcon">TableRowIcon</string>
 </resources>
