@@ -93,7 +93,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             adb.show();
         }
     }
-
+    //20161019: extract method parseXML
     private ExpandableListHeader parseXML(File file) {
         // using Parcelable to send custom data
         DocumentBuilder domBuilder = null;

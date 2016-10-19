@@ -20,27 +20,27 @@ import com.jointelementinspector.main.ExpandableListHeader;
 public class InspectionHeaderFragment extends Fragment {
     private ExpandableListHeader headerData;
     // 20161014: row header for expand
-    private TextView rowHeader = null;
-    private ImageView rowHeaderIcon = null;
-    private TextView partName = null;
-    private TextView partNr = null;
-    private TextView orderNr = null;
-    private TextView inspector = null;
-    private TextView inspectorDate = null;
-    private TextView vehicle = null;
-    private TextView inspectorTimeSpan = null;
-    private TextView frequency = null;
+    private TextView rowHeader;
+    private ImageView rowHeaderIcon;
+    private TextView partName;
+    private TextView partNr;
+    private TextView orderNr;
+    private TextView inspector;
+    private TextView inspectorDate;
+    private TextView vehicle;
+    private TextView inspectorTimeSpan;
+    private TextView frequency;
     // 20161007: add inspector method
-    private TextView inspectorMethod = null;
+    private TextView inspectorMethod;
     // 20161008: add inspector Scope and Norm
-    private TextView inspectorScope = null;
-    private TextView inspectorNorm = null;
+    private TextView inspectorScope;
+    private TextView inspectorNorm;
     // 20161014: table row
-    private TableRow row1 = null;
-    private TableRow row2 = null;
-    private TableRow row3 = null;
-    private TableRow row4 = null;
-    private TableRow row5 = null;
+    private TableRow row1;
+    private TableRow row2;
+    private TableRow row3;
+    private TableRow row4;
+    private TableRow row5;
     private boolean isVisible = true;
     // 20161014: add header Info for expand
     private static final String ROWHEADER = "Inspector Header Information";
@@ -147,8 +147,5 @@ public class InspectionHeaderFragment extends Fragment {
             inspectorNorm.setText(INSPECTOR_NORM + headerData.getInspectorNorm());
         }
         return headerView;
-    }
-    public Boolean getVisibilityForTableRow() {
-        return isVisible;
     }
 }
