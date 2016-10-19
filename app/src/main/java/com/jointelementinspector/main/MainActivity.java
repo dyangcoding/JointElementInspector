@@ -22,7 +22,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
     private ActionMenuView amvMenu;
     private ExpandableListHeader headerData;
-    private List<ExpandableListHeader> list;
     private static final int REQUEST_CODE = 1;
     private static final String TITLE_OVERVIEW = "Overview";
     private static final String TITLE_Document = "Document";
@@ -50,6 +49,15 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
         }
+        setUpViewPager(tabLayout);
+        // data transport from open file activity
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            headerData = bundle.getParcelable("com.ExpandableListData");
+        }
+    }
+
+    private void setUpViewPager(TabLayout tabLayout) {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
@@ -68,11 +76,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        // data transport from open file activity
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            headerData = bundle.getParcelable("com.ExpandableListData");
-        }
     }
 
     @Override
@@ -121,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         inspectorHeader.onActivityResult(requestCode, resultCode, intent);
     }
     */
-    public ExpandableListHeader getExpandableData() {
-        return headerData != null ? headerData : null;
-    }
 
     @Override
     public ExpandableListHeader onFragmentCreated() {
