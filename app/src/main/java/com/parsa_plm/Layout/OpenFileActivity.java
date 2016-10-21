@@ -19,7 +19,9 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -359,10 +361,13 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         if (notNullAndEmpty(id2FindWeldPoint)) {
                             String name = null;
                             WeldPoint weldPoint = null;
+                            // 20161021: associated attachments to find characters
+                            String associatedARs = null;
                             occuLoop:
                             for (int k = 0; k < occurrence.getLength(); k ++) {
                                 Element eleOccu = (Element) occurrence.item(k);
                                 if (id2FindWeldPoint.trim().equalsIgnoreCase(eleOccu.getAttribute("id").trim())) {
+                                    associatedARs = eleOccu.getAttribute("associatedAttachmentRefs");
                                     NodeList nodes = eleOccu.getElementsByTagName("UserValue");
                                     for (int i = 0; i < nodes.getLength(); i ++) {
                                         Element eleNode = (Element) nodes.item(i);
@@ -374,8 +379,148 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                     }
                                 }
                             }
+                            String idForForm = null;
+                            // check associated attachments
+                            if (notNullAndEmpty(associatedARs)) {
+                                String[] aRs = associatedARs.split("#");
+                                attachmentsLoop:
+                                for (String idForCharacter: aRs) {
+                                    if (notNullAndEmpty(idForCharacter)) {
+                                        for(int k = 0; k < associatedAttachment.getLength(); ++k) {
+                                            Element eleAss = (Element) associatedAttachment.item(k);
+                                            if (idForCharacter.trim().equalsIgnoreCase(eleAss.getAttribute("id").trim())
+                                                    && "TC_Feature_Form_Relation".equalsIgnoreCase(eleAss.getAttribute("role"))) {
+                                                idForForm = eleAss.getAttribute("attachmentRef");
+                                                break attachmentsLoop;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            // 20161021: map which hold all key value paar for wild points
+                            Map<String, String> character = new HashMap<>();
+                            if (notNullAndEmpty(idForForm)) {
+                                String idForFormSplitted = idForForm.split("#")[1];
+                                for (int k = 0; k < form.getLength(); ++k) {
+                                    Element eleForm = (Element) form.item(k);
+                                    if (idForFormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
+                                        NodeList nodes = eleForm.getElementsByTagName("UserValue");
+                                        for (int i =0; i < nodes.getLength(); ++i) {
+                                            Element eleNode = (Element) nodes.item(i);
+                                            String nodeTitle = eleNode.getAttribute("title");
+                                            String nodeValue;
+                                            switch (nodeTitle){
+                                                case "a2_100_Crack":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("Crack", nodeValue);
+                                                    break;
+                                                case "a2_104_CraterCrack":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("CraterCrack", nodeValue);
+                                                    break;
+                                                case "a2_2017_SurfacePore":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("SurfacePore", nodeValue);
+                                                    break;
+                                                case "a2_2025_EndCraterPipe":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("EndCraterPipe", nodeValue);
+                                                    break;
+                                                case "a2_401_LackOfFusion":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("LackOfFusion", nodeValue);
+                                                    break;
+                                                case "a2_4021_IncRootPenetration":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("IncRootPenetration", nodeValue);
+                                                    break;
+                                                case "a2_5011_ContinousUndercut":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("ContinousUndercut", nodeValue);
+                                                    break;
+                                                case "a2_5012_IntUndercut":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("IntUndercut", nodeValue);
+                                                    break;
+                                                case "a2_5013_ShrinkGrooves":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("ShrinkGrooves", nodeValue);
+                                                    break;
+                                                case "a2_502_ExcWeldMetal":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("CraterCrack", nodeValue);
+                                                    break;
+                                                case "a2_503_ExcConvex":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("SurfacePore", nodeValue);
+                                                    break;
+                                                case "a2_504_ExcPenetration":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("EndCraterPipe", nodeValue);
+                                                    break;
+                                                case "a2_505_IncWeldToe":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("LackOfFusion", nodeValue);
+                                                    break;
+                                                case "a2_506_Overlap":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("Overlap", nodeValue);
+                                                    break;
+                                                case "a2_509_Sagging":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("Sagging", nodeValue);
+                                                    break;
+                                                case "a2_510_BurnThrough":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("BurnThrough", nodeValue);
+                                                    break;
+                                                case "a2_511_IncFilledGroove":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("IncFilledGroove", nodeValue);
+                                                    break;
+                                                case "a2_512_ExcAsymFilledWeld":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("ExcAsymFilledWeld", nodeValue);
+                                                    break;
+                                                case "a2_515_RootConcavity":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("RootConcavity", nodeValue);
+                                                    break;
+                                                case "a2_516_RootPorosity":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("RootPorosity", nodeValue);
+                                                    break;
+                                                case "a2_517_PoorRestart":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("PoorRestart", nodeValue);
+                                                    break;
+                                                case "a2_5213_InsThroatThick":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("InsThroatThick", nodeValue);
+                                                    break;
+                                                case "a2_5214_ExcThoratThick":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("ExcThoratThick", nodeValue);
+                                                    break;
+                                                case "a2_601_ArcStrike":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("ArcStrike", nodeValue);
+                                                    break;
+                                                case "a2_602_Spatter":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("Spatter", nodeValue);
+                                                    break;
+                                                case "a2_610_TempColours":
+                                                    nodeValue = eleNode.getAttribute("value");
+                                                    character.put("TempColours", nodeValue);
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             if (notNullAndEmpty(name)) {
-                                weldPoint = new WeldPoint(name);
+                                weldPoint = new WeldPoint(name, character);
                                 itemOfChild.add(weldPoint);
                             }
                         }

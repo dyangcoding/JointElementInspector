@@ -20,6 +20,12 @@ import com.jointelementinspector.main.ExpandableListHeader;
 public class OverviewTabFragment extends Fragment{
     private ExpandableListHeader headerData;
     private onFragmentInteractionListener listener;
+    // 20161020: not for sure if this is needed, cheek it out later maybe
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_fragment_overview, container, false);
