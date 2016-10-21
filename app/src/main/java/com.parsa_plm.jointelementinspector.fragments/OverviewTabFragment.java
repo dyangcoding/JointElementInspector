@@ -56,6 +56,9 @@ public class OverviewTabFragment extends Fragment{
             ProductStructureFragment productStructureFragment = ProductStructureFragment.newInstance(headerData);
             childFragTrans.add(R.id.fragment_placeHolder_productStructure, productStructureFragment, "productStructureFragment");
             // 20160829: later fragment for more weld points attribute
+            // 20161021: now add weld joints fragment
+            WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
+            childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");
             childFragTrans.commit();
         }
     }

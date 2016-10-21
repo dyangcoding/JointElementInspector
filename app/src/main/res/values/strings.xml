@@ -12,6 +12,7 @@
     <string name="partName">Part Name</string>
     <string name="itemType">Item Type</string>
     <string name="tableRowIcon">TableRowIcon</string>
+    <string name="weldjoints">Weld Joints</string>
     <string name="joints">Joints</string>
     <string name="Crack">Crack</string>
     <string name="CraterCrack">CraterCrack</string>
