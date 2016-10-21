@@ -12,4 +12,32 @@
     <string name="partName">Part Name</string>
     <string name="itemType">Item Type</string>
     <string name="tableRowIcon">TableRowIcon</string>
+    <string name="joints">Joints</string>
+    <string name="Crack">Crack</string>
+    <string name="CraterCrack">CraterCrack</string>
+    <string name="SurfacePore">SurfacePore</string>
+    <string name="EndCraterPipe">EndCraterPipe</string>
+    <string name="LackOfFusion">LackOfFusion</string>
+    <string name="IncRootPenetration">IncRootPenetration</string>
+    <string name="ContinousUndercut">ContinousUndercut</string>
+    <string name="IntUndercut">IntUndercut</string>
+    <string name="ShrinkGrooves">ShrinkGrooves</string>
+    <string name="ExcWeldMetal">ExcWeldMetal</string>
+    <string name="ExcConvex">ExcConvex</string>
+    <string name="ExcPenetration">ExcPenetration</string>
+    <string name="IncWeldToe">IncWeldToe</string>
+    <string name="Overlap">Overlap</string>
+    <string name="Sagging">Sagging</string>
+    <string name="BurnThrough">BurnThrough</string>
+    <string name="IncFilledGroove">IncFilledGroove</string>
+    <string name="ExcAsymFilledWeld">ExcAsymFilledWeld</string>
+    <string name="RootConcavity">RootConcavity</string>
+    <string name="RootPorosity">RootPorosity</string>
+    <string name="PoorRestart">PoorRestart</string>
+    <string name="InsThroatThick">InsThroatThick</string>
+    <string name="ExcThoratThick">ExcThoratThick</string>
+    <string name="ArcStrike">ArcStrike</string>
+    <string name="Spatter">Spatter</string>
+    <string name="TempColours">TempColours</string>
+
 </resources>

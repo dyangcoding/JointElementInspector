@@ -448,19 +448,19 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                                     break;
                                                 case "a2_502_ExcWeldMetal":
                                                     nodeValue = eleNode.getAttribute("value");
-                                                    character.put("CraterCrack", nodeValue);
+                                                    character.put("ExcWeldMetal", nodeValue);
                                                     break;
                                                 case "a2_503_ExcConvex":
                                                     nodeValue = eleNode.getAttribute("value");
-                                                    character.put("SurfacePore", nodeValue);
+                                                    character.put("ExcConvex", nodeValue);
                                                     break;
                                                 case "a2_504_ExcPenetration":
                                                     nodeValue = eleNode.getAttribute("value");
-                                                    character.put("EndCraterPipe", nodeValue);
+                                                    character.put("ExcPenetration", nodeValue);
                                                     break;
                                                 case "a2_505_IncWeldToe":
                                                     nodeValue = eleNode.getAttribute("value");
-                                                    character.put("LackOfFusion", nodeValue);
+                                                    character.put("IncWeldToe", nodeValue);
                                                     break;
                                                 case "a2_506_Overlap":
                                                     nodeValue = eleNode.getAttribute("value");
