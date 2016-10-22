@@ -28,12 +28,10 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.expandableListData = expandableListData;
     }
-
     @Override
     public int getGroupCount() {
         return this.expandableListData.getChildOfOccurrence().size();
     }
-
     // if has no children, give user feed back
     @Override
     public int getChildrenCount(int groupPosition) {
@@ -46,12 +44,10 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         }
         return childCount;
     }
-
     @Override
     public Object getGroup(int groupPosition) {
         return this.expandableListData.getChildOfOccurrence().get(groupPosition);
     }
-
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         List<WeldPoint> childList = null;
@@ -61,22 +57,18 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         }
         return null;
     }
-
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
     }
-
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
-
     @Override
     public boolean hasStableIds() {
         return true;
     }
-
     @Override
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
         ExpandableListItem headerItem = (ExpandableListItem) getGroup(groupPosition);
@@ -103,7 +95,6 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         listHeaderType.setText(headerType);
         return view;
     }
-
     // item type should also be created, later
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
@@ -129,7 +120,6 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         listItemType.setText("WeldPoint");
         return view;
     }
-
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;

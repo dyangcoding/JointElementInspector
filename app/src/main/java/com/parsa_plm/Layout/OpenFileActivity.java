@@ -38,7 +38,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         localFolders.setIFolderItemListener(this);
         localFolders.setDir(filePath);
     }
-
     @Override
     protected void onPause(){
         super.onPause();
@@ -75,7 +74,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     ExpandableListHeader expandableListHeader = OpenFileActivity.this.parseXML(file);
-
                     // pass expandable list data to main activity for later use
                     Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
                     //wenn man die selbe Datei mehrmals einliest, sollte kein neues Object erzeuget werden, TODO vermeid duplicate
@@ -186,11 +184,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             if (notNullAndEmpty(attachmentRef)) {
                 attachmentRef = attachmentRef.substring(1);
             }
-            /*
-            funktion auslagern spaeter
-            String formName = findFormNameById(form, attachmentRef);
-
-            */
             formLoop:
             for (int k = 0; k < form.getLength(); k++) {
                 Element eleForm = (Element) form.item(k);

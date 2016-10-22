@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class ExpandableListHeader implements Parcelable{
     private String partName;
     private String partNr;
@@ -52,7 +51,6 @@ public class ExpandableListHeader implements Parcelable{
         this.inspectorNorm = inspectorNorm;
         this.childOfOccurrence = childOfOccurrence;
     }
-
     public static final Parcelable.Creator<ExpandableListHeader> CREATOR = new Parcelable.Creator<ExpandableListHeader>(){
         @Override
         public ExpandableListHeader createFromParcel(Parcel parcel) {
@@ -64,7 +62,6 @@ public class ExpandableListHeader implements Parcelable{
             return new ExpandableListHeader[i];
         }
     };
-
     public ExpandableListHeader(Parcel parcel) {
         this.partName = parcel.readString();
         this.partNr = parcel.readString();
@@ -89,7 +86,6 @@ public class ExpandableListHeader implements Parcelable{
     public int describeContents() {
         return 0;
     }
-
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.partName);
@@ -107,7 +103,6 @@ public class ExpandableListHeader implements Parcelable{
         parcel.writeString(this.inspectorNorm);
         parcel.writeTypedList(this.childOfOccurrence);
     }
-
     public String getPartName() {
         return this.partName;
     }

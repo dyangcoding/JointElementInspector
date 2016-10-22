@@ -79,10 +79,8 @@ public class InspectionHeaderFragment extends Fragment {
             headerData = bundle.getParcelable("com.ExpandableListData");
         }
     }
-
     public InspectionHeaderFragment() {
     }
-
     public static InspectionHeaderFragment newInstance(ExpandableListHeader headerData) {
         InspectionHeaderFragment headerFragment = new InspectionHeaderFragment();
         Bundle bundle = new Bundle();

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.parsa_plm.Layout.OpenFileActivity;
 import com.parsa_plm.jointelementinspector.fragments.*;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.List;
 
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 20161023: this code only for test
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(getApplication());
         setContentView(R.layout.menu_toolbar);
         Toolbar menuToolBar = (Toolbar) findViewById(R.id.menu_toolbar);
         if (menuToolBar != null) {
@@ -56,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             headerData = bundle.getParcelable("com.ExpandableListData");
         }
     }
-
     private void setUpViewPager(TabLayout tabLayout) {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -77,54 +84,32 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mainmenu, amvMenu.getMenu());
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // test case
         int id = item.getItemId();
-        if (id == R.id.menu_settings) {
-            Toast.makeText(getApplicationContext(), "Setting coming soon", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        if (id == R.id.menu_openFromServer) {
-            Intent openFileIntent = new Intent(MainActivity.this, OpenFileActivity.class);
-            startActivityForResult(openFileIntent, REQUEST_CODE);
-            return true;
-        }
-        if (id == R.id.menu_save) {
-            Toast.makeText(getApplicationContext(), "Save coming soon", Toast.LENGTH_LONG).show();
-
-            return true;
-        }
-        if (id == R.id.menu_saveAs) {
-            Toast.makeText(getApplicationContext(), "SaveAs coming soon", Toast.LENGTH_LONG).show();
-
-            return true;
+        switch (id) {
+            case R.id.menu_settings:
+                Toast.makeText(getApplicationContext(), "Setting coming soon", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_openFromServer:
+                Intent openFileIntent = new Intent(MainActivity.this, OpenFileActivity.class);
+                startActivityForResult(openFileIntent, REQUEST_CODE);
+                return true;
+            case R.id.menu_save:
+                Toast.makeText(getApplicationContext(), "Save coming soon", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_saveAs:
+                Toast.makeText(getApplicationContext(), "SaveAs coming soon", Toast.LENGTH_LONG).show();
+                return true;
         }
         return true;
     }
-    /*
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent){
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            headerData = intent.getParcelableExtra("com.ExpandableListHeader");
-            if (headerData != null) {
-                Toast.makeText(this, "Result: " + "result is null" , Toast.LENGTH_LONG).show();
-            }
-        }
-        android.support.v4.app.Fragment inspectorHeader = getSupportFragmentManager().findFragmentById(R.id.fragment_placeHolder_inspectionHeader);
-        inspectorHeader.onActivityResult(requestCode, resultCode, intent);
-    }
-    */
-
     @Override
     public ExpandableListHeader onFragmentCreated() {
         return headerData != null ? headerData : null;
