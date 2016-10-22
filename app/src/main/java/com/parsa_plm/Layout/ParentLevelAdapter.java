@@ -93,6 +93,7 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         secondLevelExpListView.setGroupIndicator(null);
         secondLevelExpListView.setPadding(15, 0, 0, 0);
         //secondLevelExpListView.setChildIndicator(d);
+        /* 20161022: we do not need this code any more
         secondLevelExpListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
             @Override
@@ -102,6 +103,7 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
                 previousGroup = groupPosition;
             }
         });
+        */
         return secondLevelExpListView;
     }
 

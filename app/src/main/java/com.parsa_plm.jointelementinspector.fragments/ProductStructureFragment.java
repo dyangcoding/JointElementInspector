@@ -10,10 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
+import com.jointelementinspector.main.ExpandableListItem;
 import com.jointelementinspector.main.R;
+import com.jointelementinspector.main.WeldPoint;
 import com.parsa_plm.Layout.ParentLevelAdapter;
+
+import java.util.List;
 
 public class ProductStructureFragment extends Fragment{
     // this contains the data to be displayed
@@ -21,6 +26,7 @@ public class ProductStructureFragment extends Fragment{
     private static final String PRODUCT_STRUCTURE = "Product Structure";
     private static final String PRODUCT_STRUCTURE_PART_NAME = "Part Name";
     private static final String PRODUCT_STRUCTURE_ITEM_TYPE = "Item Type";
+    private WeldJointsFragment weldJointsFragment;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
@@ -68,6 +74,22 @@ public class ProductStructureFragment extends Fragment{
                         expandableListView.collapseGroup(previousGroup);
                         previousGroup = i;
                     }
+                }
+            });
+            final List<ExpandableListItem> list = this.headerData.getChildOfOccurrence();
+            // not for sure if this gonna work
+            weldJointsFragment = (WeldJointsFragment) getParentFragment().getChildFragmentManager()
+                    .findFragmentByTag("weldJointsFragment");
+            // 20161022: handel children click to make weld points fragment visible
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView expandableListView, View view,
+                                            int group_position, int child_position, long id) {
+                    List<WeldPoint> listTest = list.get(group_position).getChildItemList();
+                    if (listTest != null) {
+                        Toast.makeText(getContext(), " i am from structure fragment ", Toast.LENGTH_LONG).show();
+                    }
+                    return true;
                 }
             });
         }

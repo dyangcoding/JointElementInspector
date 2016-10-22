@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:baselineAligned="false">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:baselineAligned="false"
+              android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/fragment_placeHolder_inspectionHeader"
         android:name="com.parsa_plm.jointelementinspector.fragments.InspectionHeaderFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
+
     <FrameLayout
         android:id="@+id/fragment_placeHolder_productStructure"
         android:name="com.parsa_plm.jointelementinspector.fragments.ProductStructureFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <FrameLayout
-        android:id="@+id/fragment_placeHolder_weldJoints"
-        android:name="com.parsa_plm.jointelementinspector.fragments.WeldJointsFragment"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fragment_placeHolder_weldJoints"
+            android:name="com.parsa_plm.jointelementinspector.fragments.WeldJointsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
 </LinearLayout>
