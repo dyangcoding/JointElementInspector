@@ -40,5 +40,16 @@
     <string name="ArcStrike">ArcStrike</string>
     <string name="Spatter">Spatter</string>
     <string name="TempColours">TempColours</string>
-
+    <string name="ROWHEADER">Inspector Header Information</string>
+    <string name="PART_NAME">Part Name: </string>
+    <string name="PART_Nr">Part Number: </string>
+    <string name="ORDER_Nr">Order Number: </string>
+    <string name="INSPECTOR">Inspector: </string>
+    <string name="INSPECTOR_DATE">Inspector Date: </string>
+    <string name="VEHICLE">Vehicle: </string>
+    <string name="INSPECTOR_TIMESPAN">Inspector Time Span: </string>
+    <string name="FREQUENCY">Frequency: </string>
+    <string name="INSPECTOR_METHOD">Inspector Method: </string>
+    <string name="INSPECTOR_SCOPE">Inspector Scope: </string>
+    <string name="INSPECTOR_NORM">Inspector Norm: </string>
 </resources>

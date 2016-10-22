@@ -1,46 +1,61 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.jointelementinspector.main.R;
 import com.jointelementinspector.main.ExpandableListHeader;
+import com.jointelementinspector.main.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class InspectionHeaderFragment extends Fragment {
+    // 20161023: uses butter knife for injection
+    @Bind(R.id.RowHeaderInfo)
+    TextView mRowHeaderInfo;
+    @Bind(R.id.RowHeaderIcon)
+    ImageView mRowHeaderIcon;
+    @Bind(R.id.tableRow1)
+    TableRow mTableRow1;
+    @Bind(R.id.header_partName)
+    TextView mPartName;
+    @Bind(R.id.header_orderNr)
+    TextView mOrderNr;
+    @Bind(R.id.header_inspector)
+    TextView mInspector;
+    @Bind(R.id.tableRow2)
+    TableRow mTableRow2;
+    @Bind(R.id.header_partNr)
+    TextView mPartNr;
+    @Bind(R.id.header_inspectorDate)
+    TextView mInspectorDate;
+    @Bind(R.id.header_inspectorTimeSpan)
+    TextView mInspectorTimeSpan;
+    @Bind(R.id.tableRow3)
+    TableRow mTableRow3;
+    @Bind(R.id.header_vehicle)
+    TextView mVehicle;
+    @Bind(R.id.header_frequency)
+    TextView mFrequency;
+    @Bind(R.id.header_inspectorMethod)
+    TextView mInspectorMethod;
+    @Bind(R.id.tableRow4)
+    TableRow mTableRow4;
+    @Bind(R.id.header_inspectorScope)
+    TextView mInspectorScope;
+    @Bind(R.id.header_inspectorNorm)
+    TextView mInspectorNorm;
+    @Bind(R.id.tableRow5)
+    TableRow mTableRow5;
     private ExpandableListHeader headerData;
-    // 20161014: row header for expand
-    private TextView rowHeader;
-    private ImageView rowHeaderIcon;
-    private TextView partName;
-    private TextView partNr;
-    private TextView orderNr;
-    private TextView inspector;
-    private TextView inspectorDate;
-    private TextView vehicle;
-    private TextView inspectorTimeSpan;
-    private TextView frequency;
-    // 20161007: add inspector method
-    private TextView inspectorMethod;
-    // 20161008: add inspector Scope and Norm
-    private TextView inspectorScope;
-    private TextView inspectorNorm;
-    // 20161014: table row
-    private TableRow row1;
-    private TableRow row2;
-    private TableRow row3;
-    private TableRow row4;
-    private TableRow row5;
     private boolean isVisible = true;
     // 20161014: add header Info for expand
     private static final String ROWHEADER = "Inspector Header Information";
@@ -81,71 +96,64 @@ public class InspectionHeaderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View headerView = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
-        rowHeader = (TextView) headerView.findViewById(R.id.RowHeaderInfo);
-        rowHeaderIcon = (ImageView) headerView.findViewById(R.id.RowHeaderIcon);
-        partName = (TextView) headerView.findViewById(R.id.header_partName);
-        partNr = (TextView) headerView.findViewById(R.id.header_partNr);
-        orderNr = (TextView) headerView.findViewById(R.id.header_orderNr);
-        inspector = (TextView) headerView.findViewById(R.id.header_inspector);
-        inspectorDate = (TextView) headerView.findViewById(R.id.header_inspectorDate);
-        vehicle = (TextView) headerView.findViewById(R.id.header_vehicle);
-        inspectorTimeSpan = (TextView) headerView.findViewById(R.id.header_inspectorTimeSpan);
-        frequency = (TextView) headerView.findViewById(R.id.header_frequency);
-        inspectorMethod = (TextView) headerView.findViewById(R.id.header_inspectorMethod);
-        inspectorScope = (TextView) headerView.findViewById(R.id.header_inspectorScope);
-        inspectorNorm = (TextView) headerView.findViewById(R.id.header_inspectorNorm);
-        row1 = (TableRow) headerView.findViewById(R.id.tableRow1);
-        row2 = (TableRow) headerView.findViewById(R.id.tableRow2);
-        row3 = (TableRow) headerView.findViewById(R.id.tableRow3);
-        row4 = (TableRow) headerView.findViewById(R.id.tableRow4);
-        row5 = (TableRow) headerView.findViewById(R.id.tableRow5);
+        ButterKnife.bind(this, headerView);
         if (headerData != null) {
-            rowHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
-            rowHeader.setText(ROWHEADER);
-            rowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
-            rowHeaderIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (row2 != null && row3 != null && row4 != null && row5 != null) {
-                        if (isVisible) {
-                            rowHeaderIcon.setImageResource(R.drawable.expandarrow48);
-                            row2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                            row2.setVisibility(View.GONE);
-                            row3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                            row3.setVisibility(View.GONE);
-                            row4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                            row4.setVisibility(View.GONE);
-                            row5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                            row5.setVisibility(View.GONE);
-                            isVisible = false;
-
-                        }else {
-                            rowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
-                            row2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                            row2.setVisibility(View.VISIBLE);
-                            row3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                            row3.setVisibility(View.VISIBLE);
-                            row4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                            row4.setVisibility(View.VISIBLE);
-                            row5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                            row5.setVisibility(View.VISIBLE);
-                            isVisible = true;
-                        }
-                    }
-                }
-            });
-            partName.setText(PART_NAME + headerData.getPartName());
-            partNr.setText(PART_Nr + headerData.getPartNr());
-            orderNr.setText(ORDER_Nr + headerData.getOrderNr());
-            inspector.setText(INSPECTOR + headerData.getInspector());
-            inspectorDate.setText(INSPECTOR_DATE + headerData.getInspectorDate());
-            vehicle.setText(VEHICLE + headerData.getVehicle());
-            inspectorTimeSpan.setText(INSPECTOR_TIMESPAN + headerData.getInspectorTimeSpan());
-            frequency.setText(FREQUENCY + headerData.getFrequency());
-            inspectorMethod.setText(INSPECTOR_METHOD + headerData.getInspectorMethod());
-            inspectorScope.setText(INSPECTOR_SCOPE + headerData.getInspectorScope());
-            inspectorNorm.setText(INSPECTOR_NORM + headerData.getInspectorNorm());
+            mRowHeaderInfo.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+            mRowHeaderInfo.setText(ROWHEADER);
+            mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
+            setUpOnClick();
+            mPartName.setText(PART_NAME + headerData.getPartName());
+            mPartNr.setText(PART_Nr + headerData.getPartNr());
+            mOrderNr.setText(ORDER_Nr + headerData.getOrderNr());
+            mInspector.setText(INSPECTOR + headerData.getInspector());
+            mInspectorDate.setText(INSPECTOR_DATE + headerData.getInspectorDate());
+            mVehicle.setText(VEHICLE + headerData.getVehicle());
+            mInspectorTimeSpan.setText(INSPECTOR_TIMESPAN + headerData.getInspectorTimeSpan());
+            mFrequency.setText(FREQUENCY + headerData.getFrequency());
+            mInspectorMethod.setText(INSPECTOR_METHOD + headerData.getInspectorMethod());
+            mInspectorScope.setText(INSPECTOR_SCOPE + headerData.getInspectorScope());
+            mInspectorNorm.setText(INSPECTOR_NORM + headerData.getInspectorNorm());
         }
         return headerView;
+    }
+
+    private void setUpOnClick() {
+        mRowHeaderIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
+                    if (isVisible) {
+                        mRowHeaderIcon.setImageResource(R.drawable.expandarrow48);
+                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow2.setVisibility(View.GONE);
+                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow3.setVisibility(View.GONE);
+                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow4.setVisibility(View.GONE);
+                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow5.setVisibility(View.GONE);
+                        isVisible = false;
+
+                    } else {
+                        mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
+                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow2.setVisibility(View.VISIBLE);
+                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow3.setVisibility(View.VISIBLE);
+                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow4.setVisibility(View.VISIBLE);
+                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow5.setVisibility(View.VISIBLE);
+                        isVisible = true;
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }
