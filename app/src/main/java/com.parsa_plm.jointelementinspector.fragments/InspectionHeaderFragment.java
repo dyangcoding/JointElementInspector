@@ -57,6 +57,8 @@ public class InspectionHeaderFragment extends Fragment {
     TableRow mTableRow5;
     private ExpandableListHeader headerData;
     private boolean isVisible = true;
+    // 20161023: string builder
+    private StringBuilder sb = new StringBuilder();
     // 20161014: add header Info for expand
     private static final String ROWHEADER = "Inspector Header Information";
     private static final String PART_NAME = "Part Name: ";
@@ -100,19 +102,52 @@ public class InspectionHeaderFragment extends Fragment {
             mRowHeaderInfo.setText(ROWHEADER);
             mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
             setUpOnClick();
-            mPartName.setText(PART_NAME + headerData.getPartName());
-            mPartNr.setText(PART_Nr + headerData.getPartNr());
-            mOrderNr.setText(ORDER_Nr + headerData.getOrderNr());
-            mInspector.setText(INSPECTOR + headerData.getInspector());
-            mInspectorDate.setText(INSPECTOR_DATE + headerData.getInspectorDate());
-            mVehicle.setText(VEHICLE + headerData.getVehicle());
-            mInspectorTimeSpan.setText(INSPECTOR_TIMESPAN + headerData.getInspectorTimeSpan());
-            mFrequency.setText(FREQUENCY + headerData.getFrequency());
-            mInspectorMethod.setText(INSPECTOR_METHOD + headerData.getInspectorMethod());
-            mInspectorScope.setText(INSPECTOR_SCOPE + headerData.getInspectorScope());
-            mInspectorNorm.setText(INSPECTOR_NORM + headerData.getInspectorNorm());
+            fillTextView();
         }
         return headerView;
+    }
+
+    private void fillTextView() {
+        sb.append(PART_NAME ).append(headerData.getPartName());
+        mPartName.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(PART_Nr).append(headerData.getPartNr());
+        mPartNr.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(ORDER_Nr).append(headerData.getOrderNr());
+        mOrderNr.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(INSPECTOR).append(headerData.getInspector());
+        mInspector.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(INSPECTOR_DATE).append(headerData.getInspectorDate());
+        mInspectorDate.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(VEHICLE).append(headerData.getVehicle());
+        mVehicle.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(INSPECTOR_TIMESPAN).append(headerData.getInspectorTimeSpan());
+        mInspectorTimeSpan.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(FREQUENCY).append(headerData.getFrequency());
+        mFrequency.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(INSPECTOR_METHOD).append(headerData.getInspectorMethod());
+        mInspectorMethod.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(INSPECTOR_SCOPE).append(headerData.getInspectorScope());
+        mInspectorScope.setText(sb);
+        clearStringBuilder(sb);
+        sb.append(INSPECTOR_NORM).append(headerData.getInspectorNorm());
+        mInspectorNorm.setText(sb);
+        clearStringBuilder(sb);
+    }
+
+    private void clearStringBuilder(StringBuilder sb) {
+        if (sb != null) {
+            sb.setLength(0);
+            sb.trimToSize();
+        }
     }
 
     private void setUpOnClick() {
