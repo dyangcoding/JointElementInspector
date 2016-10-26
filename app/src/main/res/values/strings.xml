@@ -52,4 +52,8 @@
     <string name="INSPECTOR_METHOD">Inspector Method: </string>
     <string name="INSPECTOR_SCOPE">Inspector Scope: </string>
     <string name="INSPECTOR_NORM">Inspector Norm: </string>
+    <string-array name="joinsValue_array">
+        <item>i.O</item>
+        <item>b.i.O</item>
+    </string-array>
 </resources>

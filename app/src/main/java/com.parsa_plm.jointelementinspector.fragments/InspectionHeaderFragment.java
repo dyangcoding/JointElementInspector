@@ -23,8 +23,6 @@ public class InspectionHeaderFragment extends Fragment {
     TextView mRowHeaderInfo;
     @Bind(R.id.RowHeaderIcon)
     ImageView mRowHeaderIcon;
-    @Bind(R.id.tableRow1)
-    TableRow mTableRow1;
     @Bind(R.id.header_partName)
     TextView mPartName;
     @Bind(R.id.header_orderNr)
@@ -109,37 +107,37 @@ public class InspectionHeaderFragment extends Fragment {
 
     private void fillTextView() {
         sb.append(PART_NAME ).append(headerData.getPartName());
-        mPartName.setText(sb);
+        mPartName.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(PART_Nr).append(headerData.getPartNr());
-        mPartNr.setText(sb);
+        mPartNr.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(ORDER_Nr).append(headerData.getOrderNr());
-        mOrderNr.setText(sb);
+        mOrderNr.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(INSPECTOR).append(headerData.getInspector());
-        mInspector.setText(sb);
+        mInspector.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(INSPECTOR_DATE).append(headerData.getInspectorDate());
-        mInspectorDate.setText(sb);
+        mInspectorDate.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(VEHICLE).append(headerData.getVehicle());
-        mVehicle.setText(sb);
+        mVehicle.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(INSPECTOR_TIMESPAN).append(headerData.getInspectorTimeSpan());
-        mInspectorTimeSpan.setText(sb);
+        mInspectorTimeSpan.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(FREQUENCY).append(headerData.getFrequency());
-        mFrequency.setText(sb);
+        mFrequency.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(INSPECTOR_METHOD).append(headerData.getInspectorMethod());
-        mInspectorMethod.setText(sb);
+        mInspectorMethod.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(INSPECTOR_SCOPE).append(headerData.getInspectorScope());
-        mInspectorScope.setText(sb);
+        mInspectorScope.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(INSPECTOR_NORM).append(headerData.getInspectorNorm());
-        mInspectorNorm.setText(sb);
+        mInspectorNorm.setText(sb.toString());
         clearStringBuilder(sb);
     }
 
