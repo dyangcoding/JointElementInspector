@@ -12,14 +12,17 @@ import java.util.Map;
  */
 public class WeldPoint implements Parcelable{
     private String mName;
+    // 20161028: item type needed
+    private String mItemType;
     // 20161021: this map hold key value in form (attributes, value)
     // needed to be initialized
     private Map<String, String> mCharacter = new HashMap<>();
 
     // this is a test constructor, later more attribute
-    public WeldPoint(String name, Map<String, String> character)
+    public WeldPoint(String name, String itemType, Map<String, String> character)
     {
         this.mName = name;
+        this.mItemType = itemType;
         this.mCharacter = character;
     }
     @Override
@@ -30,6 +33,7 @@ public class WeldPoint implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.mName);
+        parcel.writeString(this.mItemType);
         // so this is test version, do not know if it works
         parcel.writeInt(this.mCharacter.size());
         for (Map.Entry<String, String> entry: this.mCharacter.entrySet()) {
@@ -53,6 +57,7 @@ public class WeldPoint implements Parcelable{
     public WeldPoint(Parcel parcel)
     {
         this.mName = parcel.readString();
+        this.mItemType = parcel.readString();
         // map size
         int size = parcel.readInt();
         for (int k = 0; k < size; ++k) {
@@ -63,11 +68,11 @@ public class WeldPoint implements Parcelable{
     }
 
     public String getName() { return this.mName; }
-
+    public String getItemType() { return this.mItemType; }
     public Map<String, String> getCharacter() { return this.mCharacter; }
     // this to String should be expanded later
     @Override
     public String toString() {
-        return "Weld Point Name: " + this.mName;
+        return "Weld Point Name: " + this.mName + "Weld Point Item type" + this.mItemType;
     }
 }

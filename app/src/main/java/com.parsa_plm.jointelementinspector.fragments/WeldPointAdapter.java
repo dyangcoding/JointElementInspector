@@ -56,7 +56,7 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         WeldPoint wp = (WeldPoint) getItem(i);
         viewHolder.itemName.setText(wp.getName());
         // test view, itemType should be there
-        viewHolder.itemType.setText("Weld Point");
+        viewHolder.itemType.setText(wp.getItemType());
         return view;
     }
 

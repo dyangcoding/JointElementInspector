@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 20161023: this code only for test
-        if (LeakCanary.isInAnalyzerProcess(this)) {
+        //if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(getApplication());
+            //return;
+        //}
+        //LeakCanary.install(getApplication());
         setContentView(R.layout.menu_toolbar);
         Toolbar menuToolBar = (Toolbar) findViewById(R.id.menu_toolbar);
         if (menuToolBar != null) {
@@ -106,6 +106,18 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 return true;
             case R.id.menu_saveAs:
                 Toast.makeText(getApplicationContext(), "SaveAs coming soon", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_JTViewer:
+                Toast.makeText(getApplicationContext(), "JTViewer coming soon", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_openPDFFromServer:
+                Toast.makeText(getApplicationContext(), "open PDF from Server coming soon", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_saveReport:
+                Toast.makeText(getApplicationContext(), "Save Report coming soon", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_takePhoto:
+                Toast.makeText(getApplicationContext(), "Take Photos coming soon", Toast.LENGTH_LONG).show();
                 return true;
         }
         return true;

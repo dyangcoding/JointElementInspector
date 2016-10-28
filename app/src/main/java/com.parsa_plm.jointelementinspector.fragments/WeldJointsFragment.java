@@ -121,7 +121,6 @@ public class WeldJointsFragment extends Fragment {
         }
         WeldPointAdapter wa = new WeldPointAdapter(dataList, getContext());
         mListView.setAdapter(wa);
-
         ButterKnife.bind(this, view);
         return view;
     }

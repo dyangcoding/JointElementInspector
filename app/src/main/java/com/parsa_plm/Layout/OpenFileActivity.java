@@ -353,6 +353,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     for (String id2FindWeldPoint: ids) {
                         if (notNullAndEmpty(id2FindWeldPoint)) {
                             String name = null;
+                            String joints_itemType = null;
                             WeldPoint weldPoint = null;
                             // 20161021: associated attachments to find characters
                             String associatedARs = null;
@@ -397,6 +398,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                 for (int k = 0; k < form.getLength(); ++k) {
                                     Element eleForm = (Element) form.item(k);
                                     if (idForFormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
+                                        //joints_itemType = eleForm.getAttribute("id");
+                                        Log.d("xml", joints_itemType);
                                         NodeList nodes = eleForm.getElementsByTagName("UserValue");
                                         for (int i =0; i < nodes.getLength(); ++i) {
                                             Element eleNode = (Element) nodes.item(i);
@@ -513,7 +516,9 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                 }
                             }
                             if (notNullAndEmpty(name)) {
-                                weldPoint = new WeldPoint(name, character);
+                                //String joins_it = joints_itemType.split(" ")[1];
+                                //Log.d("xml", joins_it);
+                                weldPoint = new WeldPoint(name, "SpotWeld", character);
                                 itemOfChild.add(weldPoint);
                             }
                         }

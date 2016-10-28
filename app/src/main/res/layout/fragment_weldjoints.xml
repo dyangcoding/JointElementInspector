@@ -28,9 +28,9 @@
                 android:id="@+id/tableRow1"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:id="@+id/weldJoints_joints"
@@ -54,41 +54,44 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_Crack"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:gravity="center_vertical"
-                    android:layout_weight="1.0"
-                    android:padding="8dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
                     android:text="@string/Crack"
                     android:textSize="18sp"/>
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_CraterCrack"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:gravity="center_vertical"
-                    android:padding="8dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
                     android:text="@string/CraterCrack"
                     android:textSize="18sp"/>
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_SurfacePore"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:gravity="center_vertical"
-                    android:padding="8dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
                     android:text="@string/SurfacePore"
                     android:textSize="18sp"/>
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_EndCraterPipe"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
-                    android:padding="8dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
                     android:text="@string/EndCraterPipe"
                     android:textSize="18sp"/>
 
@@ -97,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
-                    android:padding="8dp"
+                    android:padding="10dp"
                     android:text="@string/LackOfFusion"
                     android:textSize="18sp"/>
 
@@ -106,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
-                    android:padding="8dp"
+                    android:padding="10dp"
                     android:text="@string/IncRootPenetration"
                     android:textSize="18sp"/>
 
