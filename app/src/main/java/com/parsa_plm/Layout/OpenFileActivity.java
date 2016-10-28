@@ -398,8 +398,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                 for (int k = 0; k < form.getLength(); ++k) {
                                     Element eleForm = (Element) form.item(k);
                                     if (idForFormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
-                                        //joints_itemType = eleForm.getAttribute("id");
-                                        Log.d("xml", joints_itemType);
+                                        joints_itemType = eleForm.getAttribute("subType");
                                         NodeList nodes = eleForm.getElementsByTagName("UserValue");
                                         for (int i =0; i < nodes.getLength(); ++i) {
                                             Element eleNode = (Element) nodes.item(i);
@@ -515,10 +514,9 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                     }
                                 }
                             }
-                            if (notNullAndEmpty(name)) {
-                                //String joins_it = joints_itemType.split(" ")[1];
-                                //Log.d("xml", joins_it);
-                                weldPoint = new WeldPoint(name, "SpotWeld", character);
+                            if (notNullAndEmpty(name) && notNullAndEmpty(joints_itemType)) {
+                                String joins_it = joints_itemType.split(" ")[0];
+                                weldPoint = new WeldPoint(name, joins_it.trim(), character);
                                 itemOfChild.add(weldPoint);
                             }
                         }
@@ -531,6 +529,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                 }
             }
             //20160829: type and child occurrence added, null value accepted for child occurrence, in this case we have no second level data to display
+            // TODO: should use builder pattern, later
             if (partName != null && partNr != null && inspector != null && inspectorDate != null && inspectorTimeSpan != null
                     && vehicle != null && frequency != null && orderNr != null
                     && type != null && inspectorMethod != null && inspectorScope != null && inspectorNorm != null) {
