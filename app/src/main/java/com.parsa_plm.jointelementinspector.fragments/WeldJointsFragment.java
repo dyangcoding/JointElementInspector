@@ -3,10 +3,13 @@ package com.parsa_plm.jointelementinspector.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -121,6 +124,7 @@ public class WeldJointsFragment extends Fragment {
         }
         WeldPointAdapter wa = new WeldPointAdapter(dataList, getContext());
         mListView.setAdapter(wa);
+        setListViewHeightBasedOnChildren(mListView);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -128,6 +132,28 @@ public class WeldJointsFragment extends Fragment {
     private void setUpTableRow() {
     }
 
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0) {
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight;
+        params.height = 100;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
