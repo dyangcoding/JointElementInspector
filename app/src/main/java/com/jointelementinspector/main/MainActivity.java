@@ -1,5 +1,6 @@
 package com.jointelementinspector.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,18 +25,21 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
     private ActionMenuView amvMenu;
     private ExpandableListHeader headerData;
+    // 20161101: make it global
+    TabLayout tabLayout;
     private static final int REQUEST_CODE = 1;
     private static final String TITLE_OVERVIEW = "Overview";
     private static final String TITLE_Document = "Document";
     private static final String TITLE_Photos = "Photo";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 20161023: this code only for test
         //if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            //return;
+        // This process is dedicated to LeakCanary for heap analysis.
+        // You should not init your app in this process.
+        //return;
         //}
         //LeakCanary.install(getApplication());
         setContentView(R.layout.menu_toolbar);
@@ -43,13 +48,13 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             setSupportActionBar(menuToolBar);
             amvMenu = (ActionMenuView) menuToolBar.findViewById(R.id.amvMenu);
         }
-        amvMenu.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener(){
+        amvMenu.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 return onOptionsItemSelected(menuItem);
             }
         });
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_Document));
@@ -59,11 +64,25 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         }
         setUpViewPager(tabLayout);
         // data transport from open file activity
+        // uncomment this code just for test
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             headerData = bundle.getParcelable("com.ExpandableListData");
         }
     }
+
+    // 20161031: this one should be used to obtain data
+    // 20161101: debug result: get data successful from open file activity, but we still have to pass
+    // data to view pager, maybe later check it out
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+            Bundle data = intent.getExtras();
+            headerData = (ExpandableListHeader) data.getParcelable("com.ExpandableListData");
+        }
+    }
+
     private void setUpViewPager(TabLayout tabLayout) {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -84,12 +103,14 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mainmenu, amvMenu.getMenu());
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -98,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 Toast.makeText(getApplicationContext(), "Setting coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_openFromServer:
-                Intent openFileIntent = new Intent(MainActivity.this, OpenFileActivity.class);
+                Intent openFileIntent = new Intent(this, OpenFileActivity.class);
                 startActivityForResult(openFileIntent, REQUEST_CODE);
                 return true;
             case R.id.menu_save:
@@ -122,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         }
         return true;
     }
+
     @Override
     public ExpandableListHeader onFragmentCreated() {
         return headerData != null ? headerData : null;

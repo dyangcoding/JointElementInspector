@@ -76,6 +76,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     ExpandableListHeader expandableListHeader = OpenFileActivity.this.parseXML(file);
                     // pass expandable list data to main activity for later use
                     Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
+                    // important
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //wenn man die selbe Datei mehrmals einliest, sollte kein neues Object erzeuget werden, TODO vermeid duplicate
                     if (expandableListHeader != null) {
                         intent.putExtra("com.ExpandableListData", expandableListHeader);
