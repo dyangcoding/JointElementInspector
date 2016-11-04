@@ -53,7 +53,9 @@
     <string name="INSPECTOR_SCOPE">Inspector Scope: </string>
     <string name="INSPECTOR_NORM">Inspector Norm: </string>
     <string-array name="joinsValue_array">
+        <item>NA</item>
         <item>i.O</item>
         <item>b.i.O</item>
+        <item>n.i.O</item>
     </string-array>
 </resources>

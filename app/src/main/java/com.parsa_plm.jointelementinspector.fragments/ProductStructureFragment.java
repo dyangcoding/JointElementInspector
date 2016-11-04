@@ -108,6 +108,7 @@ public class ProductStructureFragment extends Fragment{
         // Convert the dps to pixels, based on density scale
         return (int) (pixels * scale + 0.5f);
     }
+    // make height of expand list view suitable
     protected void setExpandListViewHeight(ExpandableListView listView,
                                          int group) {
         ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();

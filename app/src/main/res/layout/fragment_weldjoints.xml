@@ -13,7 +13,7 @@
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                   android:id="@+id/weldJointsHeaderText"
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
+                  android:layout_height="20dp"
                   android:layout_margin="6dp"
                   android:gravity="left"
                   android:text="@string/weldjoints"/>
@@ -34,7 +34,7 @@
 
                 <TextView
                     android:id="@+id/weldJoints_joints"
-                    android:layout_width="wrap_content"
+                    android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:gravity="bottom"
@@ -44,7 +44,7 @@
 
                 <TextView
                     android:id="@+id/weldJoints_itemType"
-                    android:layout_width="wrap_content"
+                    android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:gravity="bottom"
@@ -97,7 +97,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_LackOfFusion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="10dp"
@@ -106,7 +106,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_IncRootPenetration"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="10dp"
@@ -115,7 +115,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ContinousUndercut"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -124,7 +124,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_IntUndercut"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -133,7 +133,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ShrinkGrooves"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -142,7 +142,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ExcWeldMetal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -151,7 +151,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ExcConvex"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -160,7 +160,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ExcPenetration"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -169,7 +169,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_IncWeldToe"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -178,7 +178,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_Overlap"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -187,7 +187,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_Sagging"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -196,7 +196,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_BurnThrough"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -205,7 +205,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_IncFilledGroove"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -214,7 +214,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ExcAsymFilledWeld"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -223,7 +223,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_RootConcavity"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -232,7 +232,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_RootPorosity"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -241,7 +241,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_PoorRestart"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -250,7 +250,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_InsThroatThick"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -259,7 +259,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ExcThoratThick"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -268,7 +268,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_ArcStrike"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -277,7 +277,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_Spatter"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -286,7 +286,7 @@
 
                 <com.parsa_plm.Layout.VerticalTextView
                     android:id="@+id/weldJoints_TempColours"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
@@ -297,8 +297,8 @@
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
                   android:id="@+id/listview"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content">
+                  android:layout_width="20dp"
+                  android:layout_height="20dp">
         </ListView>
     </LinearLayout>
 </HorizontalScrollView>

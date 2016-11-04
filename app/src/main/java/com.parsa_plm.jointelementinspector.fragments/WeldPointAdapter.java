@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jointelementinspector.main.R;
 import com.jointelementinspector.main.WeldPoint;
+import com.parsa_plm.Layout.ZeroPaddingArrayAdapter;
 
 import java.util.List;
 
@@ -119,13 +120,14 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
             ButterKnife.bind(this, view);
             itemName = (TextView) view.findViewById(R.id.weldPoints_name);
             itemType = (TextView) view.findViewById(R.id.weldPoints_itemType);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
-                    R.array.joinsValue_array, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ZeroPaddingArrayAdapter.createFromResource(mContext,
+                    R.array.joinsValue_array, R.layout.spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             setUpSpinner(adapter);
         }
 
         private void setUpSpinner(ArrayAdapter<CharSequence> adapter) {
+            mFeldArcStrike.setPadding(0,0,0,0);
             mFeldArcStrike.setAdapter(adapter);
             mFeldBurnThrough.setAdapter(adapter);
             mFeldContinousUndercut.setAdapter(adapter);
