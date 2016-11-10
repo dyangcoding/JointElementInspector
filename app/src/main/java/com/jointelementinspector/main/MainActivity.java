@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
@@ -16,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
+import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.parsa_plm.Layout.OpenFileActivity;
 import com.parsa_plm.jointelementinspector.fragments.*;
 import com.squareup.leakcanary.LeakCanary;
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         setContentView(R.layout.menu_toolbar);
         Toolbar menuToolBar = (Toolbar) findViewById(R.id.menu_toolbar);
         if (menuToolBar != null) {
+            // hide the tool bar title
+            menuToolBar.setTitle("");
             setSupportActionBar(menuToolBar);
             amvMenu = (ActionMenuView) menuToolBar.findViewById(R.id.amvMenu);
         }
@@ -64,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         }
         setUpViewPager(tabLayout);
         // data transport from open file activity
-        // uncomment this code just for test
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             headerData = bundle.getParcelable("com.ExpandableListData");
@@ -87,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
+        // add animation for view pager, test later
+        viewPager.setPageTransformer(true, new CubeOutTransformer());
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
