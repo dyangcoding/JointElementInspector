@@ -52,10 +52,11 @@ public class ProductStructureFragment extends Fragment{
         productStructureHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
         productStructureHeader.setText(PRODUCT_STRUCTURE);
         // 20160902: list structure item header
-        TextView productStructurePartName = (TextView) view.findViewById(R.id.productStructure_partName);
-        productStructurePartName.setText(PRODUCT_STRUCTURE_PART_NAME);
-        TextView productStructureItemType = (TextView) view.findViewById(R.id.productStructure_itemType);
-        productStructureItemType.setText(PRODUCT_STRUCTURE_ITEM_TYPE);
+        // 20161111: don not need it any more
+        //TextView productStructurePartName = (TextView) view.findViewById(R.id.productStructure_partName);
+        //productStructurePartName.setText(PRODUCT_STRUCTURE_PART_NAME);
+        //TextView productStructureItemType = (TextView) view.findViewById(R.id.productStructure_itemType);
+        //productStructureItemType.setText(PRODUCT_STRUCTURE_ITEM_TYPE);
         final ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.parentLevel);
         // 20160831: check null value
         // 20160902: show proper indicator
@@ -63,8 +64,8 @@ public class ProductStructureFragment extends Fragment{
         if (expandableListView != null) {
             // 20160831: use get Activity to obtain the context, and this is working
             expandableListView.setAdapter(new ParentLevelAdapter(getActivity(), headerData));
-            expandableListView.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
-            expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
+            expandableListView.setIndicatorBounds(width - GetPixelFromDips(1000), width - GetPixelFromDips(10));
+            expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(10));
             expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                 int previousGroup = -1;
                 @Override
@@ -106,7 +107,7 @@ public class ProductStructureFragment extends Fragment{
         // Get the screen's density scale
         final float scale = getResources().getDisplayMetrics().density;
         // Convert the dps to pixels, based on density scale
-        return (int) (pixels * scale + 0.5f);
+        return (int) (pixels * scale  + 0.5f);
     }
     // make height of expand list view suitable
     protected void setExpandListViewHeight(ExpandableListView listView,

@@ -14,6 +14,7 @@
     <string name="tableRowIcon">TableRowIcon</string>
     <string name="weldjoints">Weld Joints</string>
     <string name="joints">Item Name</string>
+    <string name="result">Result</string>
     <string name="Crack">Crack</string>
     <string name="CraterCrack">CraterCrack</string>
     <string name="SurfacePore">SurfacePore</string>

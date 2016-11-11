@@ -1,9 +1,11 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
@@ -22,7 +24,6 @@ import butterknife.ButterKnife;
 public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
     private List<WeldPoint> items;
     private static Context mContext;
-
     public WeldPointAdapter(List<WeldPoint> items, Context context) {
         this.items = items;
         this.mContext = context;
@@ -58,12 +59,16 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         viewHolder.itemName.setText(wp.getName());
         // test view, itemType should be there
         viewHolder.itemType.setText(wp.getItemType());
+        viewHolder.result.setText("   OK  ");
         return view;
     }
 
     static class ViewHolder {
+        static boolean allValid = true;
         TextView itemName;
         TextView itemType;
+        @Bind(R.id.weldPoints_resultText)
+        TextView result;
         @Bind(R.id.feld_Crack)
         Spinner mFeldCrack;
         @Bind(R.id.feld_CraterCrack)
@@ -116,44 +121,96 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         Spinner mFeldSpatter;
         @Bind(R.id.feld_TempColours)
         Spinner mFeldTempColours;
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             ButterKnife.bind(this, view);
             itemName = (TextView) view.findViewById(R.id.weldPoints_name);
             itemType = (TextView) view.findViewById(R.id.weldPoints_itemType);
+            // test version
+            result = (TextView) view.findViewById(R.id.weldPoints_resultText);
             ArrayAdapter<CharSequence> adapter = ZeroPaddingArrayAdapter.createFromResource(mContext,
                     R.array.joinsValue_array, R.layout.spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             setUpSpinner(adapter);
         }
+        AdapterView.OnItemSelectedListener mListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                String selectedItem = adapterView.getItemAtPosition(position).toString();
+                switch (selectedItem) {
+                    case "i.O":
+                        view.setBackgroundColor(Color.GREEN);
+                        break;
+                    case "b.i.O":
+                        view.setBackgroundColor(Color.YELLOW);
+                        break;
+                    case "n.i.O":
+                        view.setBackgroundColor(Color.RED);
+                        allValid = false;
+                        break;
+                    case "NA":
+                        break;
+                }
+                // inform use about data changed
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        };
         private void setUpSpinner(ArrayAdapter<CharSequence> adapter) {
-            mFeldArcStrike.setPadding(0,0,0,0);
             mFeldArcStrike.setAdapter(adapter);
+            mFeldArcStrike.setOnItemSelectedListener(mListener);
             mFeldBurnThrough.setAdapter(adapter);
+            mFeldBurnThrough.setOnItemSelectedListener(mListener);
             mFeldContinousUndercut.setAdapter(adapter);
+            mFeldContinousUndercut.setOnItemSelectedListener(mListener);
             mFeldCrack.setAdapter(adapter);
+            mFeldCrack.setOnItemSelectedListener(mListener);
             mFeldCraterCrack.setAdapter(adapter);
+            mFeldCraterCrack.setOnItemSelectedListener(mListener);
             mFeldEndCraterPipe.setAdapter(adapter);
+            mFeldEndCraterPipe.setOnItemSelectedListener(mListener);
             mFeldExcAsymFilledWeld.setAdapter(adapter);
+            mFeldExcAsymFilledWeld.setOnItemSelectedListener(mListener);
             mFeldExcConvex.setAdapter(adapter);
+            mFeldExcConvex.setOnItemSelectedListener(mListener);
             mFeldExcPenetration.setAdapter(adapter);
+            mFeldExcPenetration.setOnItemSelectedListener(mListener);
             mFeldExcThoratThick.setAdapter(adapter);
+            mFeldExcThoratThick.setOnItemSelectedListener(mListener);
             mFeldExcWeldMetal.setAdapter(adapter);
+            mFeldExcWeldMetal.setOnItemSelectedListener(mListener);
             mFeldIncFilledGroove.setAdapter(adapter);
+            mFeldIncFilledGroove.setOnItemSelectedListener(mListener);
             mFeldIncRootPenetration.setAdapter(adapter);
+            mFeldIncRootPenetration.setOnItemSelectedListener(mListener);
             mFeldIntUndercut.setAdapter(adapter);
+            mFeldIntUndercut.setOnItemSelectedListener(mListener);
             mFeldOverlap.setAdapter(adapter);
+            mFeldOverlap.setOnItemSelectedListener(mListener);
             mFeldLackOfFusion.setAdapter(adapter);
+            mFeldLackOfFusion.setOnItemSelectedListener(mListener);
             mFeldPoorRestart.setAdapter(adapter);
+            mFeldPoorRestart.setOnItemSelectedListener(mListener);
             mFeldTempColours.setAdapter(adapter);
+            mFeldTempColours.setOnItemSelectedListener(mListener);
             mFeldSurfacePore.setAdapter(adapter);
+            mFeldSurfacePore.setOnItemSelectedListener(mListener);
             mFeldSpatter.setAdapter(adapter);
+            mFeldSpatter.setOnItemSelectedListener(mListener);
             mFeldShrinkGrooves.setAdapter(adapter);
+            mFeldShrinkGrooves.setOnItemSelectedListener(mListener);
             mFeldSagging.setAdapter(adapter);
+            mFeldSagging.setOnItemSelectedListener(mListener);
             mFeldRootPorosity.setAdapter(adapter);
+            mFeldRootPorosity.setOnItemSelectedListener(mListener);
             mFeldRootConcavity.setAdapter(adapter);
+            mFeldRootConcavity.setOnItemSelectedListener(mListener);
             mFeldInsThroatThick.setAdapter(adapter);
+            mFeldInsThroatThick.setOnItemSelectedListener(mListener);
             mFeldIncWeldToe.setAdapter(adapter);
+            mFeldIncWeldToe.setOnItemSelectedListener(mListener);
         }
     }
 }

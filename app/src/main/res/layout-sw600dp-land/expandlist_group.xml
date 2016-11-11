@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="fill_parent"
+             android:layout_width="800dp"
              android:layout_height="match_parent"
              android:orientation="horizontal"
              android:stretchColumns="1,2">
@@ -25,7 +25,6 @@
                   android:fontFamily="serif"
                   android:minHeight="?android:attr/listPreferredItemHeightSmall"
                   android:paddingLeft="15dp"
-                  android:paddingRight="10dp"
                   android:textSize="18sp"
                   android:textStyle="normal"/>
 
