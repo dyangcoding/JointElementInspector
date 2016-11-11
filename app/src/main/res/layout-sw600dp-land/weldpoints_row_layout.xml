@@ -9,19 +9,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:fontFamily="serif"
+        android:textStyle="normal"
         android:textSize="18sp"/>
     <TextView
         android:id="@+id/weldPoints_itemType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:fontFamily="serif"
+        android:textStyle="normal"
         android:textSize="18sp"/>
     <Spinner
         android:id="@+id/feld_Crack"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
         android:dropDownWidth="80dp"/>
 
     <Spinner

@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView android:id="@+id/path"
-        android:text="@string/folderPath"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/path"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </TextView>
-    <ListView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list">
-
+        android:fontFamily="serif"
+        android:textStyle="normal"
+        android:textSize="22sp"
+        android:layout_margin="10dp"
+        android:text="@string/folderPath">
+    </TextView>
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     </ListView>
 </LinearLayout>

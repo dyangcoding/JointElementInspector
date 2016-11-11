@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:layout_gravity="left"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="22sp"/>
         <ImageView
             android:id="@+id/RowHeaderIcon"
@@ -45,6 +47,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
         <TextView
@@ -52,12 +56,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
         <TextView
             android:id="@+id/header_inspector"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
     </TableRow>
 
@@ -76,6 +84,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
         <TextView
@@ -83,6 +93,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
         <TextView
@@ -90,6 +102,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
     </TableRow>
@@ -108,6 +122,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
         <TextView
@@ -115,6 +131,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
         <TextView
@@ -122,6 +140,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
     </TableRow>
 
@@ -139,6 +159,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
         <TextView
@@ -146,6 +168,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:fontFamily="serif"
+            android:textStyle="normal"
             android:textSize="18sp"/>
 
     </TableRow>

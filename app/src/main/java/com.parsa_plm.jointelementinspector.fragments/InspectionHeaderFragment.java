@@ -1,5 +1,6 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -96,7 +97,6 @@ public class InspectionHeaderFragment extends Fragment {
         final View headerView = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
         ButterKnife.bind(this, headerView);
         if (headerData != null) {
-            mRowHeaderInfo.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
             mRowHeaderInfo.setText(ROWHEADER);
             mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
             setUpOnClick();

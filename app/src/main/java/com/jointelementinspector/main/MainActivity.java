@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_Document));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_Photos));
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
         }
         setUpViewPager(tabLayout);

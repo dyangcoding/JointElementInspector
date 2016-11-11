@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:stretchColumns="1,2">
+             android:layout_width="fill_parent"
+             android:layout_height="match_parent"
+             android:orientation="horizontal"
+             android:stretchColumns="1,2">
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_margin="1dp"
+        android:background="@drawable/border"
         android:divider="?android:attr/dividerVertical"
-        android:showDividers="middle"
-        android:background="@drawable/border">
+        android:showDividers="middle">
+
         <ImageView
             android:id="@+id/header_icon"
             android:layout_width="match_parent"
@@ -20,19 +21,23 @@
             android:paddingRight="10dp"/>
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/expandListHeader"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:textSize="18sp"
-            android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+                  android:id="@+id/expandListHeader"
+                  android:fontFamily="serif"
+                  android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                  android:paddingLeft="15dp"
+                  android:paddingRight="10dp"
+                  android:textSize="18sp"
+                  android:textStyle="normal"/>
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/expandListHeader_itemType"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:textSize="18sp"
-            android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+                  android:id="@+id/expandListHeader_itemType"
+                  android:gravity="center_vertical"
+                  android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                  android:paddingLeft="15dp"
+                  android:paddingRight="10dp"
+                  android:fontFamily="serif"
+                  android:textStyle="normal"
+                  android:textSize="18sp"/>
     </TableRow>
 
 </TableLayout>

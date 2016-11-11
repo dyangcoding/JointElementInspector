@@ -17,6 +17,8 @@
                   android:layout_height="wrap_content"
                   android:layout_margin="6dp"
                   android:gravity="left"
+                  android:fontFamily="serif"
+                  android:textStyle="normal"
                   android:text="@string/weldjoints"/>
 
         <TableLayout
@@ -35,21 +37,25 @@
 
                 <TextView
                     android:id="@+id/weldJoints_joints"
-                    android:layout_width="110dp"
+                    android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:gravity="bottom|center"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/joints"
                     android:textSize="18sp"/>
 
                 <TextView
                     android:id="@+id/weldJoints_itemType"
-                    android:layout_width="110dp"
+                    android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:gravity="bottom|center"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/itemType"
                     android:textSize="18sp"/>
 
@@ -61,6 +67,8 @@
                     android:gravity="center_vertical"
                     android:layout_weight="1.0"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/Crack"
                     android:textSize="18sp"/>
 
@@ -71,6 +79,8 @@
                     android:background="@drawable/border"
                     android:gravity="center_vertical"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/CraterCrack"
                     android:textSize="18sp"/>
 
@@ -81,6 +91,8 @@
                     android:background="@drawable/border"
                     android:gravity="center_vertical"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/SurfacePore"
                     android:textSize="18sp"/>
 
@@ -90,6 +102,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/EndCraterPipe"
                     android:textSize="18sp"/>
 
@@ -99,6 +113,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/LackOfFusion"
                     android:textSize="18sp"/>
 
@@ -108,6 +124,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/IncRootPenetration"
                     android:textSize="18sp"/>
 
@@ -117,6 +135,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ContinousUndercut"
                     android:textSize="18sp"/>
 
@@ -126,6 +146,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/IntUndercut"
                     android:textSize="18sp"/>
 
@@ -135,6 +157,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ShrinkGrooves"
                     android:textSize="18sp"/>
 
@@ -144,6 +168,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ExcWeldMetal"
                     android:textSize="18sp"/>
 
@@ -153,6 +179,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ExcConvex"
                     android:textSize="18sp"/>
 
@@ -162,6 +190,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ExcPenetration"
                     android:textSize="18sp"/>
 
@@ -171,6 +201,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/IncWeldToe"
                     android:textSize="18sp"/>
 
@@ -180,6 +212,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/Overlap"
                     android:textSize="18sp"/>
 
@@ -189,6 +223,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/Sagging"
                     android:textSize="18sp"/>
 
@@ -198,6 +234,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/BurnThrough"
                     android:textSize="18sp"/>
 
@@ -207,6 +245,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/IncFilledGroove"
                     android:textSize="18sp"/>
 
@@ -216,6 +256,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ExcAsymFilledWeld"
                     android:textSize="18sp"/>
 
@@ -225,6 +267,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/RootConcavity"
                     android:textSize="18sp"/>
 
@@ -234,6 +278,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/RootPorosity"
                     android:textSize="18sp"/>
 
@@ -243,6 +289,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/PoorRestart"
                     android:textSize="18sp"/>
 
@@ -252,6 +300,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/InsThroatThick"
                     android:textSize="18sp"/>
 
@@ -261,6 +311,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ExcThoratThick"
                     android:textSize="18sp"/>
 
@@ -270,6 +322,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/ArcStrike"
                     android:textSize="18sp"/>
 
@@ -279,6 +333,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/Spatter"
                     android:textSize="18sp"/>
 
@@ -288,6 +344,8 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/border"
                     android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:textStyle="normal"
                     android:text="@string/TempColours"
                     android:textSize="18sp"/>
             </TableRow>

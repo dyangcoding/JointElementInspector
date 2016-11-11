@@ -73,7 +73,7 @@ public class FolderLayout extends LinearLayout implements AdapterView.OnItemClic
     //can manually set Item to display, if u want
     public void setItemList(List<String> item){
         ArrayAdapter<String> fileList = new ArrayAdapter<String>(context,
-                R.layout.row, item);
+                R.layout.folderlayout_row, item);
 
         lstView.setAdapter(fileList);
         lstView.setOnItemClickListener(this);

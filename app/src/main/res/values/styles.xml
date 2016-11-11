@@ -19,6 +19,10 @@
     <style name="Divider">
         <item name="android:layout_width">1dip</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
 
+    <style name="fontFamily">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
     </style>
 </resources>
