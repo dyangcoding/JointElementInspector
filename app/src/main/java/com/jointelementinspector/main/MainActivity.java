@@ -1,12 +1,14 @@
 package com.jointelementinspector.main;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
@@ -154,5 +156,19 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     @Override
     public ExpandableListHeader onFragmentCreated() {
         return headerData != null ? headerData : null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Programm Beenden")
+                .setMessage("Möchten Sie wirklich das Programm beenden ? ")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.super.onBackPressed();
+                    }
+                }).create().show();
     }
 }

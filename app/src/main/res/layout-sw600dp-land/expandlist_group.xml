@@ -18,13 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="15dp"
-            android:paddingRight="10dp"/>
+            android:paddingRight="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                   android:id="@+id/expandListHeader"
                   android:fontFamily="serif"
                   android:minHeight="?android:attr/listPreferredItemHeightSmall"
                   android:paddingLeft="15dp"
+                  android:paddingStart="15dp"
+                  android:paddingEnd="15dp"
                   android:textSize="18sp"
                   android:textStyle="normal"/>
 
@@ -32,8 +36,10 @@
                   android:id="@+id/expandListHeader_itemType"
                   android:gravity="center_vertical"
                   android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                  android:paddingStart="15dp"
                   android:paddingLeft="15dp"
                   android:paddingRight="10dp"
+                  android:paddingEnd="10dp"
                   android:fontFamily="serif"
                   android:textStyle="normal"
                   android:textSize="18sp"/>
