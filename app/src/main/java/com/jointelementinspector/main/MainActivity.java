@@ -1,10 +1,12 @@
 package com.jointelementinspector.main;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     // 20161101: make it global
     TabLayout tabLayout;
     private static final int REQUEST_CODE = 1;
+    private final int CAMERA_CAPTURE = 2;
     private static final String TITLE_OVERVIEW = "Overview";
     private static final String TITLE_Document = "Document";
     private static final String TITLE_Photos = "Photo";
@@ -147,10 +150,45 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 Toast.makeText(getApplicationContext(), "Save Report coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_takePhoto:
-                Toast.makeText(getApplicationContext(), "Take Photos coming soon", Toast.LENGTH_LONG).show();
+                onCapturePhoto();
                 return true;
         }
         return true;
+    }
+
+    private void onCapturePhoto() {
+        if (this.headerData == null) {
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setMessage("Sie haben noch keine XML Datei geöffnet, wenn Sie " +
+                    "fortfahren, sind neu gemachte Bilder nicht in diesem Programm anzuzeigen. ");
+            adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    captureImage();
+                }
+            });
+            adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            adb.show();
+        } else {
+            // capture image and update grid view for result
+            // should check if the specific folder exist
+            // communication between main activity and tab photo fragment,
+            // also between tab document fragment
+        }
+    }
+
+    private void captureImage() {
+        try {
+            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(captureIntent, CAMERA_CAPTURE);
+        } catch (ActivityNotFoundException anfe) {
+            String errorMessage = " your device doesn't support capturing images! ";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override

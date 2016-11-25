@@ -93,8 +93,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         finish();
                     }
                     */
-                    // 20161125: async task
-
+                    // 20161125: use async task to process file
                     new ParseXMLFileTask(OpenFileActivity.this, file.getPath()).execute();
                 }
             });
@@ -139,17 +138,11 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             this.mContext = context;
         }
         protected void onPreExecute() {
-            this.mProgressDialog = new ProgressDialog(this.mContext);
-            this.mProgressDialog.setMessage("Processing File ...");
-            this.mProgressDialog.setCancelable(true);
+            this.mProgressDialog = new ProgressDialog(this.mContext, R.style.AlertDialogCustom);
+            this.mProgressDialog.setMessage("   Processing File ...   ");
+            this.mProgressDialog.setCancelable(false);
+            this.mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             this.mProgressDialog.show();
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
-            // if we get here, length is known, now set indeterminate to false
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setMax(100);
-            mProgressDialog.setProgress(progress[0]);
         }
 
         protected ExpandableListHeader doInBackground(File... file) {
@@ -180,6 +173,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     Log.d("ParserException" , e.toString());
                 }
                 File fileToParse = new File(this.mFilePath);
+                // 20161125: pass file directory to fragment to load more data
+                String fileDirectory = fileToParse.getParent();
                 Document dom = domBuilder.parse(fileToParse);
                 Element plmXML = dom.getDocumentElement();
                 NodeList occurrence = plmXML.getElementsByTagName("Occurrence");
@@ -593,7 +588,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         && vehicle != null && frequency != null && orderNr != null
                         && type != null && inspectorMethod != null && inspectorScope != null && inspectorNorm != null) {
                     expandableListHeader = new ExpandableListHeader(partName, partNr, orderNr, inspector, inspectorDate, vehicle,
-                            inspectorTimeSpan, frequency, type, inspectorMethod, inspectorScope, inspectorNorm, childOfOccurrence);
+                            inspectorTimeSpan, frequency, type, inspectorMethod, inspectorScope, inspectorNorm, fileDirectory, childOfOccurrence);
                 }
             }catch (Exception e){
                 System.out.println(e);

@@ -21,6 +21,8 @@ public class ExpandableListHeader implements Parcelable{
     private String inspectorNorm;
     // 20160829: type for header
     private String type;
+    // 20161125: file directory to be passed in fragment for further data access
+    private String fileDirectory;
     // this list contains child items of occurrence
     // 20160824: class ExpandablelistData changed to ExpandableListHeader, which represents the header data
     // and contains a list von ExpandableListItem, which represents the item of the list structure
@@ -35,7 +37,7 @@ public class ExpandableListHeader implements Parcelable{
     public ExpandableListHeader(String partName, String partNr, String orderNr, String inspector,
                                 String inspectorDate, String vehicle, String inspectorTimeSpan,
                                 String frequency, String type, String inspectorMethod, String inspectorScope,
-                                String inspectorNorm, List<ExpandableListItem> childOfOccurrence) {
+                                String inspectorNorm, String fileDirectory, List<ExpandableListItem> childOfOccurrence) {
         this.partName = partName;
         this.partNr = partNr;
         this.orderNr = orderNr;
@@ -49,6 +51,7 @@ public class ExpandableListHeader implements Parcelable{
         this.inspectorMethod = inspectorMethod;
         this.inspectorScope = inspectorScope;
         this.inspectorNorm = inspectorNorm;
+        this.fileDirectory = fileDirectory;
         this.childOfOccurrence = childOfOccurrence;
     }
     public static final Parcelable.Creator<ExpandableListHeader> CREATOR = new Parcelable.Creator<ExpandableListHeader>(){
@@ -76,6 +79,7 @@ public class ExpandableListHeader implements Parcelable{
         this.inspectorMethod = parcel.readString();
         this.inspectorScope = parcel.readString();
         this.inspectorNorm = parcel.readString();
+        this.fileDirectory = parcel.readString();
         // local variable for child occurrence
         // not sure about this if it working
         List<ExpandableListItem> childItem = new ArrayList<>();
@@ -101,46 +105,37 @@ public class ExpandableListHeader implements Parcelable{
         parcel.writeString(this.inspectorMethod);
         parcel.writeString(this.inspectorScope);
         parcel.writeString(this.inspectorNorm);
+        parcel.writeString(this.fileDirectory);
         parcel.writeTypedList(this.childOfOccurrence);
     }
     public String getPartName() {
         return this.partName;
     }
-
     public String getPartNr() {
         return this.partNr;
     }
-
     public String getOrderNr() {
         return this.orderNr;
     }
-
     public String getInspector() {
         return this.inspector;
     }
-
     public String getInspectorDate() {
         return this.inspectorDate;
     }
-
     public String getVehicle() {
         return this.vehicle;
     }
-
     public String getInspectorTimeSpan() {
         return this.inspectorTimeSpan;
     }
-
     public String getFrequency() {
         return this.frequency;
     }
-
     public String getType() { return this.type; }
-
     public String getInspectorScope() {return this.inspectorScope; }
-
     public String getInspectorNorm() {return this.inspectorNorm; }
-
+    public String getFileDirectory() {return this.fileDirectory; }
     public String getInspectorMethod() {return this.inspectorMethod; }
     public List<ExpandableListItem> getChildOfOccurrence() { return this.childOfOccurrence; }
     @Override
@@ -148,6 +143,7 @@ public class ExpandableListHeader implements Parcelable{
         return "Part Name: " + getPartName() + "Part Nr: " + getPartNr() + "Order Nr:" + getOrderNr() + "Inspector: "
                 + getInspector() + "Inspector Date: " + getInspectorDate() + "Vehicle: " + getVehicle() + "Inspector Time Span"
                 + getInspectorTimeSpan() + "Frequency: " + getFrequency() + "Type: " + getType()
-                + "Inspector Method: " + getInspectorMethod() + "Inspector Scope: " + getInspectorScope() + "Inspector Norm: " + getInspectorNorm();
+                + "Inspector Method: " + getInspectorMethod() + "Inspector Scope: " + getInspectorScope()
+                + "Inspector Norm: " + getInspectorNorm() + "File Directory: " + getFileDirectory();
     }
 }
