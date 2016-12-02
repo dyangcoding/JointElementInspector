@@ -1,43 +1,71 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.jointelementinspector.main.R;
 import com.squareup.picasso.Picasso;
 
-public class ImageListAdapter extends ArrayAdapter {
-    private Context context;
-    private LayoutInflater inflater;
+import java.io.File;
 
-    private String[] imageUrls;
+public class ImageListAdapter extends BaseAdapter {
+    private Context mContext;
+    private File[] images;
+    public ImageListAdapter(Context context, File[] imageUrls) {
+        this.mContext = context;
+        images = imageUrls;
+    }
 
-    public ImageListAdapter(Context context, String[] imageUrls) {
-        super(context, R.layout.tab_fragment_photo, imageUrls);
+    @Override
+    public int getCount() {
+        return images.length;
+    }
 
-        this.context = context;
-        this.imageUrls = imageUrls;
+    @Override
+    public Object getItem(int i) {
+        return null;
+    }
 
-        inflater = LayoutInflater.from(context);
+    @Override
+    public long getItemId(int i) {
+        return 0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView imageView;
         if (null == convertView) {
-            convertView = inflater.inflate(R.layout.tab_fragment_photo, parent, false);
-        }
+            imageView = new ImageView(mContext);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(8, 8, 8, 8);
+        }else
+            imageView = (ImageView) convertView;
         Picasso
-                .with(context)
-                .load(imageUrls[position])
-                .resize(50,50)
+                .with(mContext)
+                .load(images[position])
                 .placeholder(R.drawable.imageplaceholder48)
                 .error(R.drawable.imageerror48)
+                .resize(150,150)
+                .onlyScaleDown()
                 .centerCrop()
-                .into((ImageView) convertView);
-        return convertView;
+                .into(imageView);
+        setUpClickListener(images[position], imageView);
+        return imageView;
+    }
+
+    private void setUpClickListener(final File image, ImageView imageView) {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ImageDisplayActivity.class);
+                String filePath = image.getAbsolutePath();
+                intent.putExtra("path", filePath);
+                mContext.startActivity(intent);
+            }
+        });
     }
 }

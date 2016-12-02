@@ -159,14 +159,16 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private void onCapturePhoto() {
         if (this.headerData == null) {
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setIcon(R.drawable.attention48);
+            adb.setTitle("Photograhieren ohne Anzeigen");
             adb.setMessage("Sie haben noch keine XML Datei geöffnet, wenn Sie " +
                     "fortfahren, sind neu gemachte Bilder nicht in diesem Programm anzuzeigen. ");
-            adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            adb.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     captureImage();
                 }
             });
-            adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            adb.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                 }
@@ -199,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
+                .setIcon(R.drawable.attention48)
                 .setTitle("Programm Beenden")
                 .setMessage("Möchten Sie wirklich das Programm beenden ? ")
                 .setNegativeButton(android.R.string.no, null)

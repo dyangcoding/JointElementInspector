@@ -138,8 +138,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             this.mContext = context;
         }
         protected void onPreExecute() {
-            this.mProgressDialog = new ProgressDialog(this.mContext, R.style.AlertDialogCustom);
-            this.mProgressDialog.setMessage("   Processing File ...   ");
+            this.mProgressDialog = new ProgressDialog(this.mContext);
+            this.mProgressDialog.setMessage("   wird geladen ...   ");
             this.mProgressDialog.setCancelable(false);
             this.mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             this.mProgressDialog.show();
@@ -174,7 +174,8 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                 }
                 File fileToParse = new File(this.mFilePath);
                 // 20161125: pass file directory to fragment to load more data
-                String fileDirectory = fileToParse.getParent();
+                String fileDirectory = fileToParse.getAbsolutePath();
+                String imagePath = fileDirectory.substring(0, fileDirectory.lastIndexOf('.'));
                 Document dom = domBuilder.parse(fileToParse);
                 Element plmXML = dom.getDocumentElement();
                 NodeList occurrence = plmXML.getElementsByTagName("Occurrence");
@@ -588,7 +589,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         && vehicle != null && frequency != null && orderNr != null
                         && type != null && inspectorMethod != null && inspectorScope != null && inspectorNorm != null) {
                     expandableListHeader = new ExpandableListHeader(partName, partNr, orderNr, inspector, inspectorDate, vehicle,
-                            inspectorTimeSpan, frequency, type, inspectorMethod, inspectorScope, inspectorNorm, fileDirectory, childOfOccurrence);
+                            inspectorTimeSpan, frequency, type, inspectorMethod, inspectorScope, inspectorNorm, imagePath, childOfOccurrence);
                 }
             }catch (Exception e){
                 System.out.println(e);

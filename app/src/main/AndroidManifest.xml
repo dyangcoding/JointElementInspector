@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.parsa_plm.Layout.OpenFileActivity"></activity>
+        <activity android:name="com.parsa_plm.Layout.ImageDisplayActivity"></activity>
     </application>
 
 </manifest>
