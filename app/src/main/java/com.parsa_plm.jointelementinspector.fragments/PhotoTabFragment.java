@@ -62,7 +62,8 @@ public class PhotoTabFragment extends Fragment {
             if (imageDirectory.isDirectory() && imageDirectory.exists()) {
                 File file = new File(imagePath);
                 // 20161214 TODO should not obtain all files, only images
-                final File[] images = file.listFiles();
+                File[] files = file.listFiles();
+                File[] images = getImages(files);
                 ImageListAdapter adapter = new ImageListAdapter(mContext, images);
                 if (mGridView != null) {
                     mGridView.setAdapter(adapter);
@@ -76,6 +77,21 @@ public class PhotoTabFragment extends Fragment {
                         .create().show();
             }
         }
+    }
+    // 20161214: wir only need images
+    private File[] getImages(File[] files) {
+        File[] images = null;
+        if (files.length > 0) {
+            images = new File[files.length];
+            int i = 0;
+            for (File f: files) {
+                if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png")) {
+                    images[i] = f;
+                    ++i;
+                }
+            }
+        }
+        return images;
     }
 }
 

@@ -82,19 +82,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             adb.setTitle("Open File: " + file.getName());
             adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    /*
-                    ExpandableListHeader expandableListHeader = OpenFileActivity.this.parseXML(file);
-                    // pass expandable list data to main activity for later use
-                    Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
-                    // important
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    if (expandableListHeader != null) {
-                        intent.putExtra("com.ExpandableListData", expandableListHeader);
-                        setResult(Activity.RESULT_OK, intent);
-                        startActivity(intent);
-                        finish();
-                    }
-                    */
                     // 20161125: use async task to process file
                     new ParseXMLFileTask(OpenFileActivity.this, file.getPath()).execute();
                 }
@@ -107,11 +94,9 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             adb.show();
         }
     }
-
     public boolean notNullAndEmpty(String s) {
         return s != null && !s.isEmpty();
     }
-
     // TRIM() !!!
     public String findFormNameById(NodeList nodeList, String id) {
         String formName = null;
@@ -141,7 +126,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             this.mFilePath = filePath;
             this.mContext = context;
         }
-
         protected void onPreExecute() {
             this.mProgressDialog = new ProgressDialog(this.mContext);
             this.mProgressDialog.setMessage("   wird geladen ...   ");
@@ -149,7 +133,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             this.mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             this.mProgressDialog.show();
         }
-
+        // 20161214 need to expand later, method exacting for better maintain later
         protected ExpandableListHeader doInBackground(File... file) {
             // using Parcelable to send custom data
             // set default parameter to NotFound, if there is some thing wrong with xml parse
@@ -615,7 +599,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             }
             return expandableListHeader;
         }
-
         protected void onPostExecute(ExpandableListHeader expandableListHeader) {
             if (expandableListHeader != null && this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
                 this.mProgressDialog.dismiss();

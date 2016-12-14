@@ -67,15 +67,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 return onOptionsItemSelected(menuItem);
             }
         });
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        if (tabLayout != null) {
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Document));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Photos));
-            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-
-            tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
-        }
+        // 2016114: exact method
+        setUpTab();
         setUpViewPager(tabLayout);
         // data transport from open file activity
         Bundle bundle = getIntent().getExtras();
@@ -83,7 +76,16 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             headerData = bundle.getParcelable("com.ExpandableListData");
         }
     }
-
+    private void setUpTab() {
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        if (tabLayout != null) {
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Document));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Photos));
+            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+            tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
+        }
+    }
     // 20161031: this one should be used to obtain data
     // 20161101: debug result: get data successful from open file activity, but we still have to pass
     // data to view pager, maybe later check it out
@@ -91,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CAPTURE) {
-            Toast.makeText(getApplicationContext(), "get result from capture photo", Toast.LENGTH_LONG).show();
+            // check the default image store path
+            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            Toast.makeText(getApplicationContext(), " Photo is stored in: " + path.toString(), Toast.LENGTH_LONG).show();
         }
     }
 

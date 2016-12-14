@@ -14,6 +14,7 @@ import java.io.File;
 
 public class ImageListAdapter extends BaseAdapter {
     private Context mContext;
+    // 20161214: use array for later document view
     private File[] images;
     public ImageListAdapter(Context context, File[] imageUrls) {
         this.mContext = context;

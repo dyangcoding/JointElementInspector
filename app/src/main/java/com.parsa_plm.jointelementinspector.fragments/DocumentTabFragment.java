@@ -74,8 +74,8 @@ public class DocumentTabFragment extends Fragment {
         ImageListAdapter adapter = null;
         if (this.filePath.size() > 0) {
             images = new File[filePath.size()];
+            int i = 0;
             for (String filePath: this.filePath) {
-                int i = 0;
                 File f = new File(filePath);
                 images[i] = f;
                 ++i;

@@ -192,9 +192,7 @@ public class ExpandableListHeader implements Parcelable{
     public String getOrderNr() {
         return this.orderNr;
     }
-    public String getInspector() {
-        return this.inspector;
-    }
+    public String getInspector() { return this.inspector; }
     public String getInspectorDate() {
         return this.inspectorDate;
     }
