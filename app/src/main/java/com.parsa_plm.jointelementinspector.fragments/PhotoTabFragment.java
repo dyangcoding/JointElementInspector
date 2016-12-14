@@ -58,22 +58,22 @@ public class PhotoTabFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
             String imagePath = headerData.getFileDirectory();
-            String[] imageUrls = new String[10];
             File imageDirectory = new File(imagePath);
-            if (imageDirectory.isDirectory() && imageDirectory.exists())
-                imageUrls[0] = imagePath;
+            if (imageDirectory.isDirectory() && imageDirectory.exists()) {
+                File file = new File(imagePath);
+                // 20161214 TODO should not obtain all files, only images
+                final File[] images = file.listFiles();
+                ImageListAdapter adapter = new ImageListAdapter(mContext, images);
+                if (mGridView != null) {
+                    mGridView.setAdapter(adapter);
+                }
+            }
             else {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.drawable.attention48)
                         .setTitle("Image Path not correct")
                         .setMessage("The image path where all image to be loaded is not correct.")
                         .create().show();
-            }
-            File file = new File(imageUrls[0]);
-            final File[] images = file.listFiles();
-            ImageListAdapter adapter = new ImageListAdapter(mContext, images);
-            if (mGridView != null) {
-                mGridView.setAdapter(adapter);
             }
         }
     }

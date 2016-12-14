@@ -35,6 +35,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
     private FolderLayout localFolders;
     private final String filePath = "/sdcard/Download";
     private Context mContext;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +45,9 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         localFolders.setDir(filePath);
         this.mContext = getApplicationContext();
     }
+
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
     }
 
@@ -60,6 +62,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     }
                 }).show();
     }
+
     @Override
     public void OnFileClicked(final File file) {
         final ExpandableListHeader expandableListHeader = null;
@@ -85,7 +88,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
                     // important
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //wenn man die selbe Datei mehrmals einliest, sollte kein neues Object erzeuget werden, TODO vermeid duplicate
                     if (expandableListHeader != null) {
                         intent.putExtra("com.ExpandableListData", expandableListHeader);
                         setResult(Activity.RESULT_OK, intent);
@@ -106,11 +108,12 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         }
     }
 
-    public boolean notNullAndEmpty(String s){
+    public boolean notNullAndEmpty(String s) {
         return s != null && !s.isEmpty();
     }
+
     // TRIM() !!!
-    public String findFormNameById(NodeList nodeList, String id){
+    public String findFormNameById(NodeList nodeList, String id) {
         String formName = null;
 
         if (notNullAndEmpty(id)) return null;
@@ -119,7 +122,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             Element ele = (Element) nodeList.item(k);
             String idOfForm = ele.getAttribute("id");
             if (notNullAndEmpty(idOfForm)) {
-                if (id.trim().equalsIgnoreCase(idOfForm.trim())){
+                if (id.trim().equalsIgnoreCase(idOfForm.trim())) {
                     Log.d("xml", "form gefunden");
                     formName = ele.getAttribute("name");
                     break;
@@ -128,6 +131,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         }
         return formName;
     }
+
     private class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader> {
         private ProgressDialog mProgressDialog;
         private String mFilePath;
@@ -137,6 +141,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             this.mFilePath = filePath;
             this.mContext = context;
         }
+
         protected void onPreExecute() {
             this.mProgressDialog = new ProgressDialog(this.mContext);
             this.mProgressDialog.setMessage("   wird geladen ...   ");
@@ -147,30 +152,32 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
 
         protected ExpandableListHeader doInBackground(File... file) {
             // using Parcelable to send custom data
+            // set default parameter to NotFound, if there is some thing wrong with xml parse
+            // "Not Found" should be displayed to user
             DocumentBuilder domBuilder = null;
             ExpandableListHeader expandableListHeader = null;
-            String partName = null;
-            String partNr = null;
-            String orderNr = null;
-            String inspector = null;
-            String inspectorDate = null;
-            String vehicle = null;
-            String inspectorTimeSpan = null;
-            String frequency = null;
-            String inspectorMethod = null;
-            String inspectorScope = null;
-            String inspectorNorm = null;
+            String partName = "NotFound";
+            String partNr = "NotFound";
+            String orderNr = "NotFound";
+            String inspector = "NotFound";
+            String inspectorDate = "NotFound";
+            String vehicle = "NotFound";
+            String inspectorTimeSpan = "NotFound";
+            String frequency = "NotFound";
+            String inspectorMethod = "NotFound";
+            String inspectorScope = "NotFound";
+            String inspectorNorm = "NotFound";
             // item type for header
-            String type = null;
+            String type = "NotFound";
             String formRole = "IMAN_master_form";
             // contains child of the first occurrence, should be displayed as second level
             List<ExpandableListItem> childOfOccurrence = new ArrayList<>();
-            try{
+            try {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 try {
                     domBuilder = factory.newDocumentBuilder();
-                }catch (ParserConfigurationException e){
-                    Log.d("ParserException" , e.toString());
+                } catch (ParserConfigurationException e) {
+                    Log.d("ParserException", e.toString());
                 }
                 File fileToParse = new File(this.mFilePath);
                 // 20161125: pass file directory to fragment to load more data
@@ -198,13 +205,13 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     occurrenceRefs = firstOccu.getAttribute("occurrenceRefs");
                 }
                 // get part name
-                if (notNullAndEmpty(instancedRef)){
-                    String idUsed2FindProductRevision = instancedRef.substring(1);
+                if (notNullAndEmpty(instancedRef)) {
+                    String id4ProductRevision = instancedRef.substring(1);
                     for (int l = 0; l < productRevision.getLength(); l++) {
                         Element eleProRev = (Element) productRevision.item(l);
                         String idRevision = eleProRev.getAttribute("id");
-                        if (notNullAndEmpty(idUsed2FindProductRevision)) {
-                            if (idUsed2FindProductRevision.trim().equalsIgnoreCase(idRevision.trim())) {
+                        if (notNullAndEmpty(id4ProductRevision)) {
+                            if (id4ProductRevision.trim().equalsIgnoreCase(idRevision.trim())) {
                                 partName = eleProRev.getAttribute("name");
                                 type = eleProRev.getAttribute("subType");
                                 break;
@@ -223,7 +230,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                 if (associatedAttachmentIds.length > 0) {
                     IdLoop:
                     for (String id : associatedAttachmentIds) {
-                        for (int k = 0; k < associatedAttachment.getLength(); k ++) {
+                        for (int k = 0; k < associatedAttachment.getLength(); k++) {
                             Element eleAsso = (Element) associatedAttachment.item(k);
                             associatedAttachmentRole = eleAsso.getAttribute("role");
                             associateAttachmentId = eleAsso.getAttribute("id");
@@ -249,7 +256,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                             for (int i = 0; i < nodeOfForm.getLength(); i++) {
                                 Element eleNode = (Element) nodeOfForm.item(i);
                                 String nodeTitle = eleNode.getAttribute("title");
-                                switch (nodeTitle){
+                                switch (nodeTitle) {
                                     case "a2_InspDate":
                                         inspectorDate = eleNode.getAttribute("value");
                                         break;
@@ -269,7 +276,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     }
                 }
                 // obtain attribute time span and frequency
-                String idOfFormForMoreAttri = null;
+                String idOfForm4MoreAttri = null;
                 if (notNullAndEmpty(childRefs)) {
                     // first spilt string is empty
                     // idFindAttachment contains blank!!!!!, use TRIM() for sure
@@ -280,9 +287,9 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         String idCompareTo = eleAssociated.getAttribute("id");
                         if (notNullAndEmpty(idCompareTo)) {
                             if (idCompareTo.trim().equalsIgnoreCase(id2FindAttachment.trim())) {
-                                idOfFormForMoreAttri = eleAssociated.getAttribute("attachmentRef");
-                                if (notNullAndEmpty(idOfFormForMoreAttri)){
-                                    idOfFormForMoreAttri = idOfFormForMoreAttri.substring(1);
+                                idOfForm4MoreAttri = eleAssociated.getAttribute("attachmentRef");
+                                if (notNullAndEmpty(idOfForm4MoreAttri)) {
+                                    idOfForm4MoreAttri = idOfForm4MoreAttri.substring(1);
                                     break;
                                 }
                             }
@@ -290,11 +297,11 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     }
                 }
                 // use id of form to find more attribute
-                if (notNullAndEmpty(idOfFormForMoreAttri)) {
+                if (notNullAndEmpty(idOfForm4MoreAttri)) {
                     for (int k = 0; k < form.getLength(); k++) {
                         Element eleForm = (Element) form.item(k);
                         // better to use TRIM() for sure
-                        if (idOfFormForMoreAttri.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
+                        if (idOfForm4MoreAttri.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
                             NodeList nodeOfForm = eleForm.getElementsByTagName("UserValue");
                             for (int i = 0; i < nodeOfForm.getLength(); i++) {
                                 Element eleNode = (Element) nodeOfForm.item(i);
@@ -327,7 +334,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                 }
                 // find child occurrence and create ExpandableListItem
                 // 20160829: child of child occurrence found and create WeldPoint
-                for (String id :idsOfChildOccu) {
+                for (String id : idsOfChildOccu) {
                     // local variable ExpandlistItem, recreate for every loop
                     ExpandableListItem item = null;
                     // local variable associated AttachmentRefs
@@ -344,7 +351,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     String itemNr = null;
                     // child of child occurrence, could be null
                     List<WeldPoint> itemOfChild = null;
-                    for (int k = 0; k < occurrence.getLength(); k ++) {
+                    for (int k = 0; k < occurrence.getLength(); k++) {
                         Element eleChildOcc = (Element) occurrence.item(k);
                         if (id.trim().equalsIgnoreCase(eleChildOcc.getAttribute("id").trim())) {
                             childAssociatedAttachmentRefs = eleChildOcc.getAttribute("associatedAttachmentRefs");
@@ -356,7 +363,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     if (notNullAndEmpty(childInstancedRef)) {
                         String idOfRevisions = childInstancedRef.split("#")[1];
                         boolean itemFound = false;
-                        for (int k = 0; k < designRevision.getLength(); k ++) {
+                        for (int k = 0; k < designRevision.getLength(); k++) {
                             Element eleDesignRevison = (Element) designRevision.item(k);
                             if (idOfRevisions.trim().equalsIgnoreCase(eleDesignRevison.getAttribute("id").trim())) {
                                 itemName = eleDesignRevison.getAttribute("name");
@@ -377,22 +384,22 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     // now use associated attachment to find item number
                     if (notNullAndEmpty(childAssociatedAttachmentRefs)) {
                         String[] idsOfChildAttachment = childAssociatedAttachmentRefs.split("#");
-                        String idOfFormForItemNr = null;
+                        String idOfForm4ItemNr = null;
                         childAssocitedLoop:
-                        for (String idOfChild: idsOfChildAttachment) {
+                        for (String idOfChild : idsOfChildAttachment) {
                             for (int k = 0; k < associatedAttachment.getLength(); k++) {
                                 Element eleChildAssociated = (Element) associatedAttachment.item(k);
                                 if (idOfChild.trim().equalsIgnoreCase(eleChildAssociated.getAttribute("id").trim())
                                         && formRole.equalsIgnoreCase(eleChildAssociated.getAttribute("role"))) {
-                                    idOfFormForItemNr = eleChildAssociated.getAttribute("attachmentRef");
+                                    idOfForm4ItemNr = eleChildAssociated.getAttribute("attachmentRef");
                                     break childAssocitedLoop;
                                 }
                             }
                         }
                         // now use forms id to find form and then get item number
-                        if (notNullAndEmpty(idOfFormForItemNr)) {
-                            String idSplitted = idOfFormForItemNr.split("#")[1];
-                            for (int k = 0 ; k < form.getLength(); k++) {
+                        if (notNullAndEmpty(idOfForm4ItemNr)) {
+                            String idSplitted = idOfForm4ItemNr.split("#")[1];
+                            for (int k = 0; k < form.getLength(); k++) {
                                 Element eleChildForm = (Element) form.item(k);
                                 if (idSplitted.trim().equalsIgnoreCase(eleChildForm.getAttribute("id").trim())) {
                                     itemNr = eleChildForm.getAttribute("name");
@@ -405,7 +412,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     if (notNullAndEmpty(idsOfItemWeldPoint)) {
                         itemOfChild = new ArrayList<>();
                         String[] ids = idsOfItemWeldPoint.split(" ");
-                        for (String id2FindWeldPoint: ids) {
+                        for (String id2FindWeldPoint : ids) {
                             if (notNullAndEmpty(id2FindWeldPoint)) {
                                 String name = null;
                                 String joints_itemType = null;
@@ -413,12 +420,12 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                 // 20161021: associated attachments to find characters
                                 String associatedARs = null;
                                 occuLoop:
-                                for (int k = 0; k < occurrence.getLength(); k ++) {
+                                for (int k = 0; k < occurrence.getLength(); k++) {
                                     Element eleOccu = (Element) occurrence.item(k);
                                     if (id2FindWeldPoint.trim().equalsIgnoreCase(eleOccu.getAttribute("id").trim())) {
                                         associatedARs = eleOccu.getAttribute("associatedAttachmentRefs");
                                         NodeList nodes = eleOccu.getElementsByTagName("UserValue");
-                                        for (int i = 0; i < nodes.getLength(); i ++) {
+                                        for (int i = 0; i < nodes.getLength(); i++) {
                                             Element eleNode = (Element) nodes.item(i);
                                             String nodeTitle = eleNode.getAttribute("title");
                                             if (nodeTitle.equalsIgnoreCase("OccurrenceName")) {
@@ -428,18 +435,18 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                         }
                                     }
                                 }
-                                String idForForm = null;
+                                String id4Form = null;
                                 // check associated attachments
                                 if (notNullAndEmpty(associatedARs)) {
                                     String[] aRs = associatedARs.split("#");
                                     attachmentsLoop:
-                                    for (String idForCharacter: aRs) {
-                                        if (notNullAndEmpty(idForCharacter)) {
-                                            for(int k = 0; k < associatedAttachment.getLength(); ++k) {
+                                    for (String id4Character : aRs) {
+                                        if (notNullAndEmpty(id4Character)) {
+                                            for (int k = 0; k < associatedAttachment.getLength(); ++k) {
                                                 Element eleAss = (Element) associatedAttachment.item(k);
-                                                if (idForCharacter.trim().equalsIgnoreCase(eleAss.getAttribute("id").trim())
+                                                if (id4Character.trim().equalsIgnoreCase(eleAss.getAttribute("id").trim())
                                                         && "TC_Feature_Form_Relation".equalsIgnoreCase(eleAss.getAttribute("role"))) {
-                                                    idForForm = eleAss.getAttribute("attachmentRef");
+                                                    id4Form = eleAss.getAttribute("attachmentRef");
                                                     break attachmentsLoop;
                                                 }
                                             }
@@ -448,18 +455,18 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                                 }
                                 // 20161021: map which hold all key value paar for wild points
                                 Map<String, String> character = new HashMap<>();
-                                if (notNullAndEmpty(idForForm)) {
-                                    String idForFormSplitted = idForForm.split("#")[1];
+                                if (notNullAndEmpty(id4Form)) {
+                                    String id4FormSplitted = id4Form.split("#")[1];
                                     for (int k = 0; k < form.getLength(); ++k) {
                                         Element eleForm = (Element) form.item(k);
-                                        if (idForFormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
+                                        if (id4FormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
                                             joints_itemType = eleForm.getAttribute("subType");
                                             NodeList nodes = eleForm.getElementsByTagName("UserValue");
-                                            for (int i =0; i < nodes.getLength(); ++i) {
+                                            for (int i = 0; i < nodes.getLength(); ++i) {
                                                 Element eleNode = (Element) nodes.item(i);
                                                 String nodeTitle = eleNode.getAttribute("title");
                                                 String nodeValue;
-                                                switch (nodeTitle){
+                                                switch (nodeTitle) {
                                                     case "a2_100_Crack":
                                                         nodeValue = eleNode.getAttribute("value");
                                                         character.put("Crack", nodeValue);
@@ -583,37 +590,33 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         childOfOccurrence.add(item);
                     }
                 }
-                //20160829: type and child occurrence added, null value accepted for child occurrence, in this case we have no second level data to display
-                //  should use builder pattern, later
-                // 20161214: use Builder pattern now
-                if (partName != null && partNr != null && inspector != null && inspectorDate != null && inspectorTimeSpan != null
-                        && vehicle != null && frequency != null && orderNr != null
-                        && type != null && inspectorMethod != null && inspectorScope != null && inspectorNorm != null) {
-                    expandableListHeader = new ExpandableListHeader.Builder()
-                            .setPartName(partName)
-                            .setPartNr(partNr)
-                            .setOrderNr(orderNr)
-                            .setInspector(inspector)
-                            .setInspectorDate(inspectorDate)
-                            .setVehicle(vehicle)
-                            .setInspectorTimeSpan(inspectorTimeSpan)
-                            .setFrequency(frequency)
-                            .setType(type)
-                            .setInspectorMethod(inspectorMethod)
-                            .setInspectorMethod(inspectorMethod)
-                            .setInspectorScope(inspectorScope)
-                            .setInspectorNorm(inspectorNorm)
-                            .setFileDirectory(imagePath)
-                            .setChildOfOccurrenceList(childOfOccurrence)
-                            .build();
-                }
-            }catch (Exception e){
+                //20160829: type and child occurrence added, null value accepted for child occurrence,
+                // in this case we have no second level data to display
+                // 20161214: use Builder pattern now, remove if check, if parameter not found, show error "Not Found" to user
+                expandableListHeader = new ExpandableListHeader.Builder()
+                        .setPartName(partName)
+                        .setPartNr(partNr)
+                        .setOrderNr(orderNr)
+                        .setInspector(inspector)
+                        .setInspectorDate(inspectorDate)
+                        .setVehicle(vehicle)
+                        .setInspectorTimeSpan(inspectorTimeSpan)
+                        .setFrequency(frequency)
+                        .setType(type)
+                        .setInspectorMethod(inspectorMethod)
+                        .setInspectorMethod(inspectorMethod)
+                        .setInspectorScope(inspectorScope)
+                        .setInspectorNorm(inspectorNorm)
+                        .setFileDirectory(imagePath)
+                        .setChildOfOccurrenceList(childOfOccurrence)
+                        .build();
+            } catch (Exception e) {
                 System.out.println(e);
             }
             return expandableListHeader;
         }
 
-        protected void onPostExecute (ExpandableListHeader expandableListHeader) {
+        protected void onPostExecute(ExpandableListHeader expandableListHeader) {
             if (expandableListHeader != null && this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
                 this.mProgressDialog.dismiss();
                 Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
