@@ -584,12 +584,28 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     }
                 }
                 //20160829: type and child occurrence added, null value accepted for child occurrence, in this case we have no second level data to display
-                // TODO: should use builder pattern, later
+                //  should use builder pattern, later
+                // 20161214: use Builder pattern now
                 if (partName != null && partNr != null && inspector != null && inspectorDate != null && inspectorTimeSpan != null
                         && vehicle != null && frequency != null && orderNr != null
                         && type != null && inspectorMethod != null && inspectorScope != null && inspectorNorm != null) {
-                    expandableListHeader = new ExpandableListHeader(partName, partNr, orderNr, inspector, inspectorDate, vehicle,
-                            inspectorTimeSpan, frequency, type, inspectorMethod, inspectorScope, inspectorNorm, imagePath, childOfOccurrence);
+                    expandableListHeader = new ExpandableListHeader.Builder()
+                            .setPartName(partName)
+                            .setPartNr(partNr)
+                            .setOrderNr(orderNr)
+                            .setInspector(inspector)
+                            .setInspectorDate(inspectorDate)
+                            .setVehicle(vehicle)
+                            .setInspectorTimeSpan(inspectorTimeSpan)
+                            .setFrequency(frequency)
+                            .setType(type)
+                            .setInspectorMethod(inspectorMethod)
+                            .setInspectorMethod(inspectorMethod)
+                            .setInspectorScope(inspectorScope)
+                            .setInspectorNorm(inspectorNorm)
+                            .setFileDirectory(imagePath)
+                            .setChildOfOccurrenceList(childOfOccurrence)
+                            .build();
                 }
             }catch (Exception e){
                 System.out.println(e);

@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -27,6 +29,7 @@ import com.parsa_plm.Layout.OpenFileActivity;
 import com.parsa_plm.jointelementinspector.fragments.*;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.io.File;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
@@ -87,9 +90,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            Bundle data = intent.getExtras();
-            headerData = (ExpandableListHeader) data.getParcelable("com.ExpandableListData");
+        if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CAPTURE) {
+            Toast.makeText(getApplicationContext(), "get result from capture photo", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -157,15 +159,15 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     }
 
     private void onCapturePhoto() {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
         if (this.headerData == null) {
-            AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setIcon(R.drawable.attention48);
             adb.setTitle("Photograhieren ohne Anzeigen");
             adb.setMessage("Sie haben noch keine XML Datei geöffnet, wenn Sie " +
                     "fortfahren, sind neu gemachte Bilder nicht in diesem Programm anzuzeigen. ");
             adb.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    captureImage();
+                    captureImage(false, null);
                 }
             });
             adb.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -179,12 +181,34 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             // should check if the specific folder exist
             // communication between main activity and tab photo fragment,
             // also between tab document fragment
+            String pathToStoreImage = headerData.getFileDirectory();
+            File file = new File(pathToStoreImage);
+            if (file.isDirectory() && file.exists()) {
+                captureImage(true, file);
+            }else {
+                adb.setIcon(R.drawable.attention48);
+                adb.setTitle("keine Ordner gefunden ! ");
+                adb.setMessage("Der Ordner, in dem Bilder zu speichern sind, existiert nicht. Stellen Sie sicher," +
+                        "dass XML Dateien aus Teamcenter korreckt exportiert werden. ");
+                adb.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+            }
         }
     }
 
-    private void captureImage() {
+    // store images in specific folder if withSpecificFolder is true, argument file could be null
+    private void captureImage(Boolean inSpecificFolder, File file) {
         try {
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (inSpecificFolder && file != null) {
+                // 20161202: uri.fromFile not working
+                File externalPath = new File(Environment.getExternalStorageDirectory()+ file.toString());
+                Uri relativePath = Uri.parse(externalPath.toString());
+                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+            }
             startActivityForResult(captureIntent, CAMERA_CAPTURE);
         } catch (ActivityNotFoundException anfe) {
             String errorMessage = " your device doesn't support capturing images! ";

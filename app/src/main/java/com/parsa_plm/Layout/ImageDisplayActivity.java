@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.jointelementinspector.main.R;
 
-import java.io.File;
 
 public class ImageDisplayActivity extends Activity{
     private String file;

@@ -1,5 +1,6 @@
 package com.jointelementinspector.main;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -30,29 +31,103 @@ public class ExpandableListHeader implements Parcelable{
     // new class for weld point for later user, maybe use generic Type later
     // no longer used
     // private List<WeldPoint> weldPointsOfOccurrence;
+    // 20161214: use Builder Pattern now
+    public static class Builder{
+        private String partName;
+        private String partNr;
+        private String orderNr;
+        private String inspector;
+        private String inspectorDate;
+        private String vehicle;
+        private String inspectorTimeSpan;
+        private String frequency;
+        private String inspectorMethod;
+        private String inspectorScope;
+        private String inspectorNorm;
+        private String type;
+        private String fileDirectory;
+        private List<ExpandableListItem> childOfOccurrence;
 
+        public ExpandableListHeader build() {
+            return new ExpandableListHeader(this);
+        }
+        public Builder setPartName(String partName){
+            this.partName = partName;
+            return this;
+        }
+        public Builder setPartNr(String partNr) {
+            this.partNr = partNr;
+            return this;
+        }
+        public Builder setOrderNr(String orderNr) {
+            this.orderNr = orderNr;
+            return this;
+        }
+        public Builder setInspector(String inspector) {
+            this.inspector = inspector;
+            return this;
+        }
+        public Builder setInspectorDate(String inspectorDate) {
+            this.inspectorDate = inspectorDate;
+            return this;
+        }
+        public Builder setVehicle(String vehicle) {
+            this.vehicle = vehicle;
+            return this;
+        }
+        public Builder setInspectorTimeSpan(String inspectorTimeSpan) {
+            this.inspectorTimeSpan = inspectorTimeSpan;
+            return this;
+        }
+        public Builder setFrequency(String frequency) {
+            this.frequency = frequency;
+            return this;
+        }
+        public Builder setInspectorMethod(String inspectorMethod) {
+            this.inspectorMethod = inspectorMethod;
+            return this;
+        }
+        public Builder setInspectorScope(String inspectorScope) {
+            this.inspectorScope = inspectorScope;
+            return this;
+        }
+        public Builder setInspectorNorm(String inspectorNorm) {
+            this.inspectorNorm = inspectorNorm;
+            return this;
+        }
+        public Builder setType(String type) {
+            this.type = type;
+            return this;
+        }
+        public Builder setFileDirectory(String fileDirectory) {
+            this.fileDirectory = fileDirectory;
+            return this;
+        }
+        public Builder setChildOfOccurrenceList(List<ExpandableListItem> childOfOccurrence) {
+            this.childOfOccurrence = childOfOccurrence;
+            return this;
+        }
+    }
     /*expandable list data constructor, later may changed
       empty string accepted, not null
+      20161214: change to builder pattern
      */
-    public ExpandableListHeader(String partName, String partNr, String orderNr, String inspector,
-                                String inspectorDate, String vehicle, String inspectorTimeSpan,
-                                String frequency, String type, String inspectorMethod, String inspectorScope,
-                                String inspectorNorm, String fileDirectory, List<ExpandableListItem> childOfOccurrence) {
-        this.partName = partName;
-        this.partNr = partNr;
-        this.orderNr = orderNr;
-        this.inspector = inspector;
-        this.inspectorDate = inspectorDate;
-        this.vehicle = vehicle;
-        this.inspectorTimeSpan = inspectorTimeSpan;
-        this.frequency = frequency;
+    private ExpandableListHeader(Builder builder) {
+        this.partName = builder.partName;
+        this.partNr = builder.partNr;
+        this.orderNr = builder.orderNr;
+        this.inspector = builder.inspector;
+        this.inspectorDate = builder.inspectorDate;
+        this.vehicle = builder.vehicle;
+        this.inspectorTimeSpan = builder.inspectorTimeSpan;
+        this.frequency = builder.frequency;
         // 20160829 typ child occurrence added
-        this.type = type;
-        this.inspectorMethod = inspectorMethod;
-        this.inspectorScope = inspectorScope;
-        this.inspectorNorm = inspectorNorm;
-        this.fileDirectory = fileDirectory;
-        this.childOfOccurrence = childOfOccurrence;
+        this.type = builder.type;
+        this.inspectorMethod = builder.inspectorMethod;
+        this.inspectorScope = builder.inspectorScope;
+        this.inspectorNorm = builder.inspectorNorm;
+        this.fileDirectory = builder.fileDirectory;
+        this.childOfOccurrence = builder.childOfOccurrence;
     }
     public static final Parcelable.Creator<ExpandableListHeader> CREATOR = new Parcelable.Creator<ExpandableListHeader>(){
         @Override
