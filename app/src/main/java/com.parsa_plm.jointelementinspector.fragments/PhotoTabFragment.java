@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +21,27 @@ import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.MainActivity;
 import com.jointelementinspector.main.R;
 import com.parsa_plm.Layout.ImageDisplayActivity;
+import com.parsa_plm.Layout.ImageGridAdapter;
 import com.parsa_plm.Layout.ImageListAdapter;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoTabFragment extends Fragment {
     private ExpandableListHeader headerData;
     private OverviewTabFragment.onFragmentInteractionListener listener;
-    private GridView mGridView;
+    // 20161216: use recycler view
+    private RecyclerView mGridView;
     private ProgressDialog mProgressDialog;
     private Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
-        mGridView = (GridView) photoView.findViewById(R.id.image_gridview);
+        mGridView = (RecyclerView) photoView.findViewById(R.id.recycler_view);
+        GridLayoutManager glm = new GridLayoutManager(mContext, 3);
+        mGridView.setLayoutManager(glm);
         return photoView;
     }
 
@@ -61,12 +69,14 @@ public class PhotoTabFragment extends Fragment {
             File imageDirectory = new File(imagePath);
             if (imageDirectory.isDirectory() && imageDirectory.exists()) {
                 File file = new File(imagePath);
-                // 20161214 TODO should not obtain all files, only images
+                // 20161214 should not obtain all files, only images
                 File[] files = file.listFiles();
-                File[] images = getImages(files);
-                ImageListAdapter adapter = new ImageListAdapter(mContext, images);
+                List<File> images = getImages(files);
+                //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
+                // 20161216: new adapter for better user
+                ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images);
                 if (mGridView != null) {
-                    mGridView.setAdapter(adapter);
+                    mGridView.setAdapter(gridAdapter);
                 }
             }
             else {
@@ -79,16 +89,13 @@ public class PhotoTabFragment extends Fragment {
         }
     }
     // 20161214: wir only need images
-    private File[] getImages(File[] files) {
-        File[] images = null;
+    // 20161216: change signature
+    private List<File> getImages(File[] files) {
+        List<File> images = new ArrayList<>();
         if (files.length > 0) {
-            images = new File[files.length];
-            int i = 0;
             for (File f: files) {
-                if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png")) {
-                    images[i] = f;
-                    ++i;
-                }
+                if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png"))
+                    images.add(f);
             }
         }
         return images;

@@ -2,39 +2,41 @@ package com.jointelementinspector.main;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
-import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.parsa_plm.Layout.OpenFileActivity;
 import com.parsa_plm.jointelementinspector.fragments.*;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
-import java.util.List;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
     private ActionMenuView amvMenu;
     private ExpandableListHeader headerData;
+    private Context mContext;
     // 20161101: make it global
     TabLayout tabLayout;
     private static final int REQUEST_CODE = 1;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         //}
         //LeakCanary.install(getApplication());
         setContentView(R.layout.menu_toolbar);
+        mContext = getApplicationContext();
         Toolbar menuToolBar = (Toolbar) findViewById(R.id.menu_toolbar);
         if (menuToolBar != null) {
             // hide the tool bar title
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CAPTURE) {
             // check the default image store path
             File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            Toast.makeText(getApplicationContext(), " Photo is stored in: " + path.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, " Photo is stored in: " + path.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -134,32 +137,45 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_settings:
-                Toast.makeText(getApplicationContext(), "Setting coming soon", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Setting coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_openFromServer:
                 Intent openFileIntent = new Intent(this, OpenFileActivity.class);
                 startActivityForResult(openFileIntent, REQUEST_CODE);
                 return true;
             case R.id.menu_save:
-                Toast.makeText(getApplicationContext(), "Save coming soon", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Save coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_saveAs:
-                Toast.makeText(getApplicationContext(), "SaveAs coming soon", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "SaveAs coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_JTViewer:
-                Toast.makeText(getApplicationContext(), "JTViewer coming soon", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "JTViewer coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_openPDFFromServer:
-                Toast.makeText(getApplicationContext(), "open PDF from Server coming soon", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "open PDF from Server coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_saveReport:
-                Toast.makeText(getApplicationContext(), "Save Report coming soon", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Save Report coming soon", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_takePhoto:
-                onCapturePhoto();
+                onPrepareCapturePhoto();
                 return true;
         }
         return true;
+    }
+
+    // 20161215: should check if device has camera and inform user
+    private void onPrepareCapturePhoto() {
+        if (!mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)){
+            Toast.makeText(mContext, "Your Device has no camera, break. ", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!isExternalStorageWritable()) {
+            Toast.makeText(mContext, "External Storage is not available, break.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        onCapturePhoto();
     }
 
     private void onCapturePhoto() {
@@ -204,16 +220,27 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     }
 
     // store images in specific folder if withSpecificFolder is true, argument file could be null
+    // 20161215: TODO should create image file
     private void captureImage(Boolean inSpecificFolder, File file) {
         try {
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (inSpecificFolder && file != null) {
                 // 20161202: uri.fromFile not working
-                File externalPath = new File(Environment.getExternalStorageDirectory()+ file.toString());
+                File externalPath = new File(file.toString());
                 Uri relativePath = Uri.parse(externalPath.toString());
-                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+                //captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
             }
-            startActivityForResult(captureIntent, CAMERA_CAPTURE);
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            }catch (IOException ex) {
+
+            }
+            if (photoFile != null) {
+                Uri photoUri = FileProvider.getUriForFile(this, "com.jointelementinspector", photoFile);
+                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(captureIntent, CAMERA_CAPTURE);
+            }
         } catch (ActivityNotFoundException anfe) {
             String errorMessage = " your device doesn't support capturing images! ";
             Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
@@ -221,11 +248,24 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         }
     }
 
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        return image;
+    }
     @Override
     public ExpandableListHeader onFragmentCreated() {
         return headerData != null ? headerData : null;
     }
-
+    // check if external storage available for write und inform user
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state))
+            return true;
+        return false;
+    }
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)

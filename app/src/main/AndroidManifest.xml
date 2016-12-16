@@ -13,9 +13,8 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="16" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"
+                    android:required="true"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -37,6 +36,15 @@
         </activity>
         <activity android:name="com.parsa_plm.Layout.OpenFileActivity"></activity>
         <activity android:name="com.parsa_plm.Layout.ImageDisplayActivity"></activity>
+        <provider
+            android:authorities="com.jointelementinspector"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
     </application>
 
 </manifest>

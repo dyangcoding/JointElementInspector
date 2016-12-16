@@ -11,7 +11,9 @@ import com.jointelementinspector.main.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-
+/*
+ 20161216: we do not need this adapter any more, use recycler view for better usability
+ */
 public class ImageListAdapter extends BaseAdapter {
     private Context mContext;
     // 20161214: use array for later document view
