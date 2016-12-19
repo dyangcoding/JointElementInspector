@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<GridView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/image_gridview"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:horizontalSpacing="10dp"
-    android:numColumns="4"
-    android:verticalSpacing="10dp"/>
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                                        android:id="@+id/document_recycler_view"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:paddingLeft="15dp"
+                                        android:paddingRight="15dp"
+                                        android:paddingTop="10dp"
+                                        android:scrollbars="none">
+</android.support.v7.widget.RecyclerView>

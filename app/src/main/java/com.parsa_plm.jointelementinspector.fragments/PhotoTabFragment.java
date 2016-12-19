@@ -3,8 +3,6 @@ package com.parsa_plm.jointelementinspector.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -13,16 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
-import com.jointelementinspector.main.MainActivity;
 import com.jointelementinspector.main.R;
-import com.parsa_plm.Layout.ImageDisplayActivity;
 import com.parsa_plm.Layout.ImageGridAdapter;
-import com.parsa_plm.Layout.ImageListAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,8 +31,8 @@ public class PhotoTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
-        mGridView = (RecyclerView) photoView.findViewById(R.id.recycler_view);
-        GridLayoutManager glm = new GridLayoutManager(mContext, 3);
+        mGridView = (RecyclerView) photoView.findViewById(R.id.image_recycler_view);
+        GridLayoutManager glm = new GridLayoutManager(mContext, 4);
         mGridView.setLayoutManager(glm);
         return photoView;
     }
@@ -73,7 +65,7 @@ public class PhotoTabFragment extends Fragment {
                 File[] files = file.listFiles();
                 List<File> images = getImages(files);
                 //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
-                // 20161216: new adapter for better user
+                // 20161216: new adapter for better usability
                 ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images);
                 if (mGridView != null) {
                     mGridView.setAdapter(gridAdapter);

@@ -2,18 +2,24 @@ package com.parsa_plm.jointelementinspector.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
-import com.parsa_plm.Layout.ImageListAdapter;
+import com.parsa_plm.Layout.DocumentGridAdapter;
+import com.shockwave.pdfium.PdfDocument;
+import com.shockwave.pdfium.PdfiumCore;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,13 +28,15 @@ import java.util.List;
 public class DocumentTabFragment extends Fragment {
     private ExpandableListHeader headerData;
     private OverviewTabFragment.onFragmentInteractionListener listener;
-    private GridView mGridView;
+    private RecyclerView mGridView;
     private Context mContext;
-    private List<String> filePath = new ArrayList<>();
+    private List<File> filePath = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
-        mGridView = (GridView) documentView.findViewById(R.id.image_gridview);
+        mGridView = (RecyclerView) documentView.findViewById(R.id.document_recycler_view);
+        GridLayoutManager glm = new GridLayoutManager(mContext, 4);
+        mGridView.setLayoutManager(glm);
         return documentView;
     }
 
@@ -57,7 +65,7 @@ public class DocumentTabFragment extends Fragment {
             if (documentDirectory.isDirectory() && documentDirectory.exists()) {
                 File[] files = documentDirectory.listFiles();
                 this.filePath = getPDFFiles(files);
-                setUpDocumentAdapter();
+                setUpDocumentAdapter(filePath);
             }
             else {
                 new AlertDialog.Builder(mContext)
@@ -69,19 +77,9 @@ public class DocumentTabFragment extends Fragment {
         }
     }
 
-    private void setUpDocumentAdapter() {
-        File[] images = null;
-        ImageListAdapter adapter = null;
-        if (this.filePath.size() > 0) {
-            images = new File[filePath.size()];
-            int i = 0;
-            for (String filePath: this.filePath) {
-                File f = new File(filePath);
-                images[i] = f;
-                ++i;
-            }
-            // 20161214: this may not working, pdf may be converted to bitmap, check it out later
-            adapter = new ImageListAdapter(mContext, images);
+    private void setUpDocumentAdapter(List<File> documents) {
+        if (documents != null && documents.size() > 0) {
+            DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents);
             if (mGridView != null) {
                 mGridView.setAdapter(adapter);
             }
@@ -90,12 +88,12 @@ public class DocumentTabFragment extends Fragment {
             Toast.makeText(mContext, "Keine Dokument vorhanden.", Toast.LENGTH_LONG).show();
     }
 
-    private List<String> getPDFFiles(File[] files) {
-        List<String> pdfFiles = new ArrayList<>();
+    private List<File> getPDFFiles(File[] files) {
+        List<File> pdfFiles = new ArrayList<>();
         if (files != null && files.length > 0) {
             for (File f : files) {
                 if (f.getName().toLowerCase().endsWith(".pdf"))
-                    pdfFiles.add(f.toString());
+                    pdfFiles.add(f);
             }
         }
         return  pdfFiles;

@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private static final int REQUEST_CODE = 1;
     private final int CAMERA_CAPTURE = 2;
     private static final String TITLE_OVERVIEW = "Overview";
-    private static final String TITLE_Document = "Document";
-    private static final String TITLE_Photos = "Photo";
+    private static final String TITLE_DOCUMENT = "Document";
+    private static final String TITLE_PHOTOS = "Photo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Document));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_Photos));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_DOCUMENT));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
         }

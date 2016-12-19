@@ -1,6 +1,7 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,9 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.imagegrid_item, parent, false);
         GridViewHolder viewHolder = new GridViewHolder(itemView);
-        viewHolder.mImageView = (ImageView) itemView.findViewById(R.id.image_view);
+        viewHolder.mImageView = (ImageView) itemView.findViewById(R.id.photo_image_view);
+        viewHolder.mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        viewHolder.mImageView.setPadding(8, 8, 8, 8);
         itemView.setTag(viewHolder);
         return viewHolder;
     }
@@ -44,14 +47,27 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
                 .load(images.get(position))
                 .placeholder(R.drawable.imageplaceholder48)
                 .error(R.drawable.imageerror48)
-                .resize(150,150)
+                .resize(180,180)
                 .onlyScaleDown()
                 .centerCrop()
                 .into(holder.mImageView);
+        setUpClickListener(images.get(position), holder.mImageView);
     }
 
     @Override
     public int getItemCount() {
         return images.size();
+    }
+
+    private void setUpClickListener(final File image, ImageView imageView) {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ImageDisplayActivity.class);
+                String filePath = image.getAbsolutePath();
+                intent.putExtra("path", filePath);
+                mContext.startActivity(intent);
+            }
+        });
     }
 }
