@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,9 @@ public class DocumentTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
         mGridView = (RecyclerView) documentView.findViewById(R.id.document_recycler_view);
-        GridLayoutManager glm = new GridLayoutManager(mContext, 4);
-        mGridView.setLayoutManager(glm);
+        //GridLayoutManager glm = new GridLayoutManager(mContext, 4);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+        mGridView.setLayoutManager(sglm);
         return documentView;
     }
 

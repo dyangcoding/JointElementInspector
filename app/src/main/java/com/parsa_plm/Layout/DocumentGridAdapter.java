@@ -1,12 +1,18 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jointelementinspector.main.R;
 
@@ -46,6 +52,28 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         String file = mDocuments.get(position).getName();
         holder.mTextView.setText(file);
         holder.mImageView.setImageResource(R.drawable.pdf96);
+        setUpClickListener(mDocuments.get(position), holder.mImageView);
+    }
+
+    private void setUpClickListener(final File file, ImageView imageview) {
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (file != null) {
+                    File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + file.getName());
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    PackageManager pm = mContext.getPackageManager();
+                    List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+                    if (activities.size() > 0) {
+                        mContext.startActivity(intent);
+                    } else {
+                        Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
     }
 
     @Override
