@@ -31,8 +31,9 @@
         android:background="?attr/actionBarDivider"
         android:minHeight="?attr/actionBarSize"
         app:tabTextAppearance="@style/CustomTextStyle"
-        app:tabPaddingStart="@dimen/custom_TabText_padding"
-        app:tabPaddingEnd="@dimen/custom_TabText_padding"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <android.support.v4.view.ViewPager

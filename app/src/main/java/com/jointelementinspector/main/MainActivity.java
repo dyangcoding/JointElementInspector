@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     TabLayout tabLayout;
     private static final int REQUEST_CODE = 1;
     private final int CAMERA_CAPTURE = 2;
+    // TODO all final string should replaced for multi language support
     private static final String TITLE_OVERVIEW = "Overview";
     private static final String TITLE_DOCUMENT = "Document";
     private static final String TITLE_PHOTOS = "Photo";
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 return onOptionsItemSelected(menuItem);
             }
         });
-        // 2016114: exact method
+        // 2016114: extract method
         setUpTab();
         setUpViewPager(tabLayout);
         // data transport from open file activity
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_DOCUMENT));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
-            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
         }
     }
@@ -247,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             toast.show();
         }
     }
-
+    // 20161220 image now successfully stored in specific folder
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = timeStamp + "_";
@@ -255,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         String fileDirectory = null;
         if (headerData != null)
             fileDirectory = headerData.getFileDirectory();
+        // 20161220: TODO should change the hard code path, later
         String[] path = fileDirectory.split("/");
         File f = new File(storageDir.toString()+"/"+path[3]);
         File image = File.createTempFile(imageFileName, ".jpg", f);
