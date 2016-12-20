@@ -60,10 +60,12 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
             @Override
             public void onClick(View view) {
                 if (file != null) {
-                    File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + file.getName());
                     Intent intent = new Intent(Intent.ACTION_VIEW);
+                    String fileParent = file.getParentFile().getName();
+                    File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    // 20161220: now the correct path
+                    File f = new File(externalPath+"/"+fileParent+"/"+file.getName());
                     intent.setDataAndType(Uri.fromFile(f), "application/pdf");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     PackageManager pm = mContext.getPackageManager();
                     List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
                     if (activities.size() > 0) {

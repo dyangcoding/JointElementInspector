@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             try {
                 photoFile = createImageFile();
             }catch (IOException ex) {
-
+                Toast.makeText(mContext, ex.getMessage(), Toast.LENGTH_LONG).show();
             }
             if (photoFile != null) {
                 Uri photoUri = FileProvider.getUriForFile(this, "com.jointelementinspector", photoFile);
@@ -250,9 +250,14 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
 
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        String imageFileName = timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        String fileDirectory = null;
+        if (headerData != null)
+            fileDirectory = headerData.getFileDirectory();
+        String[] path = fileDirectory.split("/");
+        File f = new File(storageDir.toString()+"/"+path[3]);
+        File image = File.createTempFile(imageFileName, ".jpg", f);
         return image;
     }
     @Override

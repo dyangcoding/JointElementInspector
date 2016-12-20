@@ -36,7 +36,7 @@ public class DocumentTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
         mGridView = (RecyclerView) documentView.findViewById(R.id.document_recycler_view);
-        //GridLayoutManager glm = new GridLayoutManager(mContext, 4);
+        //20161220: change Grid Layout to staggered layout
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         mGridView.setLayoutManager(sglm);
         return documentView;
@@ -82,9 +82,8 @@ public class DocumentTabFragment extends Fragment {
     private void setUpDocumentAdapter(List<File> documents) {
         if (documents != null && documents.size() > 0) {
             DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents);
-            if (mGridView != null) {
+            if (mGridView != null)
                 mGridView.setAdapter(adapter);
-            }
         }
         else
             Toast.makeText(mContext, "Keine Dokument vorhanden.", Toast.LENGTH_LONG).show();
