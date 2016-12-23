@@ -3,6 +3,7 @@ package com.parsa_plm.jointelementinspector.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
+import com.parsa_plm.Layout.CustomItemClickListener;
+import com.parsa_plm.Layout.ImageDisplayActivity;
 import com.parsa_plm.Layout.ImageGridAdapter;
 
 import java.io.File;
@@ -63,13 +66,17 @@ public class PhotoTabFragment extends Fragment {
                 File file = new File(imagePath);
                 // 20161214 should not obtain all files, only images
                 File[] files = file.listFiles();
-                List<File> images = getImages(files);
+                final List<File> images = getImages(files);
                 //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
                 // 20161216: new adapter for better usability
-                ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images);
-                if (mGridView != null) {
+                ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images, new CustomItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        setUpClickListener(position, images);
+                    }
+                });
+                if (mGridView != null)
                     mGridView.setAdapter(gridAdapter);
-                }
             }
             else {
                 new AlertDialog.Builder(mContext)
@@ -80,6 +87,14 @@ public class PhotoTabFragment extends Fragment {
             }
         }
     }
+
+    private void setUpClickListener(int position, List<File> images) {
+        Intent intent = new Intent(mContext, ImageDisplayActivity.class);
+        String filePath = images.get(position).getAbsolutePath();
+        intent.putExtra("path", filePath);
+        mContext.startActivity(intent);
+    }
+
     // 20161214: wir only need images
     // 20161216: change signature
     private List<File> getImages(File[] files) {

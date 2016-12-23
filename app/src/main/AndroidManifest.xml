@@ -37,7 +37,7 @@
         <activity android:name="com.parsa_plm.Layout.OpenFileActivity"></activity>
         <activity android:name="com.parsa_plm.Layout.ImageDisplayActivity"></activity>
         <provider
-            android:authorities="com.jointelementinspector"
+            android:authorities="jointelementinspector.main.com.fileprovider"
             android:name="android.support.v4.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

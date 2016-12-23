@@ -238,7 +238,10 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 Toast.makeText(mContext, ex.getMessage(), Toast.LENGTH_LONG).show();
             }
             if (photoFile != null) {
-                Uri photoUri = FileProvider.getUriForFile(this, "com.jointelementinspector", photoFile);
+                //20161221: storage/emulated/0/Andorid/data/com.parse_plm.jointelementinspector/files
+                File testPath = mContext.getExternalFilesDir(null);
+                File internal = mContext.getFilesDir();
+                Uri photoUri = FileProvider.getUriForFile(this, "jointelementinspector.main.com.fileprovider", photoFile);
                 captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(captureIntent, CAMERA_CAPTURE);
             }

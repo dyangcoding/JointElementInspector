@@ -17,26 +17,34 @@ import java.util.List;
 public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.GridViewHolder> {
     private Context mContext;
     private List<File> images;
-
-    public ImageGridAdapter(Context context, List<File> images) {
+    // 20161223: add listener
+    private CustomItemClickListener mItemClickListener;
+    public ImageGridAdapter(Context context, List<File> images, CustomItemClickListener listener) {
         this.mContext = context;
         this.images = images;
+        this.mItemClickListener = listener;
     }
 
     public static class GridViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         public GridViewHolder(View itemView) {
             super(itemView);
+            mImageView = (ImageView) itemView.findViewById(R.id.photo_image_view);
+            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mImageView.setPadding(8, 8, 8, 8);
         }
     }
     @Override
     public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.imagegrid_item, parent, false);
-        GridViewHolder viewHolder = new GridViewHolder(itemView);
-        viewHolder.mImageView = (ImageView) itemView.findViewById(R.id.photo_image_view);
-        viewHolder.mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        viewHolder.mImageView.setPadding(8, 8, 8, 8);
+        final GridViewHolder viewHolder = new GridViewHolder(itemView);
         itemView.setTag(viewHolder);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemClickListener.onItemClick(view, viewHolder.getAdapterPosition());
+            }
+        });
         return viewHolder;
     }
 
@@ -51,7 +59,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
                 .onlyScaleDown()
                 .centerCrop()
                 .into(holder.mImageView);
-        setUpClickListener(images.get(position), holder.mImageView);
+        //setUpClickListener(images.get(position), holder.mImageView);
     }
 
     @Override

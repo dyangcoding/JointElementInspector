@@ -2,13 +2,14 @@ package com.parsa_plm.jointelementinspector.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -19,8 +20,7 @@ import android.widget.Toast;
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import com.parsa_plm.Layout.DocumentGridAdapter;
-import com.shockwave.pdfium.PdfDocument;
-import com.shockwave.pdfium.PdfiumCore;
+import com.parsa_plm.Layout.CustomItemClickListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -78,15 +78,37 @@ public class DocumentTabFragment extends Fragment {
             }
         }
     }
-
-    private void setUpDocumentAdapter(List<File> documents) {
+    // 20161223: add listener
+    private void setUpDocumentAdapter(final List<File> documents) {
         if (documents != null && documents.size() > 0) {
-            DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents);
+            DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, new CustomItemClickListener() {
+                @Override
+                public void onItemClick(View v, int position) {
+                    setUpOnClickListener(position, documents);
+                }
+            });
             if (mGridView != null)
                 mGridView.setAdapter(adapter);
         }
         else
             Toast.makeText(mContext, "Keine Dokument vorhanden.", Toast.LENGTH_LONG).show();
+    }
+
+    private void setUpOnClickListener(int position, List<File> documents) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        File file = documents.get(position);
+        String fileParent = file.getParentFile().getName();
+        File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        // 20161220: now the correct path
+        File f = new File(externalPath + "/" + fileParent + "/" + file.getName());
+        intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+        PackageManager pm = mContext.getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        if (activities.size() > 0) {
+            mContext.startActivity(intent);
+        } else {
+            Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private List<File> getPDFFiles(File[] files) {

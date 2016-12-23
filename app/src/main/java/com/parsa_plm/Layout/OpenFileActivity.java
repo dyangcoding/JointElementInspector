@@ -40,10 +40,13 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.folders);
+        this.mContext = getApplicationContext();
         localFolders = (FolderLayout) findViewById(R.id.localFolders);
         localFolders.setIFolderItemListener(this);
+        // 20161223: test internal storage path
+        File path = this.getExternalFilesDir(null);
+        File external = this.getFilesDir();
         localFolders.setDir(filePath);
-        this.mContext = getApplicationContext();
     }
 
     @Override

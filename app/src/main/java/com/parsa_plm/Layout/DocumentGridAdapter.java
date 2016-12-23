@@ -22,10 +22,13 @@ import java.util.List;
 public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapter.GridViewHolder> {
     private Context mContext;
     private List<File> mDocuments;
+    // 20161223: add custom listener, avoid bind listener in onBindViewHolder
+    private CustomItemClickListener mItemClickListener;
 
-    public DocumentGridAdapter(Context context, List<File> documents) {
+    public DocumentGridAdapter(Context context, List<File> documents, CustomItemClickListener listener) {
         this.mContext = context;
         this.mDocuments = documents;
+        this.mItemClickListener = listener;
     }
 
     public static class GridViewHolder extends RecyclerView.ViewHolder {
@@ -33,17 +36,23 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         private TextView mTextView;
         public GridViewHolder(View itemView) {
             super(itemView);
+            mImageView = (ImageView) itemView.findViewById(R.id.document_image_view);
+            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mImageView.setPadding(8, 8, 8, 8);
+            mTextView = (TextView) itemView.findViewById(R.id.document_text_view);
         }
     }
     @Override
     public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.document_griditem, parent, false);
-        GridViewHolder viewHolder = new GridViewHolder(itemView);
-        viewHolder.mImageView = (ImageView) itemView.findViewById(R.id.document_image_view);
-        viewHolder.mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        viewHolder.mImageView.setPadding(8, 8, 8, 8);
-        viewHolder.mTextView = (TextView) itemView.findViewById(R.id.document_text_view);
+        final GridViewHolder viewHolder = new GridViewHolder(itemView);
         itemView.setTag(viewHolder);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemClickListener.onItemClick(view, viewHolder.getAdapterPosition());
+            }
+        });
         return viewHolder;
     }
 
@@ -52,9 +61,10 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         String file = mDocuments.get(position).getName();
         holder.mTextView.setText(file);
         holder.mImageView.setImageResource(R.drawable.pdf96);
-        setUpClickListener(mDocuments.get(position), holder.mImageView);
+        // 20161223: bad practice, should not bind listener for every object here
+        //setUpClickListener(mDocuments.get(position), holder.mImageView);
     }
-
+    // 20161223 not used any more
     private void setUpClickListener(final File file, ImageView imageview) {
         imageview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +74,7 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
                     String fileParent = file.getParentFile().getName();
                     File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                     // 20161220: now the correct path
-                    File f = new File(externalPath+"/"+fileParent+"/"+file.getName());
+                    File f = new File(externalPath + "/" + fileParent + "/" + file.getName());
                     intent.setDataAndType(Uri.fromFile(f), "application/pdf");
                     PackageManager pm = mContext.getPackageManager();
                     List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
