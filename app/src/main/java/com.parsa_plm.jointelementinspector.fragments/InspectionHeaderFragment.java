@@ -76,18 +76,16 @@ public class InspectionHeaderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null)
             headerData = bundle.getParcelable("com.ExpandableListData");
-        }
     }
     public InspectionHeaderFragment() {
     }
     public static InspectionHeaderFragment newInstance(ExpandableListHeader headerData) {
         InspectionHeaderFragment headerFragment = new InspectionHeaderFragment();
         Bundle bundle = new Bundle();
-        if (headerData != null) {
+        if (headerData != null)
             bundle.putParcelable("com.ExpandableListData", headerData);
-        }
         headerFragment.setArguments(bundle);
         return headerFragment;
     }

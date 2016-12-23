@@ -48,9 +48,8 @@ public class DocumentTabFragment extends Fragment {
         this.mContext = context;
         Activity mainActivity = null;
         try {
-            if (context instanceof Activity) {
+            if (context instanceof Activity)
                 mainActivity = (Activity) context;
-            }
             listener = (OverviewTabFragment.onFragmentInteractionListener) mainActivity;
         } catch (ClassCastException e) {
             throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");

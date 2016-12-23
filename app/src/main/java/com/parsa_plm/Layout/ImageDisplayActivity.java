@@ -21,7 +21,6 @@ public class ImageDisplayActivity extends Activity{
         // Get Image Path
         file = getIntent().getExtras().getString("path");
         ImageView imageView = (ImageView) findViewById(R.id.activity_displayImageView);
-
         // Get Image
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = false;

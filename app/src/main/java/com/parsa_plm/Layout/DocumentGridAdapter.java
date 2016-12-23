@@ -30,7 +30,6 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         this.mDocuments = documents;
         this.mItemClickListener = listener;
     }
-
     public static class GridViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mTextView;
@@ -55,14 +54,13 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         });
         return viewHolder;
     }
-
     @Override
     public void onBindViewHolder(GridViewHolder holder, int position) {
         String file = mDocuments.get(position).getName();
         holder.mTextView.setText(file);
         holder.mImageView.setImageResource(R.drawable.pdf96);
         // 20161223: bad practice, should not bind listener for every object here
-        //setUpClickListener(mDocuments.get(position), holder.mImageView);
+        // setUpClickListener(mDocuments.get(position), holder.mImageView);
     }
     // 20161223 not used any more
     private void setUpClickListener(final File file, ImageView imageview) {
@@ -78,16 +76,14 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
                     intent.setDataAndType(Uri.fromFile(f), "application/pdf");
                     PackageManager pm = mContext.getPackageManager();
                     List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-                    if (activities.size() > 0) {
+                    if (activities.size() > 0)
                         mContext.startActivity(intent);
-                    } else {
+                    else
                         Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
-                    }
                 }
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return mDocuments.size();

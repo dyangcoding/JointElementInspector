@@ -37,11 +37,10 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int groupPosition) {
         int childCount = 0;
         ExpandableListItem parentItem = (ExpandableListItem) getGroup(groupPosition);
-        if (parentItem.getChildItemList().size() > 0) {
+        if (parentItem.getChildItemList().size() > 0)
             childCount = parentItem.getChildItemList().size();
-        }else {
+        else
             Toast.makeText(this.context, " Es sind keine Daten vorhanden. ", Toast.LENGTH_LONG).show();
-        }
         return childCount;
     }
     @Override
@@ -52,9 +51,8 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     public Object getChild(int groupPosition, int childPosition) {
         List<WeldPoint> childList = null;
         childList = this.expandableListData.getChildOfOccurrence().get(groupPosition).getChildItemList();
-        if (childList != null && childList.size() > 0) {
+        if (childList != null && childList.size() > 0)
             return childList.get(childPosition);
-        }
         return null;
     }
     @Override

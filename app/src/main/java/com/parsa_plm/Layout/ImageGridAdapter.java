@@ -34,6 +34,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
             mImageView.setPadding(8, 8, 8, 8);
         }
     }
+    // 20161223: bind listener on view holder for better performance
     @Override
     public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.imagegrid_item, parent, false);
@@ -59,23 +60,10 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
                 .onlyScaleDown()
                 .centerCrop()
                 .into(holder.mImageView);
-        //setUpClickListener(images.get(position), holder.mImageView);
     }
 
     @Override
     public int getItemCount() {
         return images.size();
-    }
-
-    private void setUpClickListener(final File image, ImageView imageView) {
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, ImageDisplayActivity.class);
-                String filePath = image.getAbsolutePath();
-                intent.putExtra("path", filePath);
-                mContext.startActivity(intent);
-            }
-        });
     }
 }

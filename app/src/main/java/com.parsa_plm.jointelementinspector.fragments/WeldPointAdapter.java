@@ -52,9 +52,8 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.weldpoints_row_layout, viewGroup, false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
-        } else {
+        } else
             viewHolder = (ViewHolder) view.getTag();
-        }
         WeldPoint wp = (WeldPoint) getItem(i);
         viewHolder.itemName.setText(wp.getName());
         // test view, itemType should be there

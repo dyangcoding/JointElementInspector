@@ -52,18 +52,6 @@ public class ImageListAdapter extends BaseAdapter {
             imageView.setPadding(8, 8, 8, 8);
         }else
             imageView = (ImageView) convertView;
-        /*
-        Picasso
-                .with(mContext)
-                .load(images[position])
-                .placeholder(R.drawable.imageplaceholder48)
-                .error(R.drawable.imageerror48)
-                .resize(150,150)
-                .onlyScaleDown()
-                .centerCrop()
-                .into(imageView);
-        */
-        //setUpClickListener(images[position], imageView);
         imageView.setImageResource(position);
         return imageView;
     }
@@ -72,12 +60,6 @@ public class ImageListAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                Intent intent = new Intent(mContext, ImageDisplayActivity.class);
-                String filePath = image.getAbsolutePath();
-                intent.putExtra("path", filePath);
-                mContext.startActivity(intent);
-                */
                 Intent intent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("path-to-document"));
                 intent.setType("application/pdf");

@@ -29,18 +29,16 @@ public class ProductStructureFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null)
             headerData = bundle.getParcelable("com.ExpandableListData");
-        }
     }
 
     public ProductStructureFragment(){}
     public static ProductStructureFragment newInstance(ExpandableListHeader headerData){
         ProductStructureFragment productStructureFragment = new ProductStructureFragment();
         Bundle bundle = new Bundle();
-        if (headerData != null) {
+        if (headerData != null)
             bundle.putParcelable("com.ExpandableListData", headerData);
-        }
         productStructureFragment.setArguments(bundle);
         return productStructureFragment;
     }
@@ -94,9 +92,8 @@ public class ProductStructureFragment extends Fragment{
                 public boolean onChildClick(ExpandableListView expandableListView, View view,
                                             int group_position, int child_position, long id) {
                     List<WeldPoint> listTest = list.get(group_position).getChildItemList();
-                    if (listTest != null) {
+                    if (listTest != null)
                         Toast.makeText(getContext(), " i am from structure fragment ", Toast.LENGTH_LONG).show();
-                    }
                     return true;
                 }
             });

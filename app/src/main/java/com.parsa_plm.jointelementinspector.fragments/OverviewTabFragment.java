@@ -37,9 +37,8 @@ public class OverviewTabFragment extends Fragment{
         super.onAttach(context);
         Activity mainActivity = null;
         try {
-            if (context instanceof Activity) {
+            if (context instanceof Activity)
                 mainActivity = (Activity) context;
-            }
             listener = (onFragmentInteractionListener) mainActivity;
         }catch (ClassCastException e) {
             throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");

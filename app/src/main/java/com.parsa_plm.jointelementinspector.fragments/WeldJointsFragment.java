@@ -87,9 +87,8 @@ public class WeldJointsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null)
             mHeaderData = bundle.getParcelable("com.ExpandableListData");
-        }
     }
 
     public WeldJointsFragment() {
@@ -98,9 +97,8 @@ public class WeldJointsFragment extends Fragment {
     public static WeldJointsFragment newInstance(ExpandableListHeader mHeaderData) {
         WeldJointsFragment weldJointsFragment = new WeldJointsFragment();
         Bundle bundle = new Bundle();
-        if (mHeaderData != null) {
+        if (mHeaderData != null)
             bundle.putParcelable("com.ExpandableListData", mHeaderData);
-        }
         weldJointsFragment.setArguments(bundle);
         return weldJointsFragment;
     }
@@ -134,17 +132,15 @@ public class WeldJointsFragment extends Fragment {
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
+        if (listAdapter == null)
             return;
-        }
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY);
         int totalHeight = 0;
         View view = null;
         for (int i = 0; i < listAdapter.getCount(); i++) {
             view = listAdapter.getView(i, view, listView);
-            if (i == 0) {
+            if (i == 0)
                 view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
             view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += view.getMeasuredHeight();
         }
