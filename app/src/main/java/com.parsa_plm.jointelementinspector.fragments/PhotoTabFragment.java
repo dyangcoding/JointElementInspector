@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -58,11 +59,11 @@ public class PhotoTabFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        String storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        File f = new File(storageDir);
         if (headerData != null) {
-            String imagePath = headerData.getFileDirectory();
-            File imageDirectory = new File(imagePath);
-            if (imageDirectory.isDirectory() && imageDirectory.exists()) {
-                File file = new File(imagePath);
+            if (f.isDirectory() && f.exists()) {
+                File file = new File(f.toString());
                 // 20161214 should not obtain all files, only images
                 File[] files = file.listFiles();
                 final List<File> images = getImages(files);

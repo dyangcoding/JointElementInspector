@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +31,7 @@ import com.parsa_plm.Layout.OpenFileActivity;
 import com.parsa_plm.jointelementinspector.fragments.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         //}
         //LeakCanary.install(getApplication());
         setContentView(R.layout.menu_toolbar);
-        mContext = getApplicationContext();
+        mContext = this;
         Toolbar menuToolBar = (Toolbar) findViewById(R.id.menu_toolbar);
         if (menuToolBar != null) {
             // hide the tool bar title
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             headerData = bundle.getParcelable("com.ExpandableListData");
         }
     }
+
     private void setUpTab() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
@@ -90,16 +94,29 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
         }
     }
+
     // 20161031: this one should be used to obtain data
     // 20161101: debug result: get data successful from open file activity, but we still have to pass
     // data to view pager, maybe later check it out
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        File photoFile = null;
+        FileOutputStream outputStream = null;
+        Bitmap bitmap = null;
         if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CAPTURE) {
-            // check the default image store path
-            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            Toast.makeText(mContext, " Photo is stored in: " + path.toString(), Toast.LENGTH_LONG).show();
+            try {
+                photoFile = createImageFile();
+                outputStream = new FileOutputStream(photoFile);
+                bitmap = (Bitmap) intent.getExtras().get("data");
+                if (bitmap != null)
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 85, outputStream);
+                outputStream.flush();
+                outputStream.close();
+            } catch (IOException ex) {
+                Toast.makeText(mContext, ex.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            Toast.makeText(mContext, " Photo is stored in: " + mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -168,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
 
     // 20161215: should check if device has camera and inform user
     private void onPrepareCapturePhoto() {
-        if (!mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)){
+        if (!mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             Toast.makeText(mContext, "Your Device has no camera, break. ", Toast.LENGTH_LONG).show();
             return;
         }
@@ -202,11 +219,11 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             // should check if the specific folder exist
             // communication between main activity and tab photo fragment,
             // also between tab document fragment
-            String pathToStoreImage = headerData.getFileDirectory();
-            File file = new File(pathToStoreImage);
+            String externalDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+            File file = new File(externalDir);
             if (file.isDirectory() && file.exists()) {
                 captureImage(true, file);
-            }else {
+            } else {
                 adb.setIcon(R.drawable.attention48);
                 adb.setTitle("keine Ordner gefunden ! ");
                 adb.setMessage("Der Ordner, in dem Bilder zu speichern sind, existiert nicht. Stellen Sie sicher," +
@@ -222,53 +239,34 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
 
     // store images in specific folder if withSpecificFolder is true, argument file could be null
     // 20161215: TODO should create image file
+    // 20170107: just use intent to capture photos und push data in the file by onActivityResult
     private void captureImage(Boolean inSpecificFolder, File file) {
         try {
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (inSpecificFolder && file != null) {
-                // 20161202: uri.fromFile not working
-                File externalPath = new File(file.toString());
-                Uri relativePath = Uri.parse(externalPath.toString());
-                //captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
-            }
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            }catch (IOException ex) {
-                Toast.makeText(mContext, ex.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            if (photoFile != null) {
-                //20161221: storage/emulated/0/Andorid/data/com.parse_plm.jointelementinspector/files
-                File testPath = mContext.getExternalFilesDir(null);
-                File internal = mContext.getFilesDir();
-                Uri photoUri = FileProvider.getUriForFile(this, "jointelementinspector.main.com.fileprovider", photoFile);
-                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(captureIntent, CAMERA_CAPTURE);
-            }
-        } catch (ActivityNotFoundException anfe) {
+            startActivityForResult(captureIntent, CAMERA_CAPTURE);
+        }
+        catch (ActivityNotFoundException e) {
             String errorMessage = " your device doesn't support capturing images! ";
             Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
             toast.show();
         }
     }
+
     // 20161220 image now successfully stored in specific folder
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        String fileDirectory = null;
-        if (headerData != null)
-            fileDirectory = headerData.getFileDirectory();
-        // 20161220: TODO should change the hard code path, later
-        String[] path = fileDirectory.split("/");
-        File f = new File(storageDir.toString()+"/"+path[3]);
+        String storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        File f = new File(storageDir);
         File image = File.createTempFile(imageFileName, ".jpg", f);
         return image;
     }
+
     @Override
     public ExpandableListHeader onFragmentCreated() {
         return headerData != null ? headerData : null;
     }
+
     // check if external storage available for write und inform user
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
@@ -276,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             return true;
         return false;
     }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)

@@ -33,7 +33,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class OpenFileActivity extends Activity implements IFolderItemListener {
     private FolderLayout localFolders;
-    private final String filePath = "/sdcard/Download";
+    // 20170106: we use external storage path to open xml file
+    // private final String filePath = "/sdcard/Download";
     private Context mContext;
 
     @Override
@@ -45,8 +46,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         localFolders.setIFolderItemListener(this);
         // 20161223: test internal storage path
         File path = this.getExternalFilesDir(null);
-        File external = this.getFilesDir();
-        localFolders.setDir(filePath);
+        localFolders.setDir(path.toString());
     }
 
     @Override

@@ -34,10 +34,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.parsa_plm.Layout.OpenFileActivity"></activity>
-        <activity android:name="com.parsa_plm.Layout.ImageDisplayActivity"></activity>
+        <activity android:name="com.parsa_plm.Layout.OpenFileActivity"
+            android:noHistory="true"
+            android:screenOrientation="nosensor">
+        </activity>
+        <activity android:name="com.parsa_plm.Layout.ImageDisplayActivity"
+                  android:noHistory="true"
+                  android:screenOrientation="nosensor">
+        </activity>
         <provider
-            android:authorities="jointelementinspector.main.com.fileprovider"
+            android:authorities="com.parsa_plm.jointelementinspector.fileprovider"
             android:name="android.support.v4.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
