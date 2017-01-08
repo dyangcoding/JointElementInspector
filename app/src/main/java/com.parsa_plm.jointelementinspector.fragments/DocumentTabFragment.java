@@ -116,21 +116,23 @@ public class DocumentTabFragment extends Fragment {
             });
         }
     }
-
+    // 20170108: should check if the file exists, which has been clicked
     private void setUpOnClickListener(int position, List<File> documents) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         File file = documents.get(position);
-        String fileParent = file.getParentFile().getName();
-        File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         // 20161220: now the correct path
-        File f = new File(externalPath + File.separator + fileParent + File.separator + file.getName());
-        intent.setDataAndType(Uri.fromFile(f), "application/pdf");
-        PackageManager pm = mContext.getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-        if (activities.size() > 0)
-            mContext.startActivity(intent);
+        File f = new File(mDocumentPath + File.separator + file.getName());
+        if (f.exists()) {
+            intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+            PackageManager pm = mContext.getPackageManager();
+            List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+            if (activities.size() > 0)
+                mContext.startActivity(intent);
+            else
+                Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
+        }
         else
-            Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, " Can not open file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
 
     private List<File> getPDFFiles(String documentPath) {

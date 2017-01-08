@@ -55,8 +55,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
                 .load(mImages.get(position))
                 .placeholder(R.drawable.imageplaceholder48)
                 .error(R.drawable.imageerror48)
-                .resize(180,180)
-                .onlyScaleDown()
+                .resize(250, 180)
                 .centerCrop()
                 .into(holder.mImageView);
     }
@@ -65,7 +64,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     public int getItemCount() {
         return mImages.size();
     }
-
+    // 20170108 : add methods to support swipe refresh layout
     public void clear() {
         mImages.clear();
     }

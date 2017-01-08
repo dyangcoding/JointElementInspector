@@ -129,8 +129,14 @@ public class PhotoTabFragment extends Fragment {
     private void setUpClickListener(int position, List<File> images) {
         Intent intent = new Intent(mContext, ImageDisplayActivity.class);
         String filePath = images.get(position).getAbsolutePath();
-        intent.putExtra("path", filePath);
-        mContext.startActivity(intent);
+        // 20170108: should check if the file is available
+        File f = new File(filePath);
+        if (f.exists()) {
+            intent.putExtra("path", filePath);
+            mContext.startActivity(intent);
+        }
+        else
+            Toast.makeText(mContext, " Can not open file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
 
     // 20161214: wir only need images

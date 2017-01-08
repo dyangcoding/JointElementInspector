@@ -72,7 +72,7 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
                     String fileParent = file.getParentFile().getName();
                     File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                     // 20161220: now the correct path
-                    File f = new File(externalPath + "/" + fileParent + "/" + file.getName());
+                    File f = new File(externalPath + File.separator + fileParent + File.separator + file.getName());
                     intent.setDataAndType(Uri.fromFile(f), "application/pdf");
                     PackageManager pm = mContext.getPackageManager();
                     List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
@@ -97,5 +97,4 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
     public void addAll(List<File> list) {
         mDocuments.addAll(list);
     }
-
 }

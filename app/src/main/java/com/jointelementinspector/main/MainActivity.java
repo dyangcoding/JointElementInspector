@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
+            tabLayout.setSelectedTabIndicatorHeight((int) (2 * getResources().getDisplayMetrics().density));
         }
     }
 
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         }
     }
 
-    private void setUpViewPager(TabLayout tabLayout) {
+    private void setUpViewPager(final TabLayout tabLayout) {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
@@ -136,6 +137,17 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 0:
+                        tabLayout.setSelectedTabIndicatorColor(Color.BLUE);
+                        break;
+                    case 1:
+                        tabLayout.setSelectedTabIndicatorColor(Color.RED);
+                        break;
+                    case 2:
+                        tabLayout.setSelectedTabIndicatorColor(Color.GREEN);
+                        break;
+                }
             }
 
             @Override
