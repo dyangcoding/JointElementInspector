@@ -59,9 +59,21 @@ public class PhotoTabFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
-        File f = new File(storageDir);
         if (headerData != null) {
+            String specificDir = null;
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                String storageDir = mContext.getExternalFilesDir(null).toString();
+                String[] xmlFileDir = headerData.getFileDirectory().split("/");
+                specificDir = storageDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
+            } else {
+                new AlertDialog.Builder(mContext)
+                        .setIcon(R.drawable.attention48)
+                        .setTitle("External Storage not available")
+                        .setMessage("Can not reach external storage, probably has been removed.")
+                        .create().show();
+                return;
+            }
+            File f = new File(specificDir);
             if (f.isDirectory() && f.exists()) {
                 File file = new File(f.toString());
                 // 20161214 should not obtain all files, only images
@@ -78,13 +90,6 @@ public class PhotoTabFragment extends Fragment {
                 if (mGridView != null)
                     mGridView.setAdapter(gridAdapter);
             }
-            else {
-                new AlertDialog.Builder(mContext)
-                        .setIcon(R.drawable.attention48)
-                        .setTitle("Image Path not correct")
-                        .setMessage("The image path where all image to be loaded is not correct.")
-                        .create().show();
-            }
         }
     }
 
@@ -100,7 +105,7 @@ public class PhotoTabFragment extends Fragment {
     private List<File> getImages(File[] files) {
         List<File> images = new ArrayList<>();
         if (files.length > 0) {
-            for (File f: files) {
+            for (File f : files) {
                 if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png"))
                     images.add(f);
             }

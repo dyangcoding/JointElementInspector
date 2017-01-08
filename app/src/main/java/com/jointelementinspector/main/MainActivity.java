@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private static final String TITLE_OVERVIEW = "Overview";
     private static final String TITLE_DOCUMENT = "Document";
     private static final String TITLE_PHOTOS = "Photo";
-
+    private boolean inSpecificFolder = false;
+    private String mSpecificFolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +117,11 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             } catch (IOException ex) {
                 Toast.makeText(mContext, ex.getMessage(), Toast.LENGTH_LONG).show();
             }
-            Toast.makeText(mContext, " Photo is stored in: " + mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), Toast.LENGTH_LONG).show();
+            // 20170108: inform user where the photo was stored
+            if (inSpecificFolder)
+                Toast.makeText(mContext, " Photo is stored in: " + mSpecificFolder, Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(mContext, " Photo is stored in: " + mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -205,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                     "fortfahren, sind neu gemachte Bilder nicht in diesem Programm anzuzeigen. ");
             adb.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    captureImage(false, null);
+                    captureImage();
                 }
             });
             adb.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -219,10 +224,14 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             // should check if the specific folder exist
             // communication between main activity and tab photo fragment,
             // also between tab document fragment
-            String externalDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
-            File file = new File(externalDir);
+            String externalDir = mContext.getExternalFilesDir(null).toString();
+            String[] xmlFileDir = headerData.getFileDirectory().split("/");
+            String specificFolder = externalDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
+            File file = new File(specificFolder);
             if (file.isDirectory() && file.exists()) {
-                captureImage(true, file);
+                mSpecificFolder = specificFolder;
+                inSpecificFolder = true;
+                captureImage();
             } else {
                 adb.setIcon(R.drawable.attention48);
                 adb.setTitle("keine Ordner gefunden ! ");
@@ -240,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     // store images in specific folder if withSpecificFolder is true, argument file could be null
     // 20161215: TODO should create image file
     // 20170107: just use intent to capture photos und push data in the file by onActivityResult
-    private void captureImage(Boolean inSpecificFolder, File file) {
+    private void captureImage() {
         try {
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(captureIntent, CAMERA_CAPTURE);
@@ -256,7 +265,11 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = timeStamp + "_";
-        String storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        String storageDir = null;
+        if (inSpecificFolder)
+            storageDir = mSpecificFolder;
+        else
+            storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
         File f = new File(storageDir);
         File image = File.createTempFile(imageFileName, ".jpg", f);
         return image;

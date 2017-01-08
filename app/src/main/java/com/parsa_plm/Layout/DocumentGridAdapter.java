@@ -88,4 +88,14 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
     public int getItemCount() {
         return mDocuments.size();
     }
+
+    // 20170108 : add methods to support swipe refresh layout
+    public void clear() {
+        mDocuments.clear();
+    }
+
+    public void addAll(List<File> list) {
+        mDocuments.addAll(list);
+    }
+
 }

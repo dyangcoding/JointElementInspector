@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,10 @@ public class DocumentTabFragment extends Fragment {
     private OverviewTabFragment.onFragmentInteractionListener listener;
     private RecyclerView mGridView;
     private Context mContext;
-    private List<File> filePath = new ArrayList<>();
+    // 20170108: add swipe refresh layout
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String mDocumentPath;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
@@ -39,6 +44,8 @@ public class DocumentTabFragment extends Fragment {
         //20161220: change Grid Layout to staggered layout
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         mGridView.setLayoutManager(sglm);
+        // 20170108: swipe refresh layout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) documentView.findViewById(R.id.swipeContainer);
         return documentView;
     }
 
@@ -61,36 +68,53 @@ public class DocumentTabFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
-            String documentPath = headerData.getFileDirectory();
-            File documentDirectory = new File(documentPath);
-            if (documentDirectory.isDirectory() && documentDirectory.exists()) {
-                File[] files = documentDirectory.listFiles();
-                this.filePath = getPDFFiles(files);
+            mDocumentPath = headerData.getFileDirectory();
+            List<File> filePath = getPDFFiles(mDocumentPath);
+            if (filePath != null)
                 setUpDocumentAdapter(filePath);
-            }
-            else {
-                new AlertDialog.Builder(mContext)
-                        .setIcon(R.drawable.attention48)
-                        .setTitle("Document Path not correct")
-                        .setMessage("The document path where all pdf files to be loaded is not correct.")
-                        .create().show();
-            }
         }
     }
+
     // 20161223: add listener
     private void setUpDocumentAdapter(final List<File> documents) {
-        if (documents != null && documents.size() > 0) {
-            DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, new CustomItemClickListener() {
+        final DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                setUpOnClickListener(position, documents);
+            }
+        });
+        setSwipeRefresh(adapter);
+        if (mGridView != null)
+            mGridView.setAdapter(adapter);
+        Log.d("document size", String.valueOf(adapter.getItemCount()));
+    }
+
+    private void setSwipeRefresh(final DocumentGridAdapter adapter) {
+        // 20170108: swipe refresh, with clear and addAll notify works
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
-                public void onItemClick(View v, int position) {
-                    setUpOnClickListener(position, documents);
+                public void onRefresh() {
+                    // 20170108: hold reference of the old documents
+                    int oldDocumentsCount = adapter.getItemCount();
+                    adapter.clear();
+                    List<File> refreshPdfs = getPDFFiles(mDocumentPath);
+                    if (refreshPdfs != null) {
+                        adapter.addAll(refreshPdfs);
+                        adapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        if (oldDocumentsCount != refreshPdfs.size()) {
+                            int updatedItemCount = 0;
+                            updatedItemCount = refreshPdfs.size() - oldDocumentsCount;
+                            if (updatedItemCount > 0)
+                                Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
             });
-            if (mGridView != null)
-                mGridView.setAdapter(adapter);
         }
-        else
-            Toast.makeText(mContext, "Keine Dokument vorhanden.", Toast.LENGTH_LONG).show();
     }
 
     private void setUpOnClickListener(int position, List<File> documents) {
@@ -99,25 +123,39 @@ public class DocumentTabFragment extends Fragment {
         String fileParent = file.getParentFile().getName();
         File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         // 20161220: now the correct path
-        File f = new File(externalPath + "/" + fileParent + "/" + file.getName());
+        File f = new File(externalPath + File.separator + fileParent + File.separator + file.getName());
         intent.setDataAndType(Uri.fromFile(f), "application/pdf");
         PackageManager pm = mContext.getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-        if (activities.size() > 0) {
+        if (activities.size() > 0)
             mContext.startActivity(intent);
-        } else {
+        else
             Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
-        }
     }
 
-    private List<File> getPDFFiles(File[] files) {
+    private List<File> getPDFFiles(String documentPath) {
         List<File> pdfFiles = new ArrayList<>();
-        if (files != null && files.length > 0) {
-            for (File f : files) {
-                if (f.getName().toLowerCase().endsWith(".pdf"))
-                    pdfFiles.add(f);
+        File documentDir = null;
+        if (documentPath != null && !documentPath.isEmpty()) {
+            documentDir = new File(documentPath);
+            if (documentDir.isDirectory() && documentDir.exists()) {
+                File[] files = documentDir.listFiles();
+                if (files.length > 0) {
+                    for (File f : files) {
+                        if (f.getName().toLowerCase().endsWith(".pdf"))
+                            pdfFiles.add(f);
+                    }
+                } else
+                    Toast.makeText(mContext, "There is no files to open.", Toast.LENGTH_LONG).show();
+            } else {
+                new AlertDialog.Builder(mContext)
+                        .setIcon(R.drawable.attention48)
+                        .setTitle("Document Path not correct")
+                        .setMessage("The document path where all pdf files to be loaded is not correct.")
+                        .create().show();
+                return null;
             }
         }
-        return  pdfFiles;
+        return pdfFiles;
     }
 }
