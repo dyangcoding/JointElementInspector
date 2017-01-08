@@ -1,7 +1,6 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,12 @@ import java.util.List;
 
 public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.GridViewHolder> {
     private Context mContext;
-    private List<File> images;
+    private List<File> mImages;
     // 20161223: add listener
     private CustomItemClickListener mItemClickListener;
     public ImageGridAdapter(Context context, List<File> images, CustomItemClickListener listener) {
         this.mContext = context;
-        this.images = images;
+        this.mImages = images;
         this.mItemClickListener = listener;
     }
 
@@ -53,7 +52,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     public void onBindViewHolder(GridViewHolder holder, int position) {
         Picasso
                 .with(mContext)
-                .load(images.get(position))
+                .load(mImages.get(position))
                 .placeholder(R.drawable.imageplaceholder48)
                 .error(R.drawable.imageerror48)
                 .resize(180,180)
@@ -64,6 +63,14 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return mImages.size();
+    }
+
+    public void clear() {
+        mImages.clear();
+    }
+
+    public void addAll(List<File> images) {
+        mImages.addAll(images);
     }
 }

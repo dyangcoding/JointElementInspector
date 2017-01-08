@@ -7,16 +7,19 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import com.parsa_plm.Layout.CustomItemClickListener;
+import com.parsa_plm.Layout.DocumentGridAdapter;
 import com.parsa_plm.Layout.ImageDisplayActivity;
 import com.parsa_plm.Layout.ImageGridAdapter;
 
@@ -31,6 +34,8 @@ public class PhotoTabFragment extends Fragment {
     private RecyclerView mGridView;
     private ProgressDialog mProgressDialog;
     private Context mContext;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String mSpecificDir;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +43,8 @@ public class PhotoTabFragment extends Fragment {
         mGridView = (RecyclerView) photoView.findViewById(R.id.image_recycler_view);
         GridLayoutManager glm = new GridLayoutManager(mContext, 4);
         mGridView.setLayoutManager(glm);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) photoView.findViewById(R.id.photo_swipeContainer);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
         return photoView;
     }
 
@@ -60,11 +67,10 @@ public class PhotoTabFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
-            String specificDir = null;
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 String storageDir = mContext.getExternalFilesDir(null).toString();
                 String[] xmlFileDir = headerData.getFileDirectory().split("/");
-                specificDir = storageDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
+                mSpecificDir = storageDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
             } else {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.drawable.attention48)
@@ -73,23 +79,50 @@ public class PhotoTabFragment extends Fragment {
                         .create().show();
                 return;
             }
-            File f = new File(specificDir);
-            if (f.isDirectory() && f.exists()) {
-                File file = new File(f.toString());
-                // 20161214 should not obtain all files, only images
-                File[] files = file.listFiles();
-                final List<File> images = getImages(files);
-                //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
-                // 20161216: new adapter for better usability
-                ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images, new CustomItemClickListener() {
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        setUpClickListener(position, images);
-                    }
-                });
-                if (mGridView != null)
-                    mGridView.setAdapter(gridAdapter);
+            setUpPhotoAdapter(mSpecificDir);
+        }
+    }
+
+    private void setUpPhotoAdapter(String specificDir) {
+        final List<File> images = getImages(specificDir);
+        //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
+        // 20161216: new adapter for better usability
+        ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                setUpClickListener(position, images);
             }
+        });
+        setSwipeRefresh(gridAdapter);
+        if (mGridView != null)
+            mGridView.setAdapter(gridAdapter);
+    }
+
+    private void setSwipeRefresh(final ImageGridAdapter adapter) {
+        // 20170108: swipe refresh, with clear and addAll notify works
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // 20170108: hold reference of the old documents
+                    int oldPhotosCount = adapter.getItemCount();
+                    adapter.clear();
+                    List<File> refreshPhotos = getImages(mSpecificDir);
+                    if (refreshPhotos != null) {
+                        adapter.addAll(refreshPhotos);
+                        adapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        if (oldPhotosCount != refreshPhotos.size()) {
+                            int updatedItemCount = 0;
+                            updatedItemCount = refreshPhotos.size() - oldPhotosCount;
+                            if (updatedItemCount > 0)
+                                Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -102,12 +135,27 @@ public class PhotoTabFragment extends Fragment {
 
     // 20161214: wir only need images
     // 20161216: change signature
-    private List<File> getImages(File[] files) {
+    private List<File> getImages(String imagePath) {
         List<File> images = new ArrayList<>();
-        if (files.length > 0) {
-            for (File f : files) {
-                if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png"))
-                    images.add(f);
+        File photoDir = null;
+        if (imagePath != null && !imagePath.isEmpty()) {
+            photoDir = new File(imagePath);
+            if (photoDir.isDirectory() && photoDir.exists()) {
+                File[] files = photoDir.listFiles();
+                if (files.length > 0) {
+                    for (File f : files) {
+                        if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png"))
+                            images.add(f);
+                    }
+                } else
+                    Toast.makeText(mContext, "There is no photo files to show.", Toast.LENGTH_LONG).show();
+            } else {
+                new AlertDialog.Builder(mContext)
+                        .setIcon(R.drawable.attention48)
+                        .setTitle("Photo Path not correct")
+                        .setMessage("The path where all photo files to be loaded is not correct.")
+                        .create().show();
+                return null;
             }
         }
         return images;

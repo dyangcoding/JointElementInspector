@@ -45,7 +45,8 @@ public class DocumentTabFragment extends Fragment {
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         mGridView.setLayoutManager(sglm);
         // 20170108: swipe refresh layout
-        mSwipeRefreshLayout = (SwipeRefreshLayout) documentView.findViewById(R.id.swipeContainer);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) documentView.findViewById(R.id.document_swipeContainer);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
         return documentView;
     }
 
@@ -86,7 +87,6 @@ public class DocumentTabFragment extends Fragment {
         setSwipeRefresh(adapter);
         if (mGridView != null)
             mGridView.setAdapter(adapter);
-        Log.d("document size", String.valueOf(adapter.getItemCount()));
     }
 
     private void setSwipeRefresh(final DocumentGridAdapter adapter) {
@@ -146,7 +146,7 @@ public class DocumentTabFragment extends Fragment {
                             pdfFiles.add(f);
                     }
                 } else
-                    Toast.makeText(mContext, "There is no files to open.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "There is no document files to open.", Toast.LENGTH_LONG).show();
             } else {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.drawable.attention48)
