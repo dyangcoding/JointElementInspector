@@ -132,7 +132,7 @@ public class DocumentTabFragment extends Fragment {
                 Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
         }
         else
-            Toast.makeText(mContext, " Can not open file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
 
     private List<File> getPDFFiles(String documentPath) {

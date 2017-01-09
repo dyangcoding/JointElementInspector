@@ -14,7 +14,7 @@ public class ImageDisplayActivity extends Activity{
     private String file;
 
     @Override
-
+    // 20170108: TODO: should scale the image file and open original file
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displayimage);

@@ -35,7 +35,6 @@ public class PhotoTabFragment extends Fragment {
     private ProgressDialog mProgressDialog;
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private String mSpecificDir;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,16 +69,15 @@ public class PhotoTabFragment extends Fragment {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 String storageDir = mContext.getExternalFilesDir(null).toString();
                 String[] xmlFileDir = headerData.getFileDirectory().split("/");
-                mSpecificDir = storageDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
+                String specificDir = storageDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
+                setUpPhotoAdapter(specificDir);
             } else {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.drawable.attention48)
                         .setTitle("External Storage not available")
                         .setMessage("Can not reach external storage, probably has been removed.")
                         .create().show();
-                return;
             }
-            setUpPhotoAdapter(mSpecificDir);
         }
     }
 
@@ -93,12 +91,12 @@ public class PhotoTabFragment extends Fragment {
                 setUpClickListener(position, images);
             }
         });
-        setSwipeRefresh(gridAdapter);
+        setSwipeRefresh(gridAdapter, specificDir);
         if (mGridView != null)
             mGridView.setAdapter(gridAdapter);
     }
 
-    private void setSwipeRefresh(final ImageGridAdapter adapter) {
+    private void setSwipeRefresh(final ImageGridAdapter adapter, final String folderPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -107,7 +105,7 @@ public class PhotoTabFragment extends Fragment {
                     // 20170108: hold reference of the old documents
                     int oldPhotosCount = adapter.getItemCount();
                     adapter.clear();
-                    List<File> refreshPhotos = getImages(mSpecificDir);
+                    List<File> refreshPhotos = getImages(folderPath);
                     if (refreshPhotos != null) {
                         adapter.addAll(refreshPhotos);
                         adapter.notifyDataSetChanged();
@@ -136,7 +134,7 @@ public class PhotoTabFragment extends Fragment {
             mContext.startActivity(intent);
         }
         else
-            Toast.makeText(mContext, " Can not open file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
 
     // 20161214: wir only need images
