@@ -2,7 +2,6 @@ package com.parsa_plm.jointelementinspector.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,8 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.jointelementinspector.main.R;
 import com.jointelementinspector.main.ExpandableListHeader;
@@ -19,7 +16,6 @@ import com.jointelementinspector.main.ExpandableListHeader;
 
 public class OverviewTabFragment extends Fragment{
     private ExpandableListHeader headerData;
-    private onFragmentInteractionListener listener;
     // 20161020: not for sure if this is needed, cheek it out later maybe
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,14 +24,14 @@ public class OverviewTabFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_fragment_overview, container, false);
-        return rootView;
+        return inflater.inflate(R.layout.tab_fragment_overview, container, false);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Activity mainActivity = null;
+        onFragmentInteractionListener listener;
         try {
             if (context instanceof Activity)
                 mainActivity = (Activity) context;

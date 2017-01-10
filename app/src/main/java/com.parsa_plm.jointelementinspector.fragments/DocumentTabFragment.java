@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +28,10 @@ import java.util.List;
 
 public class DocumentTabFragment extends Fragment {
     private ExpandableListHeader headerData;
-    private OverviewTabFragment.onFragmentInteractionListener listener;
     private RecyclerView mGridView;
     private Context mContext;
     // 20170108: add swipe refresh layout
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private String mDocumentPath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +51,7 @@ public class DocumentTabFragment extends Fragment {
         super.onAttach(context);
         this.mContext = context;
         Activity mainActivity = null;
+        OverviewTabFragment.onFragmentInteractionListener listener;
         try {
             if (context instanceof Activity)
                 mainActivity = (Activity) context;
@@ -69,27 +66,27 @@ public class DocumentTabFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
-            mDocumentPath = headerData.getFileDirectory();
+             String mDocumentPath = headerData.getFileDirectory();
             List<File> filePath = getPDFFiles(mDocumentPath);
             if (filePath != null)
-                setUpDocumentAdapter(filePath);
+                setUpDocumentAdapter(filePath, mDocumentPath);
         }
     }
 
     // 20161223: add listener
-    private void setUpDocumentAdapter(final List<File> documents) {
+    private void setUpDocumentAdapter(final List<File> documents, final String documentPath) {
         final DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                setUpOnClickListener(position, documents);
+                setUpOnClickListener(position, documents, documentPath);
             }
         });
-        setSwipeRefresh(adapter);
+        setSwipeRefresh(adapter, documentPath);
         if (mGridView != null)
             mGridView.setAdapter(adapter);
     }
 
-    private void setSwipeRefresh(final DocumentGridAdapter adapter) {
+    private void setSwipeRefresh(final DocumentGridAdapter adapter, final String documentPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -98,7 +95,7 @@ public class DocumentTabFragment extends Fragment {
                     // 20170108: hold reference of the old documents
                     int oldDocumentsCount = adapter.getItemCount();
                     adapter.clear();
-                    List<File> refreshPdfs = getPDFFiles(mDocumentPath);
+                    List<File> refreshPdfs = getPDFFiles(documentPath);
                     if (refreshPdfs != null) {
                         adapter.addAll(refreshPdfs);
                         adapter.notifyDataSetChanged();
@@ -117,11 +114,11 @@ public class DocumentTabFragment extends Fragment {
         }
     }
     // 20170108: should check if the file exists, which has been clicked
-    private void setUpOnClickListener(int position, List<File> documents) {
+    private void setUpOnClickListener(int position, List<File> documents, String documentPath) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         File file = documents.get(position);
         // 20161220: now the correct path
-        File f = new File(mDocumentPath + File.separator + file.getName());
+        File f = new File(documentPath + File.separator + file.getName());
         if (f.exists()) {
             intent.setDataAndType(Uri.fromFile(f), "application/pdf");
             PackageManager pm = mContext.getPackageManager();

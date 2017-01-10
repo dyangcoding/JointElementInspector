@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class PagerAdapter extends FragmentPagerAdapter {
-    int mNumOfTabs;
+    private int mNumOfTabs;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -17,14 +17,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                OverviewTabFragment overviewTabFragment = new OverviewTabFragment();
-                return overviewTabFragment;
+                return new OverviewTabFragment();
             case 1:
-                DocumentTabFragment documentTabFragment = new DocumentTabFragment();
-                return documentTabFragment;
+                return new DocumentTabFragment();
             case 2:
-                PhotoTabFragment photoTabFragment = new PhotoTabFragment();
-                return photoTabFragment;
+                return new PhotoTabFragment();
             default:
                 return null;
         }

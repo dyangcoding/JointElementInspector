@@ -2,24 +2,28 @@ package com.parsa_plm.Layout;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.jointelementinspector.main.R;
 
+import java.io.File;
 
-public class ImageDisplayActivity extends Activity{
-    private String file;
 
+public class ImageDisplayActivity extends Activity {
     @Override
     // 20170108: TODO: should scale the image file and open original file
+    // 20170110: TODO: use async Task to decode image
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displayimage);
+        Context mContext = this;
         // Get Image Path
-        file = getIntent().getExtras().getString("path");
+        String file = getIntent().getExtras().getString("path");
         ImageView imageView = (ImageView) findViewById(R.id.activity_displayImageView);
         // Get Image
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -27,5 +31,6 @@ public class ImageDisplayActivity extends Activity{
         bmOptions.inSampleSize = 4;
         Bitmap bitmap = BitmapFactory.decodeFile(file, bmOptions);
         imageView.setImageBitmap(bitmap);
+
     }
 }

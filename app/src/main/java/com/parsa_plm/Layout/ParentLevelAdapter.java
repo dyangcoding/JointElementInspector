@@ -1,21 +1,16 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
-import com.parsa_plm.jointelementinspector.fragments.ProductStructureFragment;
 
-import org.w3c.dom.Text;
 
 public class ParentLevelAdapter extends BaseExpandableListAdapter{
     // 20160831: we need context for somehow

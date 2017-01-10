@@ -64,7 +64,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     public int getItemCount() {
         return mImages.size();
     }
-    // 20170108 : add methods to support swipe refresh layout
+    // 20170108 : methods to support swipe refresh layout
     public void clear() {
         mImages.clear();
     }

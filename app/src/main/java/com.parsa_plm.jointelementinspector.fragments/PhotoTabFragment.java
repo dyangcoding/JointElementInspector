@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import com.parsa_plm.Layout.CustomItemClickListener;
-import com.parsa_plm.Layout.DocumentGridAdapter;
 import com.parsa_plm.Layout.ImageDisplayActivity;
 import com.parsa_plm.Layout.ImageGridAdapter;
 
@@ -29,7 +28,6 @@ import java.util.List;
 
 public class PhotoTabFragment extends Fragment {
     private ExpandableListHeader headerData;
-    private OverviewTabFragment.onFragmentInteractionListener listener;
     // 20161216: use recycler view
     private RecyclerView mGridView;
     private ProgressDialog mProgressDialog;
@@ -52,6 +50,7 @@ public class PhotoTabFragment extends Fragment {
         super.onAttach(context);
         this.mContext = context;
         Activity mainActivity = null;
+        OverviewTabFragment.onFragmentInteractionListener listener = null;
         try {
             if (context instanceof Activity)
                 mainActivity = (Activity) context;

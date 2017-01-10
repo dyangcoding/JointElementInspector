@@ -59,4 +59,5 @@
         <item>b.i.O</item>
         <item>n.i.O</item>
     </string-array>
+    <string name="Image_PhotoFragment">Image which associated with opened xml file</string>
 </resources>
