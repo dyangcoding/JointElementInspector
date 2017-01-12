@@ -3,34 +3,38 @@ package com.parsa_plm.Layout;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.jointelementinspector.main.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
 
 public class ImageDisplayActivity extends Activity {
     @Override
-    // 20170108: TODO: should scale the image file and open original file
-    // 20170110: TODO: use async Task to decode image
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displayimage);
         Context mContext = this;
-        // Get Image Path
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        // 20170112: get the screen width and set high of resize to 0 to keep aspect ratio
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
         String file = getIntent().getExtras().getString("path");
-        ImageView imageView = (ImageView) findViewById(R.id.activity_displayImageView);
-        // Get Image
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = 4;
-        Bitmap bitmap = BitmapFactory.decodeFile(file, bmOptions);
-        imageView.setImageBitmap(bitmap);
-
+        if (file != null) {
+            File f = new File(file);
+            ImageView imageView = (ImageView) findViewById(R.id.activity_displayImageView);
+            Picasso picasso = Picasso.with(mContext);
+            picasso.setIndicatorsEnabled(true);
+            picasso
+                    .load(f)
+                    .resize(width, 0)
+                    .onlyScaleDown()
+                    .into(imageView);
+        }
     }
 }
