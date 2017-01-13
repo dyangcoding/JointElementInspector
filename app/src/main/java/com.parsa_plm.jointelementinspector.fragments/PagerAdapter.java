@@ -11,7 +11,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }
-
+    // 20170113: add visual viewer for 3d
     @Override
     public Fragment getItem(int position) {
 
