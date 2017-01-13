@@ -141,6 +141,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         }
 
         // 20161214 need to expand later, method exacting for better maintain later
+        // 20170113: two methods extracted, better readable code later
         protected ExpandableListHeader doInBackground(File... file) {
             // using Parcelable to send custom data
             // set default parameter to NotFound, if there is some thing wrong with xml parse
