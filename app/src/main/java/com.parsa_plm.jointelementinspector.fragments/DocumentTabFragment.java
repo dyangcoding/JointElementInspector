@@ -37,6 +37,10 @@ public class DocumentTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
         mGridView = (RecyclerView) documentView.findViewById(R.id.document_recycler_view);
+        mGridView.setHasFixedSize(true);
+        mGridView.setItemViewCacheSize(30);
+        mGridView.setDrawingCacheEnabled(true);
+        mGridView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         //20161220: change Grid Layout to staggered layout
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         mGridView.setLayoutManager(sglm);
@@ -81,11 +85,13 @@ public class DocumentTabFragment extends Fragment {
                 setUpOnClickListener(position, documents, documentPath);
             }
         });
+        //adapter.setHasStableIds(true);
         setSwipeRefresh(adapter, documentPath);
         if (mGridView != null)
             mGridView.setAdapter(adapter);
     }
-
+    // 20170113: use notifyDataSetChanged which update all items by data inserted, removed, bad performance
+    // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final DocumentGridAdapter adapter, final String documentPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
         if (mSwipeRefreshLayout != null) {

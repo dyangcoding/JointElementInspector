@@ -1,7 +1,6 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
@@ -30,7 +29,6 @@ public class PhotoTabFragment extends Fragment {
     private ExpandableListHeader headerData;
     // 20161216: use recycler view
     private RecyclerView mGridView;
-    private ProgressDialog mProgressDialog;
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -38,6 +36,10 @@ public class PhotoTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
         mGridView = (RecyclerView) photoView.findViewById(R.id.image_recycler_view);
+        mGridView.setHasFixedSize(true);
+        mGridView.setItemViewCacheSize(30);
+        mGridView.setDrawingCacheEnabled(true);
+        mGridView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         GridLayoutManager glm = new GridLayoutManager(mContext, 4);
         mGridView.setLayoutManager(glm);
         mSwipeRefreshLayout = (SwipeRefreshLayout) photoView.findViewById(R.id.photo_swipeContainer);
@@ -90,11 +92,13 @@ public class PhotoTabFragment extends Fragment {
                 setUpClickListener(position, images);
             }
         });
+        //gridAdapter.setHasStableIds(true);
         setSwipeRefresh(gridAdapter, specificDir);
         if (mGridView != null)
             mGridView.setAdapter(gridAdapter);
     }
-
+    // 20170113: use notifyDataSetChanged which update all items by data inserted, removed, bad performance
+    // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final ImageGridAdapter adapter, final String folderPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
         if (mSwipeRefreshLayout != null) {

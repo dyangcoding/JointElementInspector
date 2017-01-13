@@ -19,8 +19,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new OverviewTabFragment();
             case 1:
-                return new DocumentTabFragment();
+                return new VisualViewerFragment();
             case 2:
+                return new DocumentTabFragment();
+            case 3:
                 return new PhotoTabFragment();
             default:
                 return null;

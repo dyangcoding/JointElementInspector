@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private final int CAMERA_CAPTURE = 2;
     // TODO all final string should replaced for multi language support
     private static final String TITLE_OVERVIEW = "Overview";
+    // 20170113: 3d visual viewer
+    private static final String TITLE_VISUALVIEWER = "3D Viewer";
     private static final String TITLE_DOCUMENT = "Document";
     private static final String TITLE_PHOTOS = "Photo";
     private boolean inSpecificFolder = false;
@@ -89,11 +91,13 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
+            // 20170113: 3d viewer
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_VISUALVIEWER));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_DOCUMENT));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
-            tabLayout.setSelectedTabIndicatorHeight((int) (2 * getResources().getDisplayMetrics().density));
+            tabLayout.setSelectedTabIndicatorColor(Color.BLUE);
         }
     }
 
@@ -142,9 +146,12 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                         tabLayout.setSelectedTabIndicatorColor(Color.BLUE);
                         break;
                     case 1:
-                        tabLayout.setSelectedTabIndicatorColor(Color.RED);
+                        tabLayout.setSelectedTabIndicatorColor(Color.YELLOW);
                         break;
                     case 2:
+                        tabLayout.setSelectedTabIndicatorColor(Color.RED);
+                        break;
+                    case 3:
                         tabLayout.setSelectedTabIndicatorColor(Color.GREEN);
                         break;
                 }
@@ -283,8 +290,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         else
             storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
         File f = new File(storageDir);
-        File image = File.createTempFile(imageFileName, ".jpg", f);
-        return image;
+        return File.createTempFile(imageFileName, ".jpg", f);
     }
 
     @Override
@@ -295,9 +301,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     // check if external storage available for write und inform user
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state))
-            return true;
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     @Override

@@ -12,7 +12,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
-
 public class ImageDisplayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
