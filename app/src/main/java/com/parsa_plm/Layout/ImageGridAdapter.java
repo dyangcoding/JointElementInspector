@@ -1,6 +1,8 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jointelementinspector.main.R;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.util.List;
@@ -25,12 +30,13 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     }
 
     public static class GridViewHolder extends RecyclerView.ViewHolder {
+        private CardView mCardView;
         private ImageView mImageView;
         public GridViewHolder(View itemView) {
             super(itemView);
+            mCardView = (CardView) itemView.findViewById(R.id.card_view);
+            mCardView.setPreventCornerOverlap(false);
             mImageView = (ImageView) itemView.findViewById(R.id.photo_image_view);
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            mImageView.setPadding(8, 8, 8, 8);
         }
     }
     // 20161223: bind listener on view holder for better performance
@@ -50,13 +56,19 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
 
     @Override
     public void onBindViewHolder(GridViewHolder holder, int position) {
+        Transformation transformation = new RoundedTransformationBuilder()
+                .borderWidthDp(0)
+                .cornerRadiusDp(8)
+                .oval(false)
+                .build();
         Picasso
                 .with(mContext)
                 .load(mImages.get(position))
                 .placeholder(R.drawable.imageplaceholder48)
                 .error(R.drawable.imageerror48)
-                .resize(250, 180)
+                .resize(270,200)
                 .centerCrop()
+                .transform(transformation)
                 .into(holder.mImageView);
     }
 
