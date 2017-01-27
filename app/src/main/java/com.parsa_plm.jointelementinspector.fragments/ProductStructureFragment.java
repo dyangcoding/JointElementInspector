@@ -1,7 +1,10 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,8 @@ public class ProductStructureFragment extends Fragment{
     private static final String PRODUCT_STRUCTURE_PART_NAME = "Part Name";
     private static final String PRODUCT_STRUCTURE_ITEM_TYPE = "Item Type";
     private WeldJointsFragment weldJointsFragment;
+    // 20170127: try handler to add fragment
+    private final Handler handler = new Handler();
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
@@ -62,7 +67,7 @@ public class ProductStructureFragment extends Fragment{
         if (expandableListView != null) {
             // 20160831: use get Activity to obtain the context, and this is working
             expandableListView.setAdapter(new ParentLevelAdapter(getActivity(), headerData));
-            expandableListView.setIndicatorBounds(width - GetPixelFromDips(1000), width - GetPixelFromDips(10));
+            expandableListView.setIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(5));
             expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(10));
             expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                 int previousGroup = -1;
@@ -82,24 +87,44 @@ public class ProductStructureFragment extends Fragment{
                     return false;
                 }
             });
-            final List<ExpandableListItem> list = this.headerData.getChildOfOccurrence();
-            // not for sure if this gonna work
-            weldJointsFragment = (WeldJointsFragment) getParentFragment().getChildFragmentManager()
-                    .findFragmentByTag("weldJointsFragment");
-            // 20161022: handel children click to make weld points fragment visible
-            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView expandableListView, View view,
-                                            int group_position, int child_position, long id) {
-                    List<WeldPoint> listTest = list.get(group_position).getChildItemList();
-                    if (listTest != null)
-                        Toast.makeText(getContext(), " i am from structure fragment ", Toast.LENGTH_LONG).show();
-                    return true;
-                }
-            });
+            setUpChildClick(expandableListView);
         }
         return view;
     }
+
+    private void setUpChildClick(ExpandableListView expandableListView) {
+        final List<ExpandableListItem> childList = this.headerData.getChildOfOccurrence();
+        // not for sure if this gonna work
+        // weldJointsFragment = (WeldJointsFragment) getParentFragment().getChildFragmentManager()
+        //        .findFragmentByTag("weldJointsFragment");
+        // 20161022: handel children click to make weld points fragment visible
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view,
+                                        int group_position, int child_position, long id) {
+                List<WeldPoint> dataInNestedFragment = childList.get(child_position).getChildItemList();
+                FragmentManager childFragmentManager = getChildFragmentManager();
+                if (dataInNestedFragment.size() > 0) {
+                    FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
+                    WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
+                    childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");
+                    childFragTrans.commit();
+                }
+                else {
+                    // 20170127: may adds more fragment later to be removed
+                    Fragment fragment = childFragmentManager.findFragmentByTag("weldJointsFragment");
+                    if (fragment != null) {
+                        FragmentTransaction removeFragment = childFragmentManager.beginTransaction();
+                        removeFragment.remove(fragment);
+                        removeFragment.commit();
+                    }
+                    Toast.makeText(getContext(), " There is no data. ", Toast.LENGTH_LONG).show();
+                }
+                return true;
+            }
+        });
+    }
+
     private int GetPixelFromDips(float pixels) {
         // Get the screen's density scale
         final float scale = getResources().getDisplayMetrics().density;

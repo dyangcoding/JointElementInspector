@@ -20,4 +20,10 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"></ExpandableListView>
 
+    <FrameLayout
+        android:id="@+id/fragment_placeHolder_weldJoints"
+        android:name="com.parsa_plm.jointelementinspector.fragments.WeldJointsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

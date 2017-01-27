@@ -3,6 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:baselineAligned="false"
+              android:layout_gravity="center"
               android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -15,6 +16,7 @@
                                                 android:id="@+id/image_recycler_view"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
+                                                android:layout_gravity="center"
                                                 android:paddingLeft="15dp"
                                                 android:paddingRight="15dp"
                                                 android:paddingTop="10dp"

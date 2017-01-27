@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jointelementinspector.main.ExpandableListHeader;
+import com.jointelementinspector.main.ExpandableListItem;
 import com.jointelementinspector.main.R;
 
 
@@ -27,9 +28,10 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
     }
 
     // 20160831: should be 1, not the size of the child occurrence
+    // 20170127: without using second level expand list view, here should return the size
     @Override
     public int getChildrenCount(int groupPosition) {
-        return 1;
+        return this.expandableListData.getChildOfOccurrence().size();
     }
 
     @Override
@@ -39,7 +41,7 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return childPosition;
+        return this.expandableListData.getChildOfOccurrence().get(childPosition);
     }
 
     @Override
@@ -79,27 +81,32 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         listHeaderType.setText(headerType);
         return view;
     }
-
+    // 20170127: we don't need second expand list view any more, make new child view here
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
-        final ProductExpandListView secondLevelExpListView = new ProductExpandListView(this.context);
-        secondLevelExpListView.setAdapter(new SecondLevelAdapter(this.context, this.expandableListData));
-        // custom icons later
-        secondLevelExpListView.setGroupIndicator(null);
-        secondLevelExpListView.setPadding(15, 0, 0, 0);
-        //secondLevelExpListView.setChildIndicator(d);
-        /* 20161022: we do not need this code any more
-        secondLevelExpListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int previousGroup = -1;
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if (groupPosition != previousGroup)
-                    secondLevelExpListView.collapseGroup(previousGroup);
-                previousGroup = groupPosition;
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.expandlist_group_second, viewGroup, false);
+        }
+        ExpandableListItem item = (ExpandableListItem) getChild(groupPosition, childPosition);
+        if (item != null) {
+            TextView itemHeader = (TextView) view.findViewById(R.id.expandListHeader_second);
+            itemHeader.setText(item.getItemName());
+            TextView itemHeaderType = (TextView)view.findViewById(R.id.expandListHeader_second_itemType);
+            String itemType = item.getItemType();
+            itemHeaderType.setText(itemType);
+            ImageView icon = (ImageView) view.findViewById(R.id.group_icon);
+            switch (itemType.trim()) {
+                case "Design Revision":
+                    icon.setImageResource(R.drawable.design_obj_16);
+                    break;
+                case "A2_JGCRevision":
+                    icon.setImageResource(R.drawable.jgc_rev_16);
+                    break;
             }
-        });
-        */
-        return secondLevelExpListView;
+
+        }
+        return view;
     }
 
     @Override

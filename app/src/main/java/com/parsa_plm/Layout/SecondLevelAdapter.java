@@ -1,7 +1,6 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,12 @@ import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.ExpandableListItem;
 import com.jointelementinspector.main.R;
 import com.jointelementinspector.main.WeldPoint;
-
-import org.w3c.dom.Text;
+;
 
 import java.util.List;
-
+/*
+    we don't use this class any more
+ */
 public class SecondLevelAdapter extends BaseExpandableListAdapter {
     // 20160831: we need context for somehow
     private Context context;
