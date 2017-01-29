@@ -100,6 +100,7 @@ public class ProductStructureFragment extends Fragment{
                 FragmentManager childFragmentManager = getChildFragmentManager();
                 if (dataInNestedFragment.size() > 0) {
                     FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
+                    // add AW fragment to replace weld points fragment
                     WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
                     childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");
                     childFragTrans.commit();
