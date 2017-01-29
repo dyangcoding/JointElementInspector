@@ -47,8 +47,8 @@ public class VisualViewerFragment extends Fragment implements CordovaInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View visualView = inflater.inflate(R.layout.tab_fragment_visualviewer, container, false);
-        //xWalkWebView =(XWalkView)visualView.findViewById(R.id.xwalkWebView);
-        //xWalkWebView.load("https://threejs.org/examples/#webgl_geometry_teapot", null);
+        xWalkWebView =(XWalkView)visualView.findViewById(R.id.xwalkWebView);
+        xWalkWebView.load("http://www.parsa-plm.de/editor/index.html", null);
         /*
         cwv = (SystemWebView) visualView.findViewById(R.id.cordovaView);
         Config.init(getActivity());

@@ -71,6 +71,8 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.expandlist_group, viewGroup, false);
         }
+        //ImageView groupIndicator = (ImageView) view.findViewById(R.id.group_indicator);
+        //groupIndicator.setImageResource(R.drawable.groupindicator);
         // add image view to display icons
         ImageView icon = (ImageView) view.findViewById(R.id.header_icon);
         icon.setImageResource(R.drawable.io_rev_16);
@@ -95,6 +97,8 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
             TextView itemHeaderType = (TextView)view.findViewById(R.id.expandListHeader_second_itemType);
             String itemType = item.getItemType();
             itemHeaderType.setText(itemType);
+            //ImageView arrowIndicator = (ImageView) view.findViewById(R.id.arrow_indicator);
+            //arrowIndicator.setImageResource(R.drawable.arrowrechts64);
             ImageView icon = (ImageView) view.findViewById(R.id.group_icon);
             switch (itemType.trim()) {
                 case "Design Revision":

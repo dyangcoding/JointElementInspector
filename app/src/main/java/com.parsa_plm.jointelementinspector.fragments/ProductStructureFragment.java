@@ -1,7 +1,6 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,9 +27,7 @@ public class ProductStructureFragment extends Fragment{
     private static final String PRODUCT_STRUCTURE = "Product Structure";
     private static final String PRODUCT_STRUCTURE_PART_NAME = "Part Name";
     private static final String PRODUCT_STRUCTURE_ITEM_TYPE = "Item Type";
-    private WeldJointsFragment weldJointsFragment;
-    // 20170127: try handler to add fragment
-    private final Handler handler = new Handler();
+
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
@@ -67,8 +64,8 @@ public class ProductStructureFragment extends Fragment{
         if (expandableListView != null) {
             // 20160831: use get Activity to obtain the context, and this is working
             expandableListView.setAdapter(new ParentLevelAdapter(getActivity(), headerData));
-            expandableListView.setIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(5));
-            expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(10));
+            expandableListView.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(5));
+            //expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(10));
             expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                 int previousGroup = -1;
                 @Override
@@ -94,9 +91,6 @@ public class ProductStructureFragment extends Fragment{
 
     private void setUpChildClick(ExpandableListView expandableListView) {
         final List<ExpandableListItem> childList = this.headerData.getChildOfOccurrence();
-        // not for sure if this gonna work
-        // weldJointsFragment = (WeldJointsFragment) getParentFragment().getChildFragmentManager()
-        //        .findFragmentByTag("weldJointsFragment");
         // 20161022: handel children click to make weld points fragment visible
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
