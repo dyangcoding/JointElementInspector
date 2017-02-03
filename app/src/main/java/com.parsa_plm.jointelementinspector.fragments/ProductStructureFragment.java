@@ -66,29 +66,37 @@ public class ProductStructureFragment extends Fragment{
             expandableListView.setAdapter(new ParentLevelAdapter(getActivity(), headerData));
             expandableListView.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(5));
             //expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(10));
-            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-                int previousGroup = -1;
-                @Override
-                public void onGroupExpand(int i) {
-                    if (i != previousGroup) {
-                        expandableListView.collapseGroup(previousGroup);
-                        previousGroup = i;
-                    }
-                }
-            });
-            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v,
-                                            int groupPosition, long id) {
-                    setExpandListViewHeight(parent, groupPosition);
-                    return false;
-                }
-            });
+            setUpOnGroupExpandListener(expandableListView);
+            setUpOnGroupClickListener(expandableListView);
             setUpChildClick(expandableListView);
         }
         return view;
     }
 
+    private void setUpOnGroupClickListener(ExpandableListView expandableListView) {
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                setExpandListViewHeight(parent, groupPosition);
+                return false;
+            }
+        });
+    }
+
+    private void setUpOnGroupExpandListener(final ExpandableListView expandableListView) {
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
+            @Override
+            public void onGroupExpand(int i) {
+                if (i != previousGroup) {
+                    expandableListView.collapseGroup(previousGroup);
+                    previousGroup = i;
+                }
+            }
+        });
+    }
+
+    // 20170129: TODO: by multi times onclick should not add the same fragment
     private void setUpChildClick(ExpandableListView expandableListView) {
         final List<ExpandableListItem> childList = this.headerData.getChildOfOccurrence();
         // 20161022: handel children click to make weld points fragment visible
