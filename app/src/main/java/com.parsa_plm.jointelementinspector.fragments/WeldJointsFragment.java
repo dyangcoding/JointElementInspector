@@ -127,7 +127,7 @@ public class WeldJointsFragment extends Fragment {
     // soll Werte should be set from xml file
     private void setUpTableRow() {
     }
-
+    // 20170210: view.measure is now given correct value to make list height suitable
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null)
@@ -139,12 +139,12 @@ public class WeldJointsFragment extends Fragment {
             view = listAdapter.getView(i, view, listView);
             if (i == 0)
                 view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
             totalHeight += view.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight;
-        params.height = 100;
+        int height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = height;
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
