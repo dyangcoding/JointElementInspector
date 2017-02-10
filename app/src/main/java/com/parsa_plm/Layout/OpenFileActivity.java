@@ -13,8 +13,8 @@ import android.util.Log;
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.ExpandableListItem;
 import com.jointelementinspector.main.MainActivity;
+import com.jointelementinspector.main.Occurrence;
 import com.jointelementinspector.main.R;
-import com.jointelementinspector.main.WeldPoint;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -178,7 +178,6 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                 associatedAttachmentRefs = firstOccu.getAttribute("associatedAttachmentRefs");
                 // obtain child occurrence to prepare expand list
                 occurrenceRefs = firstOccu.getAttribute("occurrenceRefs");
-
                 expandableListHeader = constructHeader(instancedRef, associatedAttachmentRefs, occurrenceRefs, imagePath, occurrence, associatedAttachment
                         , designRevision, productRevision, form);
             } catch (Exception e) {
@@ -375,7 +374,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                 idsOfChildOccu = occurrenceRefs.split(" ");
             }
             // find child occurrence and create ExpandableListItem
-            // 20160829: child of child occurrence found and create WeldPoint
+            // 20160829: child of child occurrence found and create Occurrence
             for (String id : idsOfChildOccu) {
                 // local variable ExpandlistItem, recreate for every loop
                 ExpandableListItem item = null;
@@ -392,7 +391,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                 // item Nr
                 String itemNr = null;
                 // child of child occurrence, could be null
-                List<WeldPoint> itemOfChild = null;
+                List<Occurrence> itemOfChild = null;
                 for (int k = 0; k < occurrence.getLength(); ++k) {
                     Element eleChildOcc = (Element) occurrence.item(k);
                     if (id.trim().equalsIgnoreCase(eleChildOcc.getAttribute("id").trim())) {
@@ -450,8 +449,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     }
                 }
                 // 20170203: extract method for more readable
-                itemOfChild = getChildItem(occurrence, associatedAttachment, form, idsOfItemWeldPoint, itemOfChild);
-
+                itemOfChild = getChildWeldPoints(occurrence, associatedAttachment, form, idsOfItemWeldPoint, itemOfChild);
                 // now time to create ExpandablelistItem
                 if (itemName != null && itemNr != null && itemType != null) {
                     item = new ExpandableListItem(itemName, itemNr, itemType, itemOfChild != null ? itemOfChild : null);
@@ -461,7 +459,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             return childOfOccurrence;
         }
 
-        private List<WeldPoint> getChildItem(NodeList occurrence, NodeList associatedAttachment, NodeList form, String idsOfItemWeldPoint, List<WeldPoint> itemOfChild) {
+        private List<Occurrence> getChildWeldPoints(NodeList occurrence, NodeList associatedAttachment, NodeList form, String idsOfItemWeldPoint, List<Occurrence> itemOfChild) {
             // last use idsItemWeldPoint to find weld point
             // first version, obtain weld point name to display list structure, late more attribute
             if (notNullAndEmpty(idsOfItemWeldPoint)) {
@@ -471,7 +469,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     if (notNullAndEmpty(id2FindWeldPoint)) {
                         String name = null;
                         String joints_itemType = null;
-                        WeldPoint weldPoint = null;
+                        Occurrence weldPoint = null;
                         // 20161021: associated attachments to find characters
                         String associatedARs = null;
                         occuLoop:
@@ -509,12 +507,12 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                             }
                         }
                         // 20161021: map which hold all key value paar for wild points
-                        Map<String, String> character = new HashMap<>();
+                        Map<String, String> weldPointsAttrs = new HashMap<>();
                         // 20170203: extract method
-                        joints_itemType = getWeidPointsAttribute(form, id4Form, character);
+                        joints_itemType = getWeldPointAttribute(form, id4Form, weldPointsAttrs);
                         if (notNullAndEmpty(name) && notNullAndEmpty(joints_itemType)) {
                             String joins_it = joints_itemType.split(" ")[0];
-                            weldPoint = new WeldPoint(name, joins_it.trim(), character);
+                            weldPoint = new Occurrence(name, joins_it.trim(), weldPointsAttrs);
                             itemOfChild.add(weldPoint);
                         }
                     }
@@ -523,7 +521,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             return itemOfChild;
         }
 
-        private String getWeidPointsAttribute(NodeList form, String id4Form, Map<String, String> character) {
+        private String getWeldPointAttribute(NodeList form, String id4Form, Map<String, String> character) {
             String joints_itemType = null;
             if (notNullAndEmpty(id4Form)) {
                 String id4FormSplitted = id4Form.split("#")[1];
@@ -535,7 +533,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                         for (int i = 0; i < nodes.getLength(); ++i) {
                             Element eleNode = (Element) nodes.item(i);
                             String nodeTitle = eleNode.getAttribute("title");
-                            getAttribute(character, eleNode, nodeTitle);
+                            getWPAttribute(character, eleNode, nodeTitle);
                         }
                     }
                 }
@@ -543,7 +541,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             return joints_itemType;
         }
 
-        private void getAttribute(Map<String, String> character, Element eleNode, String nodeTitle) {
+        private void getWPAttribute(Map<String, String> character, Element eleNode, String nodeTitle) {
             String nodeValue;
             switch (nodeTitle) {
                 case "a2_100_Crack":

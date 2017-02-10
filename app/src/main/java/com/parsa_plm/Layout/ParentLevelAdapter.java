@@ -108,7 +108,6 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
                     icon.setImageResource(R.drawable.jgc_rev_16);
                     break;
             }
-
         }
         return view;
     }

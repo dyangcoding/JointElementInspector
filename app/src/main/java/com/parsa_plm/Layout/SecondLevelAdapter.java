@@ -11,9 +11,8 @@ import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.ExpandableListItem;
+import com.jointelementinspector.main.Occurrence;
 import com.jointelementinspector.main.R;
-import com.jointelementinspector.main.WeldPoint;
-;
 
 import java.util.List;
 /*
@@ -49,7 +48,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     }
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        List<WeldPoint> childList = null;
+        List<Occurrence> childList = null;
         childList = this.expandableListData.getChildOfOccurrence().get(groupPosition).getChildItemList();
         if (childList != null && childList.size() > 0)
             return childList.get(childPosition);
@@ -96,12 +95,12 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     // item type should also be created, later
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
-        WeldPoint weldPoint = (WeldPoint) getChild(groupPosition, childPosition);
+        Occurrence occurrence = (Occurrence) getChild(groupPosition, childPosition);
         String itemTitle = null;
         String itemType = null;
-        if (weldPoint != null) {
-            itemTitle = weldPoint.getName();
-            //itemType = weldPoint.
+        if (occurrence != null) {
+            itemTitle = occurrence.getName();
+            //itemType = occurrence.
         }
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -115,7 +114,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         listItem.setText(itemTitle);
         // 20160902: test version for item type
         TextView listItemType = (TextView) view.findViewById(R.id.expandListItem_type);
-        listItemType.setText("WeldPoint");
+        listItemType.setText("Occurrence");
         return view;
     }
     @Override

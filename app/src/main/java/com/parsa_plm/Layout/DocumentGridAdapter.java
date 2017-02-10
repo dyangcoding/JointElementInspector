@@ -46,12 +46,8 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.document_griditem, parent, false);
         final GridViewHolder viewHolder = new GridViewHolder(itemView);
         itemView.setTag(viewHolder);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mItemClickListener.onItemClick(view, viewHolder.getAdapterPosition());
-            }
-        });
+        itemView.setOnClickListener(view ->
+                mItemClickListener.onItemClick(view, viewHolder.getAdapterPosition()));
         return viewHolder;
     }
     @Override
@@ -64,23 +60,20 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
     }
     // 20161223 not used any more
     private void setUpClickListener(final File file, ImageView imageview) {
-        imageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (file != null) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    String fileParent = file.getParentFile().getName();
-                    File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                    // 20161220: now the correct path
-                    File f = new File(externalPath + File.separator + fileParent + File.separator + file.getName());
-                    intent.setDataAndType(Uri.fromFile(f), "application/pdf");
-                    PackageManager pm = mContext.getPackageManager();
-                    List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-                    if (activities.size() > 0)
-                        mContext.startActivity(intent);
-                    else
-                        Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
-                }
+        imageview.setOnClickListener(view -> {
+            if (file != null) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                String fileParent = file.getParentFile().getName();
+                File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                // 20161220: now the correct path
+                File f = new File(externalPath + File.separator + fileParent + File.separator + file.getName());
+                intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+                PackageManager pm = mContext.getPackageManager();
+                List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+                if (activities.size() > 0)
+                    mContext.startActivity(intent);
+                else
+                    Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
             }
         });
     }

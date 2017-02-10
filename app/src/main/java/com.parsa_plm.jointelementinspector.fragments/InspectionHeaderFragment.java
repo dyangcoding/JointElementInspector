@@ -13,44 +13,44 @@ import android.widget.TextView;
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class InspectionHeaderFragment extends Fragment {
     // 20161023: uses butter knife for injection
-    @Bind(R.id.RowHeaderInfo)
+    @BindView(R.id.RowHeaderInfo)
     TextView mRowHeaderInfo;
-    @Bind(R.id.RowHeaderIcon)
+    @BindView(R.id.RowHeaderIcon)
     ImageView mRowHeaderIcon;
-    @Bind(R.id.header_partName)
+    @BindView(R.id.header_partName)
     TextView mPartName;
-    @Bind(R.id.header_orderNr)
+    @BindView(R.id.header_orderNr)
     TextView mOrderNr;
-    @Bind(R.id.header_inspector)
+    @BindView(R.id.header_inspector)
     TextView mInspector;
-    @Bind(R.id.tableRow2)
+    @BindView(R.id.tableRow2)
     TableRow mTableRow2;
-    @Bind(R.id.header_partNr)
+    @BindView(R.id.header_partNr)
     TextView mPartNr;
-    @Bind(R.id.header_inspectorDate)
+    @BindView(R.id.header_inspectorDate)
     TextView mInspectorDate;
-    @Bind(R.id.header_inspectorTimeSpan)
+    @BindView(R.id.header_inspectorTimeSpan)
     TextView mInspectorTimeSpan;
-    @Bind(R.id.tableRow3)
+    @BindView(R.id.tableRow3)
     TableRow mTableRow3;
-    @Bind(R.id.header_vehicle)
+    @BindView(R.id.header_vehicle)
     TextView mVehicle;
-    @Bind(R.id.header_frequency)
+    @BindView(R.id.header_frequency)
     TextView mFrequency;
-    @Bind(R.id.header_inspectorMethod)
+    @BindView(R.id.header_inspectorMethod)
     TextView mInspectorMethod;
-    @Bind(R.id.tableRow4)
+    @BindView(R.id.tableRow4)
     TableRow mTableRow4;
-    @Bind(R.id.header_inspectorScope)
+    @BindView(R.id.header_inspectorScope)
     TextView mInspectorScope;
-    @Bind(R.id.header_inspectorNorm)
+    @BindView(R.id.header_inspectorNorm)
     TextView mInspectorNorm;
-    @Bind(R.id.tableRow5)
+    @BindView(R.id.tableRow5)
     TableRow mTableRow5;
     private ExpandableListHeader headerData;
     private boolean isVisible = true;
@@ -181,6 +181,5 @@ public class InspectionHeaderFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 }

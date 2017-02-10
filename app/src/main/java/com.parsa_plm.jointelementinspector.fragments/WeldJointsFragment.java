@@ -15,68 +15,68 @@ import android.widget.TextView;
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.ExpandableListItem;
 import com.jointelementinspector.main.R;
-import com.jointelementinspector.main.WeldPoint;
+import com.jointelementinspector.main.Occurrence;
 import com.parsa_plm.Layout.VerticalTextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WeldJointsFragment extends Fragment {
-    @Bind(R.id.weldJoints_Crack)
+    @BindView(R.id.weldJoints_Crack)
     VerticalTextView mCrack;
-    @Bind(R.id.weldJoints_CraterCrack)
+    @BindView(R.id.weldJoints_CraterCrack)
     VerticalTextView mCraterCrack;
-    @Bind(R.id.weldJoints_SurfacePore)
+    @BindView(R.id.weldJoints_SurfacePore)
     VerticalTextView mSurfacePore;
-    @Bind(R.id.weldJoints_EndCraterPipe)
+    @BindView(R.id.weldJoints_EndCraterPipe)
     VerticalTextView mEndCraterPipe;
-    @Bind(R.id.weldJoints_LackOfFusion)
+    @BindView(R.id.weldJoints_LackOfFusion)
     VerticalTextView mLackOfFusion;
-    @Bind(R.id.weldJoints_IncRootPenetration)
+    @BindView(R.id.weldJoints_IncRootPenetration)
     VerticalTextView mIncRootPenetration;
-    @Bind(R.id.weldJoints_ContinousUndercut)
+    @BindView(R.id.weldJoints_ContinousUndercut)
     VerticalTextView mContinousUndercut;
-    @Bind(R.id.weldJoints_IntUndercut)
+    @BindView(R.id.weldJoints_IntUndercut)
     VerticalTextView mIntUndercut;
-    @Bind(R.id.weldJoints_ShrinkGrooves)
+    @BindView(R.id.weldJoints_ShrinkGrooves)
     VerticalTextView mShrinkGrooves;
-    @Bind(R.id.weldJoints_ExcWeldMetal)
+    @BindView(R.id.weldJoints_ExcWeldMetal)
     VerticalTextView mExcWeldMetal;
-    @Bind(R.id.weldJoints_ExcConvex)
+    @BindView(R.id.weldJoints_ExcConvex)
     VerticalTextView mExcConvex;
-    @Bind(R.id.weldJoints_ExcPenetration)
+    @BindView(R.id.weldJoints_ExcPenetration)
     VerticalTextView mExcPenetration;
-    @Bind(R.id.weldJoints_IncWeldToe)
+    @BindView(R.id.weldJoints_IncWeldToe)
     VerticalTextView mIncWeldToe;
-    @Bind(R.id.weldJoints_Overlap)
+    @BindView(R.id.weldJoints_Overlap)
     VerticalTextView mOverlap;
-    @Bind(R.id.weldJoints_Sagging)
+    @BindView(R.id.weldJoints_Sagging)
     VerticalTextView mSagging;
-    @Bind(R.id.weldJoints_BurnThrough)
+    @BindView(R.id.weldJoints_BurnThrough)
     VerticalTextView mBurnThrough;
-    @Bind(R.id.weldJoints_IncFilledGroove)
+    @BindView(R.id.weldJoints_IncFilledGroove)
     VerticalTextView mIncFilledGroove;
-    @Bind(R.id.weldJoints_ExcAsymFilledWeld)
+    @BindView(R.id.weldJoints_ExcAsymFilledWeld)
     VerticalTextView mExcAsymFilledWeld;
-    @Bind(R.id.weldJoints_RootConcavity)
+    @BindView(R.id.weldJoints_RootConcavity)
     VerticalTextView mRootConcavity;
-    @Bind(R.id.weldJoints_RootPorosity)
+    @BindView(R.id.weldJoints_RootPorosity)
     VerticalTextView mRootPorosity;
-    @Bind(R.id.weldJoints_PoorRestart)
+    @BindView(R.id.weldJoints_PoorRestart)
     VerticalTextView mPoorRestart;
-    @Bind(R.id.weldJoints_InsThroatThick)
+    @BindView(R.id.weldJoints_InsThroatThick)
     VerticalTextView mInsThroatThick;
-    @Bind(R.id.weldJoints_ExcThoratThick)
+    @BindView(R.id.weldJoints_ExcThoratThick)
     VerticalTextView mExcThoratThick;
-    @Bind(R.id.weldJoints_ArcStrike)
+    @BindView(R.id.weldJoints_ArcStrike)
     VerticalTextView mArcStrike;
-    @Bind(R.id.weldJoints_Spatter)
+    @BindView(R.id.weldJoints_Spatter)
     VerticalTextView mSpatter;
-    @Bind(R.id.weldJoints_TempColours)
+    @BindView(R.id.weldJoints_TempColours)
     VerticalTextView mTempColours;
-    @Bind(R.id.tableRow1)
+    @BindView(R.id.tableRow1)
     TableRow mTableRow1;
     private ExpandableListHeader mHeaderData;
     private TextView jointsHeader;
@@ -109,7 +109,7 @@ public class WeldJointsFragment extends Fragment {
         jointsHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
         setUpTableRow();
         mListView = (ListView) view.findViewById(R.id.listview);
-        List<WeldPoint> dataList = null;
+        List<Occurrence> dataList = null;
         if (mHeaderData != null) {
             List<ExpandableListItem> list = mHeaderData.getChildOfOccurrence();
             for (ExpandableListItem item : list) {
@@ -151,6 +151,5 @@ public class WeldJointsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 }

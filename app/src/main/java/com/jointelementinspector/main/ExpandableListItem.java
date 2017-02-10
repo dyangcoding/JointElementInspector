@@ -18,9 +18,9 @@ public class ExpandableListItem implements Parcelable {
     // attribute represents Type
     private String itemType;
     // list of child items, could be different class, null value excepted
-    private List<WeldPoint> itemOfChild;
+    private List<Occurrence> itemOfChild;
     // null value excepted for itemOfChild
-    public ExpandableListItem(String itemName, String itemNr, String itemType, List<WeldPoint> itemOfChild) {
+    public ExpandableListItem(String itemName, String itemNr, String itemType, List<Occurrence> itemOfChild) {
         this.itemName = itemName;
         this.itemNr = itemNr;
         this.itemType = itemType;
@@ -52,14 +52,14 @@ public class ExpandableListItem implements Parcelable {
         this.itemNr = parcel.readString();
         this.itemType = parcel.readString();
         // place holder for child item list
-        List<WeldPoint> itemList = new ArrayList<>();
-        parcel.readTypedList(itemList, WeldPoint.CREATOR);
+        List<Occurrence> itemList = new ArrayList<>();
+        parcel.readTypedList(itemList, Occurrence.CREATOR);
         this.itemOfChild = itemList;
     }
     public String getItemName(){ return this.itemName; }
     public String getItemNr() { return this.itemNr; }
     public String getItemType() {return this.itemType; }
-    public List<WeldPoint> getChildItemList() { return this.itemOfChild; }
+    public List<Occurrence> getChildItemList() { return this.itemOfChild; }
     @Override
     public String toString() {
         return "ExpandableListItem{" +

@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.ExpandableListItem;
+import com.jointelementinspector.main.Occurrence;
 import com.jointelementinspector.main.R;
-import com.jointelementinspector.main.WeldPoint;
 import com.parsa_plm.Layout.ParentLevelAdapter;
 
 import java.util.List;
@@ -104,7 +104,7 @@ public class ProductStructureFragment extends Fragment{
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view,
                                         int group_position, int child_position, long id) {
-                List<WeldPoint> dataInNestedFragment = childList.get(child_position).getChildItemList();
+                List<Occurrence> dataInNestedFragment = childList.get(child_position).getChildItemList();
                 FragmentManager childFragmentManager = getChildFragmentManager();
                 if (dataInNestedFragment.size() > 0) {
                     FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();

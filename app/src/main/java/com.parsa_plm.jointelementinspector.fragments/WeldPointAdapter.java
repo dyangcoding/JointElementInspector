@@ -12,19 +12,19 @@ import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.jointelementinspector.main.Occurrence;
 import com.jointelementinspector.main.R;
-import com.jointelementinspector.main.WeldPoint;
 import com.parsa_plm.Layout.ZeroPaddingArrayAdapter;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
-    private List<WeldPoint> items;
+    private List<Occurrence> items;
     private static Context mContext;
-    public WeldPointAdapter(List<WeldPoint> items, Context context) {
+    public WeldPointAdapter(List<Occurrence> items, Context context) {
         this.items = items;
         this.mContext = context;
     }
@@ -54,7 +54,7 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
             view.setTag(viewHolder);
         } else
             viewHolder = (ViewHolder) view.getTag();
-        WeldPoint wp = (WeldPoint) getItem(i);
+        Occurrence wp = (Occurrence) getItem(i);
         viewHolder.itemName.setText(wp.getName());
         // test view, itemType should be there
         viewHolder.itemType.setText(wp.getItemType());
@@ -66,59 +66,59 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         static boolean allValid = true;
         TextView itemName;
         TextView itemType;
-        @Bind(R.id.weldPoints_resultText)
+        @BindView(R.id.weldPoints_resultText)
         TextView result;
-        @Bind(R.id.feld_Crack)
+        @BindView(R.id.feld_Crack)
         Spinner mFeldCrack;
-        @Bind(R.id.feld_CraterCrack)
+        @BindView(R.id.feld_CraterCrack)
         Spinner mFeldCraterCrack;
-        @Bind(R.id.feld_SurfacePore)
+        @BindView(R.id.feld_SurfacePore)
         Spinner mFeldSurfacePore;
-        @Bind(R.id.feld_EndCraterPipe)
+        @BindView(R.id.feld_EndCraterPipe)
         Spinner mFeldEndCraterPipe;
-        @Bind(R.id.feld_LackOfFusion)
+        @BindView(R.id.feld_LackOfFusion)
         Spinner mFeldLackOfFusion;
-        @Bind(R.id.feld_IncRootPenetration)
+        @BindView(R.id.feld_IncRootPenetration)
         Spinner mFeldIncRootPenetration;
-        @Bind(R.id.feld_ContinousUndercut)
+        @BindView(R.id.feld_ContinousUndercut)
         Spinner mFeldContinousUndercut;
-        @Bind(R.id.feld_IntUndercut)
+        @BindView(R.id.feld_IntUndercut)
         Spinner mFeldIntUndercut;
-        @Bind(R.id.feld_ShrinkGrooves)
+        @BindView(R.id.feld_ShrinkGrooves)
         Spinner mFeldShrinkGrooves;
-        @Bind(R.id.feld_ExcWeldMetal)
+        @BindView(R.id.feld_ExcWeldMetal)
         Spinner mFeldExcWeldMetal;
-        @Bind(R.id.feld_ExcConvex)
+        @BindView(R.id.feld_ExcConvex)
         Spinner mFeldExcConvex;
-        @Bind(R.id.feld_ExcPenetration)
+        @BindView(R.id.feld_ExcPenetration)
         Spinner mFeldExcPenetration;
-        @Bind(R.id.feld_IncWeldToe)
+        @BindView(R.id.feld_IncWeldToe)
         Spinner mFeldIncWeldToe;
-        @Bind(R.id.feld_Overlap)
+        @BindView(R.id.feld_Overlap)
         Spinner mFeldOverlap;
-        @Bind(R.id.feld_Sagging)
+        @BindView(R.id.feld_Sagging)
         Spinner mFeldSagging;
-        @Bind(R.id.feld_BurnThrough)
+        @BindView(R.id.feld_BurnThrough)
         Spinner mFeldBurnThrough;
-        @Bind(R.id.feld_IncFilledGroove)
+        @BindView(R.id.feld_IncFilledGroove)
         Spinner mFeldIncFilledGroove;
-        @Bind(R.id.feld_ExcAsymFilledWeld)
+        @BindView(R.id.feld_ExcAsymFilledWeld)
         Spinner mFeldExcAsymFilledWeld;
-        @Bind(R.id.feld_RootConcavity)
+        @BindView(R.id.feld_RootConcavity)
         Spinner mFeldRootConcavity;
-        @Bind(R.id.feld_RootPorosity)
+        @BindView(R.id.feld_RootPorosity)
         Spinner mFeldRootPorosity;
-        @Bind(R.id.feld_PoorRestart)
+        @BindView(R.id.feld_PoorRestart)
         Spinner mFeldPoorRestart;
-        @Bind(R.id.feld_InsThroatThick)
+        @BindView(R.id.feld_InsThroatThick)
         Spinner mFeldInsThroatThick;
-        @Bind(R.id.feld_ExcThoratThick)
+        @BindView(R.id.feld_ExcThoratThick)
         Spinner mFeldExcThoratThick;
-        @Bind(R.id.feld_ArcStrike)
+        @BindView(R.id.feld_ArcStrike)
         Spinner mFeldArcStrike;
-        @Bind(R.id.feld_Spatter)
+        @BindView(R.id.feld_Spatter)
         Spinner mFeldSpatter;
-        @Bind(R.id.feld_TempColours)
+        @BindView(R.id.feld_TempColours)
         Spinner mFeldTempColours;
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);

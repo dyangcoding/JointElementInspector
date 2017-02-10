@@ -1,7 +1,6 @@
 package com.parsa_plm.Layout;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jointelementinspector.main.R;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -40,17 +38,14 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
         }
     }
     // 20161223: bind listener on view holder for better performance
+    // 20170206: use lambda expression now
     @Override
     public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.imagegrid_item, parent, false);
         final GridViewHolder viewHolder = new GridViewHolder(itemView);
         itemView.setTag(viewHolder);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mItemClickListener.onItemClick(view, viewHolder.getAdapterPosition());
-            }
-        });
+        itemView.setOnClickListener(v ->
+                mItemClickListener.onItemClick(v, viewHolder.getAdapterPosition()));
         return viewHolder;
     }
 

@@ -6,11 +6,7 @@ import android.os.Parcelable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * this class contains weld points infos which could be edited
- * 20160826: test class version, more attribute later
- */
-public class WeldPoint implements Parcelable{
+public class ActWeld implements Parcelable{
     private String mName;
     // 20161028: item type needed
     private String mItemType;
@@ -19,7 +15,7 @@ public class WeldPoint implements Parcelable{
     private Map<String, String> mCharacter = new HashMap<>();
 
     // this is a test constructor, later more attribute
-    public WeldPoint(String name, String itemType, Map<String, String> character)
+    public ActWeld(String name, String itemType, Map<String, String> character)
     {
         this.mName = name;
         this.mItemType = itemType;
@@ -42,19 +38,19 @@ public class WeldPoint implements Parcelable{
         }
     }
 
-    public static final Parcelable.Creator<WeldPoint> CREATOR = new Parcelable.Creator<WeldPoint>(){
+    public static final Parcelable.Creator<ActWeld> CREATOR = new Parcelable.Creator<ActWeld>(){
         @Override
-        public WeldPoint createFromParcel(Parcel parcel) {
-            return new WeldPoint(parcel);
+        public ActWeld createFromParcel(Parcel parcel) {
+            return new ActWeld(parcel);
         }
 
         @Override
-        public WeldPoint[] newArray(int i) {
-            return new WeldPoint[i];
+        public ActWeld[] newArray(int i) {
+            return new ActWeld[i];
         }
     };
 
-    public WeldPoint(Parcel parcel)
+    private ActWeld(Parcel parcel)
     {
         this.mName = parcel.readString();
         this.mItemType = parcel.readString();
@@ -73,6 +69,6 @@ public class WeldPoint implements Parcelable{
     // this to String should be expanded later
     @Override
     public String toString() {
-        return "Weld Point Name: " + this.mName + "Weld Point Item type" + this.mItemType;
+        return "Act Weld Name: " + this.mName + "Act Weld Item type" + this.mItemType;
     }
 }

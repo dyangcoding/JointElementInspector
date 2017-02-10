@@ -30,7 +30,7 @@ public class ExpandableListHeader implements Parcelable{
     private List<ExpandableListItem> childOfOccurrence;
     // new class for weld point for later user, maybe use generic Type later
     // no longer used
-    // private List<WeldPoint> weldPointsOfOccurrence;
+    // private List<Occurrence> weldPointsOfOccurrence;
     // 20161214: use Builder Pattern now
     public static class Builder{
         private String partName;
