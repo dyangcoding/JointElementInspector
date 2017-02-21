@@ -4,7 +4,12 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 public class ExpandableListHeader implements Parcelable{
     private String partName;
@@ -211,6 +216,16 @@ public class ExpandableListHeader implements Parcelable{
     public String getFileDirectory() {return this.fileDirectory; }
     public String getInspectorMethod() {return this.inspectorMethod; }
     public List<ExpandableListItem> getChildOfOccurrence() { return this.childOfOccurrence; }
+
+    public void objToJsonFile() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(this.fileDirectory + File.separator + new Date() +"_Parsa_plm.json"), this);
+    }
+
+    public String objToJsonString() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(this);
+    }
     @Override
     public String toString() {
         return "Part Name: " + getPartName() + "Part Nr: " + getPartNr() + "Order Nr:" + getOrderNr() + "Inspector: "

@@ -1,26 +1,49 @@
 package com.parsa_plm.jointelementinspector.fragments;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 
 import org.xwalk.core.XWalkView;
 
 public class VisualViewerFragment extends Fragment {
     private XWalkView xWalkWebView;
+    private ExpandableListHeader headerData;
+    private Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View visualView = inflater.inflate(R.layout.tab_fragment_visualviewer, container, false);
         xWalkWebView =(XWalkView)visualView.findViewById(R.id.xwalkWebView);
+        //xWalkWebView.addJavascriptInterface();
         return visualView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext = context;
+        Activity mainActivity = null;
+        OverviewTabFragment.onFragmentInteractionListener listener;
+        try {
+            if (context instanceof Activity)
+                mainActivity = (Activity) context;
+            listener = (OverviewTabFragment.onFragmentInteractionListener) mainActivity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");
+        }
+        if (listener != null) headerData = listener.onFragmentCreated();
     }
 
     @Override
@@ -28,6 +51,8 @@ public class VisualViewerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (xWalkWebView != null)
             xWalkWebView.load("http://www.parsa-plm.de/editor/index.html", null);
+        if (headerData != null)
+            Toast.makeText(getContext(), this.headerData.getPartName(), Toast.LENGTH_LONG).show();
     }
 
     @Override

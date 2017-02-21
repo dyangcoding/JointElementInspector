@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,7 @@ public class ProductStructureFragment extends Fragment{
     private static final String PRODUCT_STRUCTURE = "Product Structure";
     private static final String PRODUCT_STRUCTURE_PART_NAME = "Part Name";
     private static final String PRODUCT_STRUCTURE_ITEM_TYPE = "Item Type";
-
+    //private ParentFragment
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
@@ -165,5 +167,12 @@ public class ProductStructureFragment extends Fragment{
         params.height = height;
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+    // 20170221: get reference of parent view pager from overview fragment
+    public ViewPager getViewPagerFromOverview() {
+        OverviewTabFragment fragmentOverview = (OverviewTabFragment) getParentFragment();
+        if (fragmentOverview != null)
+            return fragmentOverview.getParentViewPager();
+        return null;
     }
 }

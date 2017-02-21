@@ -3,14 +3,17 @@ package com.parsa_plm.jointelementinspector.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jointelementinspector.main.ExpandableListHeader;
 import com.jointelementinspector.main.ExpandableListItem;
@@ -24,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WeldJointsFragment extends Fragment {
+    private ViewPager mViewPager;
     @BindView(R.id.weldJoints_Crack)
     VerticalTextView mCrack;
     @BindView(R.id.weldJoints_CraterCrack)
@@ -121,9 +125,24 @@ public class WeldJointsFragment extends Fragment {
         WeldPointAdapter wa = new WeldPointAdapter(dataList, getContext());
         mListView.setAdapter(wa);
         setListViewHeightBasedOnChildren(mListView);
+        setViewPager();
+        setUpListItemClick();
         ButterKnife.bind(this, view);
         return view;
     }
+    // 20170221: on item click should change current view to visual view pager,
+    // we need reference to viewpager from main activity
+    private void setUpListItemClick() {
+        mListView.setClickable(true);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                if (mViewPager != null)
+                    mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
+            }
+        });
+    }
+
     // soll Werte should be set from xml file
     private void setUpTableRow() {
     }
@@ -151,5 +170,11 @@ public class WeldJointsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    private void setViewPager() {
+        ProductStructureFragment fragment = (ProductStructureFragment) getParentFragment();
+        if (fragment != null)
+            mViewPager = fragment.getViewPagerFromOverview();
     }
 }

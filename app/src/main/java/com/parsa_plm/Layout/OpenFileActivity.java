@@ -21,6 +21,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -187,8 +188,15 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         }
 
         protected void onPostExecute(ExpandableListHeader expandableListHeader) {
+            String jsonInString = null;
             if (expandableListHeader != null && this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
                 this.mProgressDialog.dismiss();
+                // 20170217: test java obj to json
+                try {
+                    expandableListHeader.objToJsonFile();
+                } catch (IOException e) {
+                    Log.d(this.getClass().toString(), e.toString());
+                }
                 Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("com.ExpandableListData", expandableListHeader);
@@ -530,15 +538,32 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
                     if (id4FormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
                         joints_itemType = eleForm.getAttribute("subType");
                         NodeList nodes = eleForm.getElementsByTagName("UserValue");
+                        // 20170217: get attribute and store in list
                         for (int i = 0; i < nodes.getLength(); ++i) {
                             Element eleNode = (Element) nodes.item(i);
                             String nodeTitle = eleNode.getAttribute("title");
                             getWPAttribute(character, eleNode, nodeTitle);
                         }
+                        // 20170217: now wir should check if attribute has default value
+                        setDefaultValue(nodes, character);
                     }
                 }
             }
             return joints_itemType;
+        }
+
+        private void setDefaultValue(NodeList nodes, Map<String, String> character) {
+            for (String key : character.keySet()) {
+                for (int i = 0; i < nodes.getLength(); ++i) {
+                    Element eleNode = (Element) nodes.item(i);
+                    String nodeTitle = eleNode.getAttribute("title");
+                    String defaultValueTitle = key + "_Soll";
+                    if (nodeTitle.trim().equalsIgnoreCase(defaultValueTitle)) {
+                        String nodeValue = eleNode.getAttribute("value");
+                        character.put(key, nodeValue);
+                    }
+                }
+            }
         }
 
         private void getWPAttribute(Map<String, String> character, Element eleNode, String nodeTitle) {

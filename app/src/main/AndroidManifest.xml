@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.jointelementinspector.main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="nosensor"
+            android:screenOrientation="landscape"
             android:excludeFromRecents="false"
             android:label="@string/app_name">
             <intent-filter>
@@ -39,11 +39,11 @@
         </activity>
         <activity android:name="com.parsa_plm.Layout.OpenFileActivity"
             android:noHistory="true"
-            android:screenOrientation="nosensor">
+            android:screenOrientation="landscape">
         </activity>
         <activity android:name="com.parsa_plm.Layout.ImageDisplayActivity"
                   android:noHistory="true"
-                  android:screenOrientation="nosensor">
+                  android:screenOrientation="landscape">
         </activity>
         <provider
             android:authorities="com.parsa_plm.jointelementinspector.fileprovider"

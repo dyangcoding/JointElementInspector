@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jointelementinspector.main.R;
 import com.jointelementinspector.main.ExpandableListHeader;
@@ -16,6 +18,8 @@ import com.jointelementinspector.main.ExpandableListHeader;
 
 public class OverviewTabFragment extends Fragment{
     private ExpandableListHeader headerData;
+    // 20170221: get reference of parent view pager
+    private ViewPager mViewPager;
     // 20161020: not for sure if this is needed, cheek it out later maybe
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,7 @@ public class OverviewTabFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewPager = (ViewPager) container;
         return inflater.inflate(R.layout.tab_fragment_overview, container, false);
     }
 
@@ -62,5 +67,10 @@ public class OverviewTabFragment extends Fragment{
     }
     public interface onFragmentInteractionListener{
         public ExpandableListHeader onFragmentCreated ();
+    }
+
+    //20170221: get reference to parent view pager so that we could active visual view pager
+    public ViewPager getParentViewPager() {
+        return mViewPager != null ? mViewPager : null;
     }
 }

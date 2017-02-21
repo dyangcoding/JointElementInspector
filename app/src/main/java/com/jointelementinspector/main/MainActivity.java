@@ -86,17 +86,17 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             headerData = bundle.getParcelable("com.ExpandableListData");
         }
     }
-
+    // 20170211: change view pager header text to icon
     private void setUpTab() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
+            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.homecolor48));
             // 20170113: 3d viewer
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_VISUALVIEWER));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_DOCUMENT));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
+            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.virtualcolor48));
+            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.documentcolor));
+            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.photoscolor48));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-            tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
+            //tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
             tabLayout.setSelectedTabIndicatorColor(Color.BLUE);
         }
     }
