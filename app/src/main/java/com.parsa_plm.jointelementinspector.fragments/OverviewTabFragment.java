@@ -32,18 +32,8 @@ public class OverviewTabFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewPager = (ViewPager) container;
         View view = inflater.inflate(R.layout.tab_fragment_overview, container, false);
-        mScrollView = (ScrollView) view.findViewById(R.id.scroll);
+        mScrollView = (ScrollView) view.findViewById(R.id.scrollView_overview);
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (mScrollView != null) {
-            mScrollView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                mScrollView.smoothScrollTo(0, mScrollView.getBottom());
-            });
-        }
     }
 
     @Override
@@ -87,5 +77,10 @@ public class OverviewTabFragment extends Fragment{
     //20170221: get reference to parent view pager so that we could active visual view pager
     public ViewPager getParentViewPager() {
         return mViewPager != null ? mViewPager : null;
+    }
+
+    // 20170223: get reference of scroll view to set listener in child fragment
+    public ScrollView getScrollView() {
+        return mScrollView;
     }
 }

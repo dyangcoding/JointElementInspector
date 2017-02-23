@@ -90,14 +90,13 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private void setUpTab() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
-            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.homecolor48));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
             // 20170113: 3d viewer
-            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.virtualcolor48));
-            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.documentcolor));
-            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.photoscolor48));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_VISUALVIEWER));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_DOCUMENT));
+            tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-            //tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#3B0B17")));
-            tabLayout.setSelectedTabIndicatorColor(Color.BLUE);
+            tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#2ecc71"));
         }
     }
 
@@ -141,26 +140,26 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                /*
                 switch (tab.getPosition()) {
                     case 0:
-                        tabLayout.setSelectedTabIndicatorColor(Color.BLUE);
+                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
                         break;
                     case 1:
-                        tabLayout.setSelectedTabIndicatorColor(Color.YELLOW);
+                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
                         break;
                     case 2:
-                        tabLayout.setSelectedTabIndicatorColor(Color.RED);
+                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
                         break;
                     case 3:
-                        tabLayout.setSelectedTabIndicatorColor(Color.GREEN);
+                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
                         break;
                 }
+                */
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }

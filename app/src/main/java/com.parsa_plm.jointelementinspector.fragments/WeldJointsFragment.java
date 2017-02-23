@@ -143,6 +143,7 @@ public class WeldJointsFragment extends Fragment {
     // soll Werte should be set from xml file
     private void setUpTableRow() {
     }
+
     // 20170210: view.measure is now given correct value to make list height suitable
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
@@ -169,6 +170,7 @@ public class WeldJointsFragment extends Fragment {
         super.onDestroyView();
     }
 
+    // 20170223: get reference of viewpager so that we could switch to tab visual view
     private void setViewPager() {
         ProductStructureFragment fragment = (ProductStructureFragment) getParentFragment();
         if (fragment != null)

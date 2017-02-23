@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:gravity="top|start"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorCustomToolBar"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -31,6 +31,7 @@
         android:background="?attr/actionBarDivider"
         android:minHeight="?attr/actionBarSize"
         app:tabTextAppearance="@style/CustomTextStyle"
+        app:tabTextColor="@color/colorCustomToolBar"
         app:tabMaxWidth="0dp"
         app:tabGravity="fill"
         app:tabMode="fixed"

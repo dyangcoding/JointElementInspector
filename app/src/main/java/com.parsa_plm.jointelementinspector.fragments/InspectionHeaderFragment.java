@@ -2,11 +2,13 @@ package com.parsa_plm.jointelementinspector.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -17,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class InspectionHeaderFragment extends Fragment {
-    // 20161023: uses butter knife for injection
+    // 20161023: use butter knife for injection
     @BindView(R.id.RowHeaderInfo)
     TextView mRowHeaderInfo;
     @BindView(R.id.RowHeaderIcon)
@@ -181,4 +183,5 @@ public class InspectionHeaderFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
 }
