@@ -77,8 +77,10 @@ public class InspectionHeaderFragment extends Fragment {
         if (bundle != null)
             headerData = bundle.getParcelable("com.ExpandableListData");
     }
+
     public InspectionHeaderFragment() {
     }
+
     public static InspectionHeaderFragment newInstance(ExpandableListHeader headerData) {
         InspectionHeaderFragment headerFragment = new InspectionHeaderFragment();
         Bundle bundle = new Bundle();
@@ -102,7 +104,7 @@ public class InspectionHeaderFragment extends Fragment {
     }
 
     private void fillTextView() {
-        sb.append(PART_NAME ).append(headerData.getPartName());
+        sb.append(PART_NAME).append(headerData.getPartName());
         mPartName.setText(sb.toString());
         clearStringBuilder(sb);
         sb.append(PART_Nr).append(headerData.getPartNr());
@@ -145,34 +147,31 @@ public class InspectionHeaderFragment extends Fragment {
     }
 
     private void setUpOnClick() {
-        mRowHeaderIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
-                    if (isVisible) {
-                        mRowHeaderIcon.setImageResource(R.drawable.expandarrow48);
-                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow2.setVisibility(View.GONE);
-                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow3.setVisibility(View.GONE);
-                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow4.setVisibility(View.GONE);
-                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow5.setVisibility(View.GONE);
-                        isVisible = false;
+        mRowHeaderIcon.setOnClickListener((view) -> {
+            if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
+                if (isVisible) {
+                    mRowHeaderIcon.setImageResource(R.drawable.expandarrow48);
+                    mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                    mTableRow2.setVisibility(View.GONE);
+                    mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                    mTableRow3.setVisibility(View.GONE);
+                    mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                    mTableRow4.setVisibility(View.GONE);
+                    mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                    mTableRow5.setVisibility(View.GONE);
+                    isVisible = false;
 
-                    } else {
-                        mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
-                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow2.setVisibility(View.VISIBLE);
-                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow3.setVisibility(View.VISIBLE);
-                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow4.setVisibility(View.VISIBLE);
-                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow5.setVisibility(View.VISIBLE);
-                        isVisible = true;
-                    }
+                } else {
+                    mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
+                    mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                    mTableRow2.setVisibility(View.VISIBLE);
+                    mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                    mTableRow3.setVisibility(View.VISIBLE);
+                    mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                    mTableRow4.setVisibility(View.VISIBLE);
+                    mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                    mTableRow5.setVisibility(View.VISIBLE);
+                    isVisible = true;
                 }
             }
         });

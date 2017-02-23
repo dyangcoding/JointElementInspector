@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ScrollView;
 
 import com.jointelementinspector.main.R;
 import com.jointelementinspector.main.ExpandableListHeader;
@@ -20,6 +20,8 @@ public class OverviewTabFragment extends Fragment{
     private ExpandableListHeader headerData;
     // 20170221: get reference of parent view pager
     private ViewPager mViewPager;
+    // 20170223: vertical scroll view should automatically scroll down when structure list get expanded
+    private ScrollView mScrollView;
     // 20161020: not for sure if this is needed, cheek it out later maybe
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,19 @@ public class OverviewTabFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewPager = (ViewPager) container;
-        return inflater.inflate(R.layout.tab_fragment_overview, container, false);
+        View view = inflater.inflate(R.layout.tab_fragment_overview, container, false);
+        mScrollView = (ScrollView) view.findViewById(R.id.scroll);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mScrollView != null) {
+            mScrollView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                mScrollView.smoothScrollTo(0, mScrollView.getBottom());
+            });
+        }
     }
 
     @Override
@@ -58,6 +72,7 @@ public class OverviewTabFragment extends Fragment{
             childFragTrans.commit();
             // 20160829: later fragment for more weld points attribute
             // 20161021: now add weld joints fragment
+            // 20170223: weld fragment is now child fragment of structure fragment
             /*
             WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
             childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");

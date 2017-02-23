@@ -86,41 +86,36 @@ public class PhotoTabFragment extends Fragment {
         final List<File> images = getImages(specificDir);
         //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
         // 20161216: new adapter for better usability
-        ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images, new CustomItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                setUpClickListener(position, images);
-            }
+        ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images, (view, position) -> {
+            setUpClickListener(position, images);
         });
         //gridAdapter.setHasStableIds(true);
         setSwipeRefresh(gridAdapter, specificDir);
         if (mGridView != null)
             mGridView.setAdapter(gridAdapter);
     }
+
     // 20170113: use notifyDataSetChanged which update all items by data inserted, removed, bad performance
     // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final ImageGridAdapter adapter, final String folderPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    // 20170108: hold reference of the old documents
-                    int oldPhotosCount = adapter.getItemCount();
-                    adapter.clear();
-                    List<File> refreshPhotos = getImages(folderPath);
-                    if (refreshPhotos != null) {
-                        adapter.addAll(refreshPhotos);
-                        adapter.notifyDataSetChanged();
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        if (oldPhotosCount != refreshPhotos.size()) {
-                            int updatedItemCount = 0;
-                            updatedItemCount = refreshPhotos.size() - oldPhotosCount;
-                            if (updatedItemCount > 0)
-                                Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
-                            else
-                                Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
-                        }
+            mSwipeRefreshLayout.setOnRefreshListener(() -> {
+                // 20170108: hold reference of the old documents
+                int oldPhotosCount = adapter.getItemCount();
+                adapter.clear();
+                List<File> refreshPhotos = getImages(folderPath);
+                if (refreshPhotos != null) {
+                    adapter.addAll(refreshPhotos);
+                    adapter.notifyDataSetChanged();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    if (oldPhotosCount != refreshPhotos.size()) {
+                        int updatedItemCount = 0;
+                        updatedItemCount = refreshPhotos.size() - oldPhotosCount;
+                        if (updatedItemCount > 0)
+                            Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -135,8 +130,7 @@ public class PhotoTabFragment extends Fragment {
         if (f.exists()) {
             intent.putExtra("path", filePath);
             mContext.startActivity(intent);
-        }
-        else
+        } else
             Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
 

@@ -23,22 +23,25 @@ import com.parsa_plm.Layout.ParentLevelAdapter;
 
 import java.util.List;
 
-public class ProductStructureFragment extends Fragment{
+public class ProductStructureFragment extends Fragment {
     // this contains the data to be displayed
     private ExpandableListHeader headerData;
     private static final String PRODUCT_STRUCTURE = "Product Structure";
     private static final String PRODUCT_STRUCTURE_PART_NAME = "Part Name";
     private static final String PRODUCT_STRUCTURE_ITEM_TYPE = "Item Type";
+
     //private ParentFragment
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null)
             headerData = bundle.getParcelable("com.ExpandableListData");
     }
 
-    public ProductStructureFragment(){}
-    public static ProductStructureFragment newInstance(ExpandableListHeader headerData){
+    public ProductStructureFragment() {
+    }
+
+    public static ProductStructureFragment newInstance(ExpandableListHeader headerData) {
         ProductStructureFragment productStructureFragment = new ProductStructureFragment();
         Bundle bundle = new Bundle();
         if (headerData != null)
@@ -76,24 +79,18 @@ public class ProductStructureFragment extends Fragment{
     }
 
     private void setUpOnGroupClickListener(ExpandableListView expandableListView) {
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        expandableListView.setOnGroupClickListener((parent, view, groupPosition, id) -> {
                 setExpandListViewHeight(parent, groupPosition);
                 return false;
-            }
         });
     }
 
     private void setUpOnGroupExpandListener(final ExpandableListView expandableListView) {
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+        expandableListView.setOnGroupExpandListener(i -> {
             int previousGroup = -1;
-            @Override
-            public void onGroupExpand(int i) {
-                if (i != previousGroup) {
-                    expandableListView.collapseGroup(previousGroup);
-                    previousGroup = i;
-                }
+            if (i != previousGroup) {
+                expandableListView.collapseGroup(previousGroup);
+                previousGroup = i;
             }
         });
     }
@@ -114,8 +111,7 @@ public class ProductStructureFragment extends Fragment{
                     WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
                     childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");
                     childFragTrans.commit();
-                }
-                else {
+                } else {
                     // 20170127: may adds more fragment later to be removed
                     Fragment fragment = childFragmentManager.findFragmentByTag("weldJointsFragment");
                     if (fragment != null) {
@@ -134,11 +130,12 @@ public class ProductStructureFragment extends Fragment{
         // Get the screen's density scale
         final float scale = getResources().getDisplayMetrics().density;
         // Convert the dps to pixels, based on density scale
-        return (int) (pixels * scale  + 0.5f);
+        return (int) (pixels * scale + 0.5f);
     }
+
     // make height of expand list view suitable
     protected void setExpandListViewHeight(ExpandableListView listView,
-                                         int group) {
+                                           int group) {
         ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
@@ -168,6 +165,7 @@ public class ProductStructureFragment extends Fragment{
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
     // 20170221: get reference of parent view pager from overview fragment
     public ViewPager getViewPagerFromOverview() {
         OverviewTabFragment fragmentOverview = (OverviewTabFragment) getParentFragment();

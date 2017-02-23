@@ -70,7 +70,7 @@ public class DocumentTabFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
-             String mDocumentPath = headerData.getFileDirectory();
+            String mDocumentPath = headerData.getFileDirectory();
             List<File> filePath = getPDFFiles(mDocumentPath);
             if (filePath != null)
                 setUpDocumentAdapter(filePath, mDocumentPath);
@@ -79,46 +79,41 @@ public class DocumentTabFragment extends Fragment {
 
     // 20161223: add listener
     private void setUpDocumentAdapter(final List<File> documents, final String documentPath) {
-        final DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, new CustomItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                setUpOnClickListener(position, documents, documentPath);
-            }
+        final DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, (view, position) -> {
+            setUpOnClickListener(position, documents, documentPath);
         });
-        //adapter.setHasStableIds(true);
         setSwipeRefresh(adapter, documentPath);
         if (mGridView != null)
             mGridView.setAdapter(adapter);
     }
+
     // 20170113: use notifyDataSetChanged which update all items by data inserted, removed, bad performance
     // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final DocumentGridAdapter adapter, final String documentPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    // 20170108: hold reference of the old documents
-                    int oldDocumentsCount = adapter.getItemCount();
-                    adapter.clear();
-                    List<File> refreshPdfs = getPDFFiles(documentPath);
-                    if (refreshPdfs != null) {
-                        adapter.addAll(refreshPdfs);
-                        adapter.notifyDataSetChanged();
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        if (oldDocumentsCount != refreshPdfs.size()) {
-                            int updatedItemCount = 0;
-                            updatedItemCount = refreshPdfs.size() - oldDocumentsCount;
-                            if (updatedItemCount > 0)
-                                Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
-                            else
-                                Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
-                        }
+            mSwipeRefreshLayout.setOnRefreshListener(() -> {
+                // 20170108: hold reference of the old documents
+                int oldDocumentsCount = adapter.getItemCount();
+                adapter.clear();
+                List<File> refreshPdfs = getPDFFiles(documentPath);
+                if (refreshPdfs != null) {
+                    adapter.addAll(refreshPdfs);
+                    adapter.notifyDataSetChanged();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    if (oldDocumentsCount != refreshPdfs.size()) {
+                        int updatedItemCount = 0;
+                        updatedItemCount = refreshPdfs.size() - oldDocumentsCount;
+                        if (updatedItemCount > 0)
+                            Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
                     }
                 }
             });
         }
     }
+
     // 20170108: should check if the file exists, which has been clicked
     private void setUpOnClickListener(int position, List<File> documents, String documentPath) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -133,8 +128,7 @@ public class DocumentTabFragment extends Fragment {
                 mContext.startActivity(intent);
             else
                 Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
-        }
-        else
+        } else
             Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
 

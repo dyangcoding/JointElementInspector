@@ -134,12 +134,9 @@ public class WeldJointsFragment extends Fragment {
     // we need reference to viewpager from main activity
     private void setUpListItemClick() {
         mListView.setClickable(true);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        mListView.setOnItemClickListener((adapterView, view, position, id) -> {
                 if (mViewPager != null)
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
-            }
         });
     }
 

@@ -51,14 +51,11 @@ public class VisualViewerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (xWalkWebView != null)
             xWalkWebView.load("http://www.parsa-plm.de/editor/index.html", null);
-        if (headerData != null)
-            Toast.makeText(getContext(), this.headerData.getPartName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        Log.i("visual fragment", "onResume: been resumed. ");
         if (xWalkWebView != null) {
             xWalkWebView.pauseTimers();
             xWalkWebView.onShow();
@@ -68,7 +65,6 @@ public class VisualViewerFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.i("visual fragment", "onPause: been paused. ");
         if (xWalkWebView != null) {
             xWalkWebView.pauseTimers();
             xWalkWebView.onHide();
@@ -78,9 +74,7 @@ public class VisualViewerFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.i("visual fragment", "onDetach: been detached. ");
         if (xWalkWebView != null)
             xWalkWebView.onDestroy();
     }
-
 }
