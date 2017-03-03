@@ -52,7 +52,7 @@
                     android:text="@string/itemType"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_Crack"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -63,7 +63,7 @@
                     android:text="@string/Crack"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_CraterCrack"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -74,7 +74,7 @@
                     android:text="@string/CraterCrack"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_SurfacePore"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -85,7 +85,7 @@
                     android:text="@string/SurfacePore"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_EndCraterPipe"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -95,7 +95,7 @@
                     android:text="@string/EndCraterPipe"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_LackOfFusion"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -104,7 +104,7 @@
                     android:text="@string/LackOfFusion"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_IncRootPenetration"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -113,7 +113,7 @@
                     android:text="@string/IncRootPenetration"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ContinousUndercut"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -122,7 +122,7 @@
                     android:text="@string/ContinousUndercut"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_IntUndercut"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -131,7 +131,7 @@
                     android:text="@string/IntUndercut"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ShrinkGrooves"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -140,7 +140,7 @@
                     android:text="@string/ShrinkGrooves"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ExcWeldMetal"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -149,7 +149,7 @@
                     android:text="@string/ExcWeldMetal"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ExcConvex"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -158,7 +158,7 @@
                     android:text="@string/ExcConvex"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ExcPenetration"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -167,7 +167,7 @@
                     android:text="@string/ExcPenetration"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_IncWeldToe"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -176,7 +176,7 @@
                     android:text="@string/IncWeldToe"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_Overlap"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -185,7 +185,7 @@
                     android:text="@string/Overlap"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_Sagging"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -194,7 +194,7 @@
                     android:text="@string/Sagging"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_BurnThrough"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -203,7 +203,7 @@
                     android:text="@string/BurnThrough"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_IncFilledGroove"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -212,7 +212,7 @@
                     android:text="@string/IncFilledGroove"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ExcAsymFilledWeld"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -221,7 +221,7 @@
                     android:text="@string/ExcAsymFilledWeld"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_RootConcavity"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -230,7 +230,7 @@
                     android:text="@string/RootConcavity"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_RootPorosity"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -239,7 +239,7 @@
                     android:text="@string/RootPorosity"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_PoorRestart"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -248,7 +248,7 @@
                     android:text="@string/PoorRestart"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_InsThroatThick"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -257,7 +257,7 @@
                     android:text="@string/InsThroatThick"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ExcThoratThick"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -266,7 +266,7 @@
                     android:text="@string/ExcThoratThick"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_ArcStrike"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -275,7 +275,7 @@
                     android:text="@string/ArcStrike"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_Spatter"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -284,7 +284,7 @@
                     android:text="@string/Spatter"
                     android:textSize="18sp"/>
 
-                <com.parsa_plm.Layout.VerticalTextView
+                <parsa_plm.com.jointelementinspector.customLayout.VerticalTextView
                     android:id="@+id/weldJoints_TempColours"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"

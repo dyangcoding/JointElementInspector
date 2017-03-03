@@ -26,7 +26,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.jointelementinspector.main.MainActivity"
+        <activity android:name="parsa_plm.com.jointelementinspector.activities.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"
             android:excludeFromRecents="false"
@@ -37,23 +37,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.parsa_plm.Layout.OpenFileActivity"
+        <activity android:name="parsa_plm.com.jointelementinspector.activities.OpenFileActivity"
             android:noHistory="true"
             android:screenOrientation="landscape">
         </activity>
-        <activity android:name="com.parsa_plm.Layout.ImageDisplayActivity"
+        <activity android:name="parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity"
                   android:noHistory="true"
                   android:screenOrientation="landscape">
         </activity>
-        <provider
-            android:authorities="com.parsa_plm.jointelementinspector.fileprovider"
-            android:name="android.support.v4.content.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
-        </provider>
     </application>
 
 </manifest>
