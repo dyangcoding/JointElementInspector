@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.fragment;
+package parsa_plm.com.jointelementinspector.fragments;
 
 import android.app.Activity;
 import android.content.Context;

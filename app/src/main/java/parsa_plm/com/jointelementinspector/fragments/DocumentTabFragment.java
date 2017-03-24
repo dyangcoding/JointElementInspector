@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.fragment;
+package parsa_plm.com.jointelementinspector.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
-import parsa_plm.com.jointelementinspector.adapter.DocumentGridAdapter;
+import parsa_plm.com.jointelementinspector.adapters.DocumentGridAdapter;
 
 import java.io.File;
 import java.util.ArrayList;

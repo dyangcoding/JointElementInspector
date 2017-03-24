@@ -8,17 +8,17 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_margin="5dp"
+                  android:layout_margin="64dp"
                   android:gravity="center_vertical|center_horizontal"
                   android:orientation="vertical">
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                   android:id="@+id/productStructureHeader"
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="6dp"
+                  android:layout_height="48dp"
+                  android:layout_gravity="left"
                   android:fontFamily="serif"
-                  android:gravity="start"
+                  android:textSize="22sp"
                   android:textStyle="normal"/>
 
         <ExpandableListView
@@ -35,7 +35,8 @@
             android:id="@+id/fragment_placeHolder_weldJoints"
             android:name="com.parsa_plm.jointelementinspector.fragments.WeldJointsFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

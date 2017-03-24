@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.fragment;
+package parsa_plm.com.jointelementinspector.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,7 +18,7 @@ import android.widget.Toast;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity;
-import parsa_plm.com.jointelementinspector.adapter.ImageGridAdapter;
+import parsa_plm.com.jointelementinspector.adapters.ImageGridAdapter;
 
 import java.io.File;
 import java.util.ArrayList;

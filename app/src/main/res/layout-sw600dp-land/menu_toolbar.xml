@@ -10,8 +10,8 @@
         android:id="@+id/menu_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         android:gravity="top|start"
-        android:background="@color/colorCustomToolBar"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -26,14 +26,12 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_below="@+id/menu_toolbar"
-        android:background="?attr/actionBarDivider"
+        android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:tabTextAppearance="@style/CustomTextStyle"
-        app:tabTextColor="@color/colorCustomToolBar"
-        app:tabMaxWidth="0dp"
-        app:tabGravity="fill"
+        app:tabGravity="center"
         app:tabMode="fixed"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:tabIndicatorHeight="3dp"/>

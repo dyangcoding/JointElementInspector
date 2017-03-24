@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.fragment;
+package parsa_plm.com.jointelementinspector.fragments;
 
 
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import parsa_plm.com.jointelementinspector.models.ExpandableListItem;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.models.Occurrence;
 import parsa_plm.com.jointelementinspector.customLayout.VerticalTextView;
-import parsa_plm.com.jointelementinspector.adapter.WeldPointAdapter;
+import parsa_plm.com.jointelementinspector.adapters.WeldPointAdapter;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.fragment;
+package parsa_plm.com.jointelementinspector.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +20,7 @@ import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.models.ExpandableListItem;
 import parsa_plm.com.jointelementinspector.models.Occurrence;
 import com.jointelementinspector.main.R;
-import parsa_plm.com.jointelementinspector.adapter.ParentLevelAdapter;
+import parsa_plm.com.jointelementinspector.adapters.ParentLevelAdapter;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         View view = inflater.inflate(R.layout.fragment_productstructure, container, false);
         mNestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedScrollView);
         TextView productStructureHeader = (TextView) view.findViewById(R.id.productStructureHeader);
-        productStructureHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+        //productStructureHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
         productStructureHeader.setText(PRODUCT_STRUCTURE);
         // 20160902: list structure item header
         // 20161111: don not need it any more

@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.adapter;
+package parsa_plm.com.jointelementinspector.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.jointelementinspector.main.R;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
-import parsa_plm.com.jointelementinspector.interfaces.CustomItemClickListener;
+import parsa_plm.com.jointelementinspector.interfaces.ICustomItemClickListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -21,8 +21,8 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     private Context mContext;
     private List<File> mImages;
     // 20161223: add listener
-    private CustomItemClickListener mItemClickListener;
-    public ImageGridAdapter(Context context, List<File> images, CustomItemClickListener listener) {
+    private ICustomItemClickListener mItemClickListener;
+    public ImageGridAdapter(Context context, List<File> images, ICustomItemClickListener listener) {
         this.mContext = context;
         this.mImages = images;
         this.mItemClickListener = listener;

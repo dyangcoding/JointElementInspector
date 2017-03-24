@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
@@ -31,9 +32,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import parsa_plm.com.jointelementinspector.adapter.PagerAdapter;
+import parsa_plm.com.jointelementinspector.adapters.PagerAdapter;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
-import parsa_plm.com.jointelementinspector.fragment.OverviewTabFragment;
+import parsa_plm.com.jointelementinspector.fragments.OverviewTabFragment;
 
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
     private ActionMenuView amvMenu;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private static final String TITLE_PHOTOS = "Photo";
     private boolean inSpecificFolder = false;
     private String mSpecificFolder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             headerData = bundle.getParcelable("com.ExpandableListData");
         }
     }
+
     // 20170211: change view pager header text to icon
     private void setUpTab() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_DOCUMENT));
             tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-            tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#2ecc71"));
+            //tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#2ecc71"));
         }
     }
 
@@ -139,22 +142,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                /*
-                switch (tab.getPosition()) {
-                    case 0:
-                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
-                        break;
-                    case 1:
-                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
-                        break;
-                    case 2:
-                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
-                        break;
-                    case 3:
-                        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#2ecc71")));
-                        break;
-                }
-                */
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -270,8 +257,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         try {
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(captureIntent, CAMERA_CAPTURE);
-        }
-        catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException e) {
             String errorMessage = " your device doesn't support capturing images! ";
             Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
             toast.show();

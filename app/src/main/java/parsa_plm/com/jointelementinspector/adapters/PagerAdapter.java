@@ -1,13 +1,13 @@
-package parsa_plm.com.jointelementinspector.adapter;
+package parsa_plm.com.jointelementinspector.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import parsa_plm.com.jointelementinspector.fragment.DocumentTabFragment;
-import parsa_plm.com.jointelementinspector.fragment.OverviewTabFragment;
-import parsa_plm.com.jointelementinspector.fragment.PhotoTabFragment;
-import parsa_plm.com.jointelementinspector.fragment.VisualViewerFragment;
+import parsa_plm.com.jointelementinspector.fragments.DocumentTabFragment;
+import parsa_plm.com.jointelementinspector.fragments.OverviewTabFragment;
+import parsa_plm.com.jointelementinspector.fragments.PhotoTabFragment;
+import parsa_plm.com.jointelementinspector.fragments.VisualViewerFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
     private int mNumOfTabs;

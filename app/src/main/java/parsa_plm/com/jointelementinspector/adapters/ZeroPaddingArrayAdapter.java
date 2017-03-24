@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.adapter;
+package parsa_plm.com.jointelementinspector.adapters;
 
 import android.content.Context;
 import android.view.Gravity;

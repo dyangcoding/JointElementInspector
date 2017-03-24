@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.fragment;
+package parsa_plm.com.jointelementinspector.fragments;
 
 
 import android.app.Activity;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import parsa_plm.com.jointelementinspector.helpers.WebViewInterface;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 
@@ -21,10 +22,9 @@ public class VisualViewerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View visualView = inflater.inflate(R.layout.tab_fragment_visualviewer, container, false);
         xWalkWebView =(XWalkView)visualView.findViewById(R.id.xwalkWebView);
-        //xWalkWebView.addJavascriptInterface();
+        xWalkWebView.addJavascriptInterface(new WebViewInterface(getContext(), headerData), "Android");
         return visualView;
     }
 
@@ -41,14 +41,15 @@ public class VisualViewerFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");
         }
-        if (listener != null) headerData = listener.onFragmentCreated();
+        if (listener != null)
+            headerData = listener.onFragmentCreated();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (xWalkWebView != null)
-            xWalkWebView.load("http://www.parsa-plm.de/editor/index.html", null);
+            xWalkWebView.load("file:///android_asset/crosswalkWeb/three.js-dev/editor/index.html", null);
     }
 
     @Override

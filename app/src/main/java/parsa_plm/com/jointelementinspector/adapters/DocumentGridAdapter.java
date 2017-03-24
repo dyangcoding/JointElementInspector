@@ -1,4 +1,4 @@
-package parsa_plm.com.jointelementinspector.adapter;
+package parsa_plm.com.jointelementinspector.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jointelementinspector.main.R;
-import parsa_plm.com.jointelementinspector.interfaces.CustomItemClickListener;
+import parsa_plm.com.jointelementinspector.interfaces.ICustomItemClickListener;
 
 import java.io.File;
 import java.util.List;
@@ -24,9 +24,9 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
     private Context mContext;
     private List<File> mDocuments;
     // 20161223: add custom listener, avoid bind listener in onBindViewHolder
-    private CustomItemClickListener mItemClickListener;
+    private ICustomItemClickListener mItemClickListener;
 
-    public DocumentGridAdapter(Context context, List<File> documents, CustomItemClickListener listener) {
+    public DocumentGridAdapter(Context context, List<File> documents, ICustomItemClickListener listener) {
         this.mContext = context;
         this.mDocuments = documents;
         this.mItemClickListener = listener;
