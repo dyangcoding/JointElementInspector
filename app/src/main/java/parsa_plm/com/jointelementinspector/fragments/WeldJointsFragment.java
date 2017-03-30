@@ -109,7 +109,6 @@ public class WeldJointsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weldjoints, container, false);
         jointsHeader = (TextView) view.findViewById(R.id.weldJointsHeaderText);
-        jointsHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
         setUpTableRow();
         mListView = (ListView) view.findViewById(R.id.listview);
         List<Occurrence> dataList = null;

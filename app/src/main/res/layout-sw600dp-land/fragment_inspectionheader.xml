@@ -169,6 +169,5 @@
             android:fontFamily="serif"
             android:textStyle="normal"
             android:textSize="18sp"/>
-
     </TableRow>
 </TableLayout>

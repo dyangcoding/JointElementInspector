@@ -57,7 +57,6 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         View view = inflater.inflate(R.layout.fragment_productstructure, container, false);
         mNestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedScrollView);
         TextView productStructureHeader = (TextView) view.findViewById(R.id.productStructureHeader);
-        //productStructureHeader.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
         productStructureHeader.setText(PRODUCT_STRUCTURE);
         // 20160902: list structure item header
         // 20161111: don not need it any more
@@ -72,7 +71,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         if (expandableListView != null) {
             // 20160831: use get Activity to obtain the context, and this is working
             expandableListView.setAdapter(new ParentLevelAdapter(getActivity(), headerData));
-            expandableListView.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(5));
+            expandableListView.setIndicatorBounds(width - GetPixelFromDips(320), width - GetPixelFromDips(5));
             //expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(10));
             setUpOnGroupExpandListener(expandableListView);
             setUpOnGroupClickListener(expandableListView);
