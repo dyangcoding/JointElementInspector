@@ -193,11 +193,13 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             if (expandableListHeader != null && this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
                 this.mProgressDialog.dismiss();
                 // 20170217: test java obj to json
+                /*
                 try {
                     expandableListHeader.objToJsonFile();
                 } catch (IOException e) {
                     Log.d(this.getClass().toString(), e.toString());
                 }
+                */
                 Intent intent = new Intent(OpenFileActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("com.ExpandableListData", expandableListHeader);

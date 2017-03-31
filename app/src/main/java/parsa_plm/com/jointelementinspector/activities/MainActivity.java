@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
@@ -33,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import parsa_plm.com.jointelementinspector.adapters.PagerAdapter;
+import parsa_plm.com.jointelementinspector.customLayout.NoSwipeViewPager;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.fragments.OverviewTabFragment;
 
@@ -132,7 +131,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     }
 
     private void setUpViewPager(final TabLayout tabLayout) {
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        // 20170331: disable swiping of view pager for better usability
+        final NoSwipeViewPager viewPager = (NoSwipeViewPager) findViewById(R.id.noSwipePager);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         // add animation for view pager, test later
