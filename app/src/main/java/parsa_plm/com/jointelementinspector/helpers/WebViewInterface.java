@@ -7,11 +7,13 @@ import android.widget.Toast;
 import java.io.File;
 
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
+import parsa_plm.com.jointelementinspector.models.ExpandableListItem;
 
 public class WebViewInterface {
     private static final String TAG = "WebViewInterface";
     private Context mContext;
     private ExpandableListHeader mListHeader;
+    private int weldPointCount = 0;
     public WebViewInterface(Context context, ExpandableListHeader listHeader) {
         this.mContext = context;
         this.mListHeader = listHeader;
@@ -21,8 +23,19 @@ public class WebViewInterface {
     // based on amount of points in visual fragment, just for test
     @org.xwalk.core.JavascriptInterface
     public boolean hasWeldPoint() {
-        Toast.makeText(mContext, "from javascript interface", Toast.LENGTH_LONG).show();
-        return this.mListHeader.getChildOfOccurrence().size() > 0;
+        boolean hasWeldPoint = false;
+        for (ExpandableListItem item: this.mListHeader.getChildOfOccurrence()) {
+            if (item.getChildItemList().size() > 0) {
+                hasWeldPoint = true;
+                weldPointCount = item.getChildItemList().size();
+            }
+        }
+        return hasWeldPoint;
+    }
+
+    @org.xwalk.core.JavascriptInterface
+    public int getWeldPointCount() {
+        return weldPointCount;
     }
 
     @org.xwalk.core.JavascriptInterface
@@ -34,5 +47,10 @@ public class WebViewInterface {
             return filePath + File.separator + "MA.stl";
         }
         return null;
+    }
+
+    @org.xwalk.core.JavascriptInterface
+    public String getFileName() {
+        return this.mListHeader.getPartName();
     }
 }

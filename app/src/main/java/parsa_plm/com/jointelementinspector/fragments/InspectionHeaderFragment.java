@@ -94,13 +94,18 @@ public class InspectionHeaderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View headerView = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
         ButterKnife.bind(this, headerView);
+        return headerView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
             mRowHeaderInfo.setText(ROWHEADER);
             mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
             setUpOnClick();
             fillTextView();
         }
-        return headerView;
     }
 
     private void fillTextView() {

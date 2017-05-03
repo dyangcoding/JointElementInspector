@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,20 +28,20 @@ import java.util.List;
 public class PhotoTabFragment extends Fragment {
     private ExpandableListHeader headerData;
     // 20161216: use recycler view
-    private RecyclerView mGridView;
+    private RecyclerView mRecyclerView;
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
-        mGridView = (RecyclerView) photoView.findViewById(R.id.image_recycler_view);
-        mGridView.setHasFixedSize(true);
-        mGridView.setItemViewCacheSize(30);
-        mGridView.setDrawingCacheEnabled(true);
-        mGridView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        GridLayoutManager glm = new GridLayoutManager(mContext, 4);
-        mGridView.setLayoutManager(glm);
+        mRecyclerView = (RecyclerView) photoView.findViewById(R.id.image_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemViewCacheSize(30);
+        mRecyclerView.setDrawingCacheEnabled(true);
+        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        GridLayoutManager glm = new GridLayoutManager(mContext, calculateColumns(mContext));
+        mRecyclerView.setLayoutManager(glm);
         mSwipeRefreshLayout = (SwipeRefreshLayout) photoView.findViewById(R.id.photo_swipeContainer);
         mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
         return photoView;
@@ -90,8 +91,8 @@ public class PhotoTabFragment extends Fragment {
         });
         //gridAdapter.setHasStableIds(true);
         setSwipeRefresh(gridAdapter, specificDir);
-        if (mGridView != null)
-            mGridView.setAdapter(gridAdapter);
+        if (mRecyclerView != null)
+            mRecyclerView.setAdapter(gridAdapter);
     }
 
     // 20170113: use notifyDataSetChanged which update all items by data inserted, removed, bad performance
@@ -112,9 +113,9 @@ public class PhotoTabFragment extends Fragment {
                         int updatedItemCount = 0;
                         updatedItemCount = refreshPhotos.size() - oldPhotosCount;
                         if (updatedItemCount > 0)
-                            Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, updatedItemCount + " Image updated.", Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, Math.abs(updatedItemCount) + " Image removed. ", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -159,6 +160,11 @@ public class PhotoTabFragment extends Fragment {
             }
         }
         return images;
+    }
+    public int calculateColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        return (int) (dpWidth / 180);
     }
 }
 
