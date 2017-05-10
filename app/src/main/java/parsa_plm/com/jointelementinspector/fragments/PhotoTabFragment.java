@@ -20,6 +20,7 @@ import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity;
 import parsa_plm.com.jointelementinspector.adapters.ImageGridAdapter;
+import parsa_plm.com.jointelementinspector.utils.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +41,8 @@ public class PhotoTabFragment extends Fragment {
         mRecyclerView.setItemViewCacheSize(30);
         mRecyclerView.setDrawingCacheEnabled(true);
         mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        GridLayoutManager glm = new GridLayoutManager(mContext, calculateColumns(mContext));
+        int columns = Utility.calculateColumns(mContext);
+        GridLayoutManager glm = new GridLayoutManager(mContext, columns);
         mRecyclerView.setLayoutManager(glm);
         mSwipeRefreshLayout = (SwipeRefreshLayout) photoView.findViewById(R.id.photo_swipeContainer);
         mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
@@ -160,11 +162,6 @@ public class PhotoTabFragment extends Fragment {
             }
         }
         return images;
-    }
-    public int calculateColumns(Context context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        return (int) (dpWidth / 180);
     }
 }
 

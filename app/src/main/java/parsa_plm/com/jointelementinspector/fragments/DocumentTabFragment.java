@@ -20,6 +20,7 @@ import android.widget.Toast;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.adapters.DocumentGridAdapter;
+import parsa_plm.com.jointelementinspector.utils.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,7 +42,8 @@ public class DocumentTabFragment extends Fragment {
         mGridView.setDrawingCacheEnabled(true);
         mGridView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         //20161220: change Grid Layout to staggered layout
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+        int columns = Utility.calculateColumns(mContext);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL);
         mGridView.setLayoutManager(sglm);
         // 20170108: swipe refresh layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) documentView.findViewById(R.id.document_swipeContainer);

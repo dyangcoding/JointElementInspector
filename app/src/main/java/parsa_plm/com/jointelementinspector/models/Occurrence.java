@@ -16,15 +16,22 @@ public class Occurrence implements Parcelable{
     private String mName;
     // 20161028: item type needed
     private String mItemType;
+    // 20170510: position in 3D
+    private int mPositionX;
+    private int mPositionY;
+    private int mPositionZ;
     // 20161021: this map hold key value in form (attributes, value)
     // needed to be initialized
     private Map<String, String> mCharacter = new HashMap<>();
 
-    // this is a test constructor, later more attribute
-    public Occurrence(String name, String itemType, Map<String, String> character)
+    // 20170504: add position for weld point
+    public Occurrence(String name, String itemType, int positionX, int positionY, int positionZ, Map<String, String> character)
     {
         this.mName = name;
         this.mItemType = itemType;
+        this.mPositionX = positionX;
+        this.mPositionY = positionY;
+        this.mPositionZ = positionZ;
         this.mCharacter = character;
     }
     @Override
@@ -36,6 +43,9 @@ public class Occurrence implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.mName);
         parcel.writeString(this.mItemType);
+        parcel.writeInt(this.mPositionX);
+        parcel.writeInt(this.mPositionY);
+        parcel.writeInt(this.mPositionZ);
         // so this is test version, do not know if it works
         parcel.writeInt(this.mCharacter.size());
         for (Map.Entry<String, String> entry: this.mCharacter.entrySet()) {
@@ -60,6 +70,9 @@ public class Occurrence implements Parcelable{
     {
         this.mName = parcel.readString();
         this.mItemType = parcel.readString();
+        this.mPositionX = parcel.readInt();
+        this.mPositionY = parcel.readInt();
+        this.mPositionZ = parcel.readInt();
         // map size
         int size = parcel.readInt();
         for (int k = 0; k < size; ++k) {
@@ -71,6 +84,9 @@ public class Occurrence implements Parcelable{
 
     public String getName() { return this.mName; }
     public String getItemType() { return this.mItemType; }
+    public int getPositionX() { return this.mPositionX; }
+    public int getPositionY() { return this.mPositionY; }
+    public int getPositionZ() { return this.mPositionZ; }
     public Map<String, String> getCharacter() { return this.mCharacter; }
     // this to String should be expanded later
     @Override

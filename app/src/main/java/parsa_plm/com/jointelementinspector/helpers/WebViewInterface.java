@@ -5,15 +5,20 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.models.ExpandableListItem;
+import parsa_plm.com.jointelementinspector.models.Occurrence;
+import parsa_plm.com.jointelementinspector.utils.Utility;
 
 public class WebViewInterface {
     private static final String TAG = "WebViewInterface";
     private Context mContext;
     private ExpandableListHeader mListHeader;
     private int weldPointCount = 0;
+
     public WebViewInterface(Context context, ExpandableListHeader listHeader) {
         this.mContext = context;
         this.mListHeader = listHeader;
@@ -24,13 +29,22 @@ public class WebViewInterface {
     @org.xwalk.core.JavascriptInterface
     public boolean hasWeldPoint() {
         boolean hasWeldPoint = false;
-        for (ExpandableListItem item: this.mListHeader.getChildOfOccurrence()) {
+        for (ExpandableListItem item : this.mListHeader.getChildOfOccurrence()) {
             if (item.getChildItemList().size() > 0) {
                 hasWeldPoint = true;
                 weldPointCount = item.getChildItemList().size();
             }
         }
         return hasWeldPoint;
+    }
+
+    @org.xwalk.core.JavascriptInterface
+    public String getWeldPointsJson() throws IOException {
+        for (ExpandableListItem item: this.mListHeader.getChildOfOccurrence()) {
+            if (item.getChildItemList().size() > 0)
+                return Utility.convertList2Json(item.getChildItemList());
+        }
+        return null;
     }
 
     @org.xwalk.core.JavascriptInterface
