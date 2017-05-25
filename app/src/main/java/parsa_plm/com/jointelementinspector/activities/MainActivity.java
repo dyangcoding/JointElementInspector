@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 .withAccountHeader(header)
                 .withActivity(this)
                 .withToolbar(menuToolBar)
+                .withSelectedItem(-1)
                 .addDrawerItems(
                         openFile,
                         openFromServer,
@@ -185,7 +186,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private AccountHeader initHeader() {
         return new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.mipmap.ic_drawerheader)
+                .withHeaderBackground(R.drawable.drawerheader)
+                .withSelectionListEnabledForSingleProfile(false)
                 .addProfiles(
                         new ProfileDrawerItem().withName("Parsa PLM GmbH")
                 )
