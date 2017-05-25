@@ -5,9 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import parsa_plm.com.jointelementinspector.helpers.WebViewInterface;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
@@ -24,10 +28,9 @@ public class VisualViewerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View visualView = inflater.inflate(R.layout.tab_fragment_visualviewer, container, false);
         xWalkWebView =(XWalkView)visualView.findViewById(R.id.xwalkWebView);
-        xWalkWebView.addJavascriptInterface(new WebViewInterface(getContext(), headerData), "Android");
+        xWalkWebView.addJavascriptInterface(new WebViewInterface(mContext, headerData), "Android");
         return visualView;
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -44,14 +47,12 @@ public class VisualViewerFragment extends Fragment {
         if (listener != null)
             headerData = listener.onFragmentCreated();
     }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (xWalkWebView != null)
             xWalkWebView.load("file:///android_asset/crosswalkWeb/three.js-dev/editor/index.html", null);
     }
-
     @Override
     public void onResume(){
         super.onResume();
@@ -60,7 +61,6 @@ public class VisualViewerFragment extends Fragment {
             xWalkWebView.onShow();
         }
     }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -69,7 +69,6 @@ public class VisualViewerFragment extends Fragment {
             xWalkWebView.onHide();
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();

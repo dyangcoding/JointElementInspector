@@ -11,13 +11,11 @@ public class ZeroPaddingArrayAdapter<T> extends ArrayAdapter{
     private ZeroPaddingArrayAdapter(Context context, int textViewResourceId, T[] objects) {
         super(context, textViewResourceId, objects);
     }
-
     public static ArrayAdapter<CharSequence> createFromResource(Context context,
                                                                 int textArrayResId, int textViewResId) {
         CharSequence[] strings = context.getResources().getTextArray(textArrayResId);
         return new ZeroPaddingArrayAdapter<CharSequence>(context, textViewResId, strings);
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
@@ -25,7 +23,6 @@ public class ZeroPaddingArrayAdapter<T> extends ArrayAdapter{
         );
         return view;
     }
-
     @Override
     public View getDropDownView(int position, View convertView,ViewGroup parent) {
         View v = super.getDropDownView(position, convertView,parent);

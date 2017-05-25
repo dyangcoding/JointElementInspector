@@ -18,13 +18,11 @@ public class VerticalTextView extends TextView {
         }else
             topDown = true;
     }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
         super.onMeasure(heightMeasureSpec, widthMeasureSpec);
         setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
     }
-
     @Override
     protected void onDraw(Canvas canvas){
         TextPaint textPaint = getPaint();

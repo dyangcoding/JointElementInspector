@@ -43,13 +43,11 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             {0},
             {1}
     };
-
     public ParseXMLFileTask(OpenFileActivity openFileActivity, Context context, String filePath) {
         this.mOpenFileActivity = openFileActivity;
         this.mFilePath = filePath;
         this.mContext = context;
     }
-
     protected void onPreExecute() {
         this.mProgressDialog = new ProgressDialog(this.mContext);
         this.mProgressDialog.setMessage("   wird geladen ...   ");
@@ -57,7 +55,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         this.mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         this.mProgressDialog.show();
     }
-
     // 20161214 need to expand later, method exacting for better maintain later
     // 20170113: two methods extracted, more readable code later
     protected ExpandableListHeader doInBackground(File... file) {
@@ -104,9 +101,7 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         }
         return expandableListHeader;
     }
-
     protected void onPostExecute(ExpandableListHeader expandableListHeader) {
-        String jsonInString = null;
         if (expandableListHeader != null && this.mProgressDialog != null && this.mProgressDialog.isShowing()) {
             this.mProgressDialog.dismiss();
             Intent intent = new Intent(mContext, MainActivity.class);
@@ -116,7 +111,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             this.mContext.startActivity(intent);
         }
     }
-
     /*
         this method find all parameter to construct the expand list header.
         extract method getChildOccurrenceList which collect child occurrence with type weld point as list
@@ -263,7 +257,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
                 .setChildOfOccurrenceList(childOfOccurrence)
                 .build();
     }
-
     private String findId4InspeAttri(String childRefs, NodeList associatedAttachment) {
         String idOfForm4InspeAttri = null;
         // first spilt string is empty
@@ -285,7 +278,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         }
         return idOfForm4InspeAttri;
     }
-
     private List<ExpandableListItem> getChildOccurrenceList(String occurrenceRefs, String formRole, NodeList occurrence, NodeList associatedAttachment,
                                                             NodeList productRevision, NodeList designRevision, NodeList form) {
         List<ExpandableListItem> childOfOccurrence = new ArrayList<>();

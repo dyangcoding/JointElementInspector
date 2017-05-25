@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <item
+        <!--item
             android:id="@+id/menu_settings"
             android:title="@string/menu_settings"
             android:icon="@drawable/settings48"
             app:showAsAction="always"
-            />
+            /-->
 
-        <item
+        <!--item
             android:id="@+id/menu_openFromServer"
             android:title="@string/menu_openFromServer"
             android:icon="@drawable/viewfile48"
@@ -49,4 +49,16 @@
             android:title="@string/menu_takePhoto"
             android:icon="@drawable/camera48"
             app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_context"
+            android:icon="@mipmap/ic_context_menu"
+            android:title="context menu"
+            app:showAsAction="ifRoom">
+                <menu>
+                        <item
+                            android:id="@+id/action_setting"
+                            android:title="Einstellung"/>
+                </menu>
+        </item-->
 </menu>

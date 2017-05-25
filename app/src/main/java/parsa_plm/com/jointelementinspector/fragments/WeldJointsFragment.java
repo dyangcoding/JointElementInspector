@@ -91,10 +91,8 @@ public class WeldJointsFragment extends Fragment {
         if (bundle != null)
             mHeaderData = bundle.getParcelable("com.ExpandableListData");
     }
-
     public WeldJointsFragment() {
     }
-
     public static WeldJointsFragment newInstance(ExpandableListHeader mHeaderData) {
         WeldJointsFragment weldJointsFragment = new WeldJointsFragment();
         Bundle bundle = new Bundle();
@@ -103,7 +101,6 @@ public class WeldJointsFragment extends Fragment {
         weldJointsFragment.setArguments(bundle);
         return weldJointsFragment;
     }
-
     // fast version
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,11 +134,9 @@ public class WeldJointsFragment extends Fragment {
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
         });
     }
-
     // soll Werte should be set from xml file
     private void setUpTableRow() {
     }
-
     // 20170210: view.measure is now given correct value to make list height suitable
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
@@ -167,7 +162,6 @@ public class WeldJointsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
-
     // 20170223: get reference of viewpager so that we could switch to tab visual view
     private void setViewPager() {
         ProductStructureFragment fragment = (ProductStructureFragment) getParentFragment();

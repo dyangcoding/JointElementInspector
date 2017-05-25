@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
 
 import parsa_plm.com.jointelementinspector.helpers.ParseXMLFileTask;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
@@ -20,6 +22,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
     // 20170106: we use external storage path to open xml file
     // private final String filePath = "/sdcard/Download";
     private Context mContext;
+    private Button mBtnCancel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,13 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         this.mContext = getApplicationContext();
         localFolders = (FolderLayout) findViewById(R.id.localFolders);
         localFolders.setIFolderItemListener(this);
+        mBtnCancel = (Button) localFolders.findViewById(R.id.btn_cancel);
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         // 20161223: test internal storage path
         File path = this.getExternalFilesDir(null);
         localFolders.setDir(path.toString());

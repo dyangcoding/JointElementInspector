@@ -23,7 +23,6 @@ public class WebViewInterface {
         this.mContext = context;
         this.mListHeader = listHeader;
     }
-
     // check if list header has weld points as children, and add sphere points
     // based on amount of points in visual fragment, just for test
     @org.xwalk.core.JavascriptInterface
@@ -37,21 +36,20 @@ public class WebViewInterface {
         }
         return hasWeldPoint;
     }
-
     @org.xwalk.core.JavascriptInterface
     public String getWeldPointsJson() throws IOException {
         for (ExpandableListItem item: this.mListHeader.getChildOfOccurrence()) {
-            if (item.getChildItemList().size() > 0)
+            if (item.getChildItemList().size() > 0) {
+                Log.i(TAG, "getWeldPointsJson: " + Utility.convertList2Json(item.getChildItemList()));
                 return Utility.convertList2Json(item.getChildItemList());
+            }
         }
         return null;
     }
-
     @org.xwalk.core.JavascriptInterface
     public int getWeldPointCount() {
         return weldPointCount;
     }
-
     @org.xwalk.core.JavascriptInterface
     public String getFilePath() {
         Log.i(TAG, "getFilePath: " + this.mListHeader.getFileDirectory());
@@ -62,7 +60,6 @@ public class WebViewInterface {
         }
         return null;
     }
-
     @org.xwalk.core.JavascriptInterface
     public String getFileName() {
         return this.mListHeader.getPartName();

@@ -106,29 +106,32 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         });
     }
 
-    // 20170129: TODO: by multi times onclick should not add the same fragment
+    // 20170129: Done: by multi times onclick should not add the same fragment
     // 20170223: TODO: refactor
+    // 20170517: same fragment is only loaded once
     private void setUpChildClick(ExpandableListView expandableListView) {
         final List<ExpandableListItem> childList = this.headerData.getChildOfOccurrence();
         // 20161022: handel children click to make weld points fragment visible
         expandableListView.setOnChildClickListener((listView, view, group_position, child_position, id) ->{
                 List<Occurrence> dataInNestedFragment = childList.get(child_position).getChildItemList();
                 FragmentManager childFragmentManager = getChildFragmentManager();
-                if (dataInNestedFragment.size() > 0) {
-                    FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
-                    // add AW fragment to replace weld points fragment
-                    WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
-                    childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");
-                    childFragTrans.commit();
+                Fragment fragment = childFragmentManager.findFragmentByTag("weldJointsFragment");
+            if (dataInNestedFragment.size() > 0) {
+                    if (fragment == null) {
+                        FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
+                        // add AW fragment to replace weld points fragment
+                        WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
+                        childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");
+                        childFragTrans.commit();
+                    }
                 } else {
                     // 20170127: may adds more fragment later to be removed
-                    Fragment fragment = childFragmentManager.findFragmentByTag("weldJointsFragment");
                     if (fragment != null) {
                         FragmentTransaction removeFragment = childFragmentManager.beginTransaction();
                         removeFragment.remove(fragment);
                         removeFragment.commit();
                     }
-                    Toast.makeText(getContext(), " There is no data. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), " Dieses Element enthaelt keine weitere Daten. ", Toast.LENGTH_LONG).show();
                 }
                 return true;
         });

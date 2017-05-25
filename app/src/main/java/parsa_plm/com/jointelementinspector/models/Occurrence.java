@@ -38,7 +38,6 @@ public class Occurrence implements Parcelable{
     public int describeContents() {
         return 0;
     }
-
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.mName);
@@ -53,7 +52,6 @@ public class Occurrence implements Parcelable{
             parcel.writeString(entry.getValue());
         }
     }
-
     public static final Parcelable.Creator<Occurrence> CREATOR = new Parcelable.Creator<Occurrence>(){
         @Override
         public Occurrence createFromParcel(Parcel parcel) {
@@ -65,7 +63,6 @@ public class Occurrence implements Parcelable{
             return new Occurrence[i];
         }
     };
-
     private Occurrence(Parcel parcel)
     {
         this.mName = parcel.readString();
@@ -81,7 +78,6 @@ public class Occurrence implements Parcelable{
             this.mCharacter.put(key, value);
         }
     }
-
     public String getName() { return this.mName; }
     public String getItemType() { return this.mItemType; }
     public int getPositionX() { return this.mPositionX; }

@@ -138,7 +138,6 @@ public class ExpandableListHeader implements Parcelable{
         public ExpandableListHeader createFromParcel(Parcel parcel) {
             return new ExpandableListHeader(parcel);
         }
-
         @Override
         public ExpandableListHeader[] newArray(int i) {
             return new ExpandableListHeader[i];

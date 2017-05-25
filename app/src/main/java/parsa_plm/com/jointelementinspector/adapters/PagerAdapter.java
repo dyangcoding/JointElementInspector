@@ -11,7 +11,6 @@ import parsa_plm.com.jointelementinspector.fragments.VisualViewerFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
     private int mNumOfTabs;
-
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
@@ -33,7 +32,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return null;
         }
     }
-
     @Override
     public int getCount() {
         return mNumOfTabs;

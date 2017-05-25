@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">PARSA PLM</string>
-    <string name="menu_settings"></string>
-    <string name="menu_openFromServer"></string>
-    <string name="menu_save"></string>
-    <string name="menu_saveAs"></string>
-    <string name="menu_JTViewer"></string>
-    <string name="menu_openPDFFromServer"></string>
-    <string name="menu_saveExcelReport"></string>
-    <string name="menu_takePhoto"></string>
+    <string name="drawer_item_openfile">Open File</string>
+    <string name="drawer_item_openFromServer">Open From Server</string>
+    <string name="drawer_item_save">Save</string>
+    <string name="drawer_item_saveAs">Save As</string>
+    <string name="drawer_item_openPDFFromServer">Open PDF From Server</string>
+    <string name="drawer_item_saveExcelReport">Save ExcelReport</string>
+    <string name="drawer_item_takePhoto">Photo</string>
+    <string name="drawer_item_aboutUs">About Us</string>
+    <string name="drawer_item_contact">Contact</string>
     <string name="folderPath">Path</string>
     <string name="partName">Part Name</string>
     <string name="itemType">Item Type</string>

@@ -27,22 +27,18 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         this.items = items;
         this.mContext = context;
     }
-
     @Override
     public int getCount() {
         return this.items.size();
     }
-
     @Override
     public Object getItem(int i) {
         return this.items.get(i);
     }
-
     @Override
     public long getItemId(int i) {
         return i;
     }
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
@@ -60,7 +56,6 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         viewHolder.result.setText("   OK  ");
         return view;
     }
-
     static class ViewHolder {
         static boolean allValid = true;
         TextView itemName;

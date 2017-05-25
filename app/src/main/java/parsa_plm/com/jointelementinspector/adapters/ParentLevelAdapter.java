@@ -26,39 +26,32 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
     public int getGroupCount() {
         return 1;
     }
-
     // 20160831: should be 1, not the size of the child occurrence
     // 20170127: without using second level expand list view, here should return the size
     @Override
     public int getChildrenCount(int groupPosition) {
         return this.expandableListData.getChildOfOccurrence().size();
     }
-
     @Override
     public Object getGroup(int groupPosition) {
         return this.expandableListData;
     }
-
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         return this.expandableListData.getChildOfOccurrence().get(childPosition);
     }
-
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
     }
-
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
-
     @Override
     public boolean hasStableIds() {
         return true;
     }
-
     @Override
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
         String headerTitle = null;
@@ -111,7 +104,6 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         }
         return view;
     }
-
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;

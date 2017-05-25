@@ -30,14 +30,12 @@ public class FolderLayout extends LinearLayout implements AdapterView.OnItemClic
 
     public FolderLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
         this.context = context;
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.folderview, this);
         myPath = (TextView) findViewById(R.id.path);
         lstView = (ListView) findViewById(R.id.list);
-        Log.i("FolderView", "Constructed");
         getDir(root, lstView);
     }
     public void setIFolderItemListener(IFolderItemListener folderItemListener) {
@@ -55,7 +53,6 @@ public class FolderLayout extends LinearLayout implements AdapterView.OnItemClic
         File f = new File(dirPath);
         File[] files = f.listFiles();
         if (!dirPath.equals(root)) {
-
             item.add(root);
             path.add(root);
             item.add("../");
@@ -86,21 +83,17 @@ public class FolderLayout extends LinearLayout implements AdapterView.OnItemClic
             if (file.canRead())
                 getDir(path.get(position), l);
             else {
-//what to do when folder is unreadable
                 if (folderListener != null) {
                     folderListener.OnCannotFileRead(file);
                 }
             }
         } else {
-//what to do when file is clicked
-//You can add more,like checking extension,and performing separate actions
             if (folderListener != null) {
                 folderListener.OnFileClicked(file);
             }
         }
     }
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        // TODO Auto-generated method stub
         onListItemClick((ListView) arg0, arg0, arg2, arg3);
     }
 }

@@ -25,7 +25,6 @@ public class ActWeld implements Parcelable{
     public int describeContents() {
         return 0;
     }
-
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.mName);
@@ -37,7 +36,6 @@ public class ActWeld implements Parcelable{
             parcel.writeString(entry.getValue());
         }
     }
-
     public static final Parcelable.Creator<ActWeld> CREATOR = new Parcelable.Creator<ActWeld>(){
         @Override
         public ActWeld createFromParcel(Parcel parcel) {
@@ -49,7 +47,6 @@ public class ActWeld implements Parcelable{
             return new ActWeld[i];
         }
     };
-
     private ActWeld(Parcel parcel)
     {
         this.mName = parcel.readString();
@@ -62,7 +59,6 @@ public class ActWeld implements Parcelable{
             this.mCharacter.put(key, value);
         }
     }
-
     public String getName() { return this.mName; }
     public String getItemType() { return this.mItemType; }
     public Map<String, String> getCharacter() { return this.mCharacter; }

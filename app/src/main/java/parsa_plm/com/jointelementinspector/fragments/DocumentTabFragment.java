@@ -50,7 +50,6 @@ public class DocumentTabFragment extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
         return documentView;
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -66,7 +65,6 @@ public class DocumentTabFragment extends Fragment {
         }
         if (listener != null) headerData = listener.onFragmentCreated();
     }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -77,7 +75,6 @@ public class DocumentTabFragment extends Fragment {
                 setUpDocumentAdapter(filePath, mDocumentPath);
         }
     }
-
     // 20161223: add listener
     private void setUpDocumentAdapter(final List<File> documents, final String documentPath) {
         final DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, (view, position) -> {
@@ -87,7 +84,6 @@ public class DocumentTabFragment extends Fragment {
         if (mGridView != null)
             mGridView.setAdapter(adapter);
     }
-
     // 20170113: use notifyDataSetChanged which update all items by data inserted, removed, bad performance
     // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final DocumentGridAdapter adapter, final String documentPath) {
@@ -114,7 +110,6 @@ public class DocumentTabFragment extends Fragment {
             });
         }
     }
-
     // 20170108: should check if the file exists, which has been clicked
     private void setUpOnClickListener(int position, List<File> documents, String documentPath) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -132,7 +127,6 @@ public class DocumentTabFragment extends Fragment {
         } else
             Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
-
     private List<File> getPDFFiles(String documentPath) {
         List<File> pdfFiles = new ArrayList<>();
         File documentDir = null;

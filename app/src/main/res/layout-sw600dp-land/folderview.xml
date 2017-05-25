@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:layout_margin="16dp"
               android:orientation="vertical">
 
     <TextView
@@ -11,7 +12,6 @@
         android:fontFamily="serif"
         android:textStyle="normal"
         android:textSize="22sp"
-        android:layout_margin="10dp"
         android:text="@string/folderPath">
     </TextView>
     <ListView
@@ -19,4 +19,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ListView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c4c8c9"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_cancel"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="8dp"
+        android:gravity="bottom|end"
+        android:text="Abbrechen"/>
 </LinearLayout>

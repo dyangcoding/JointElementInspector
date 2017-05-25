@@ -45,7 +45,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
                 mItemClickListener.onItemClick(v, viewHolder.getAdapterPosition()));
         return viewHolder;
     }
-
     @Override
     public void onBindViewHolder(GridViewHolder holder, int position) {
         Transformation transformation = new RoundedTransformationBuilder()
@@ -62,7 +61,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
                 .transform(transformation)
                 .into(holder.mImageView);
     }
-
     @Override
     public int getItemCount() {
         return mImages != null ? mImages.size() : 0;
@@ -71,7 +69,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     public void clear() {
         mImages.clear();
     }
-
     public void addAll(List<File> images) {
         mImages.addAll(images);
     }

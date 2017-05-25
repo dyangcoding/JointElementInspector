@@ -77,10 +77,8 @@ public class InspectionHeaderFragment extends Fragment {
         if (bundle != null)
             headerData = bundle.getParcelable("com.ExpandableListData");
     }
-
     public InspectionHeaderFragment() {
     }
-
     public static InspectionHeaderFragment newInstance(ExpandableListHeader headerData) {
         InspectionHeaderFragment headerFragment = new InspectionHeaderFragment();
         Bundle bundle = new Bundle();
@@ -89,14 +87,12 @@ public class InspectionHeaderFragment extends Fragment {
         headerFragment.setArguments(bundle);
         return headerFragment;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View headerView = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
         ButterKnife.bind(this, headerView);
         return headerView;
     }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -107,7 +103,6 @@ public class InspectionHeaderFragment extends Fragment {
             fillTextView();
         }
     }
-
     private void fillTextView() {
         sb.append(PART_NAME).append(headerData.getPartName());
         mPartName.setText(sb.toString());
@@ -143,14 +138,12 @@ public class InspectionHeaderFragment extends Fragment {
         mInspectorNorm.setText(sb.toString());
         clearStringBuilder(sb);
     }
-
     private void clearStringBuilder(StringBuilder sb) {
         if (sb != null) {
             sb.setLength(0);
             sb.trimToSize();
         }
     }
-
     private void setUpOnClick() {
         mRowHeaderIcon.setOnClickListener((view) -> {
             if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
@@ -181,10 +174,8 @@ public class InspectionHeaderFragment extends Fragment {
             }
         });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
-
 }

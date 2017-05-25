@@ -27,7 +27,6 @@ public class OverviewTabFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewPager = (ViewPager) container;
@@ -35,7 +34,6 @@ public class OverviewTabFragment extends Fragment{
         mScrollView = (ScrollView) view.findViewById(R.id.scrollView_overview);
         return view;
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -73,12 +71,10 @@ public class OverviewTabFragment extends Fragment{
     public interface onFragmentInteractionListener{
         public ExpandableListHeader onFragmentCreated ();
     }
-
     //20170221: get reference to parent view pager so that we could active visual view pager
     public ViewPager getParentViewPager() {
         return mViewPager != null ? mViewPager : null;
     }
-
     // 20170223: get reference of scroll view to set listener in child fragment
     public ScrollView getScrollView() {
         return mScrollView;

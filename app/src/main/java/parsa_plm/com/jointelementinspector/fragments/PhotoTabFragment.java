@@ -48,7 +48,6 @@ public class PhotoTabFragment extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
         return photoView;
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -64,7 +63,6 @@ public class PhotoTabFragment extends Fragment {
         }
         if (listener != null) headerData = listener.onFragmentCreated();
     }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -83,7 +81,6 @@ public class PhotoTabFragment extends Fragment {
             }
         }
     }
-
     private void setUpPhotoAdapter(String specificDir) {
         final List<File> images = getImages(specificDir);
         //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
@@ -96,7 +93,6 @@ public class PhotoTabFragment extends Fragment {
         if (mRecyclerView != null)
             mRecyclerView.setAdapter(gridAdapter);
     }
-
     // 20170113: use notifyDataSetChanged which update all items by data inserted, removed, bad performance
     // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final ImageGridAdapter adapter, final String folderPath) {
@@ -123,7 +119,6 @@ public class PhotoTabFragment extends Fragment {
             });
         }
     }
-
     private void setUpClickListener(int position, List<File> images) {
         Intent intent = new Intent(mContext, ImageDisplayActivity.class);
         String filePath = images.get(position).getAbsolutePath();
@@ -135,7 +130,6 @@ public class PhotoTabFragment extends Fragment {
         } else
             Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
-
     // 20161214: wir only need images
     // 20161216: change signature
     private List<File> getImages(String imagePath) {
