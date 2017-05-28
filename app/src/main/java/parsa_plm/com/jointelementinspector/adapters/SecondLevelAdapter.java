@@ -108,7 +108,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         }
         // add image view
         ImageView icon = (ImageView) view.findViewById(R.id.item_icon);
-        icon.setImageResource(R.drawable.weld_rev_16);
+        icon.setImageResource(R.mipmap.ic_weld_rev_16);
         icon.setPadding(15, 0, 10, 0);
         TextView listItem = (TextView) view.findViewById(R.id.expandListItem);
         listItem.setText(itemTitle);

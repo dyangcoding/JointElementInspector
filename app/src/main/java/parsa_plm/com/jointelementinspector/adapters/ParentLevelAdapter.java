@@ -68,7 +68,7 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
         //groupIndicator.setImageResource(R.drawable.groupindicator);
         // add image view to display icons
         ImageView icon = (ImageView) view.findViewById(R.id.header_icon);
-        icon.setImageResource(R.drawable.io_rev_16);
+        icon.setImageResource(R.mipmap.ic_io_rev_16);
         TextView listHeader = (TextView) view.findViewById(R.id.expandListHeader);
         listHeader.setText(headerTitle);
         // 20160902: add item type
@@ -95,10 +95,10 @@ public class ParentLevelAdapter extends BaseExpandableListAdapter{
             ImageView icon = (ImageView) view.findViewById(R.id.group_icon);
             switch (itemType.trim()) {
                 case "Design Revision":
-                    icon.setImageResource(R.drawable.design_obj_16);
+                    icon.setImageResource(R.mipmap.ic_design_obj_16);
                     break;
                 case "A2_JGCRevision":
-                    icon.setImageResource(R.drawable.jgc_rev_16);
+                    icon.setImageResource(R.mipmap.ic_jgc_rev_16);
                     break;
             }
         }

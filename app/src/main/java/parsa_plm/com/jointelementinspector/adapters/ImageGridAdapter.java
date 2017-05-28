@@ -54,8 +54,8 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
         Picasso
                 .with(mContext)
                 .load(mImages.get(position))
-                .placeholder(R.drawable.imageplaceholder48)
-                .error(R.drawable.imageerror48)
+                .placeholder(R.mipmap.ic_loadimageplaceholder)
+                .error(R.mipmap.ic_loadimageerror)
                 .resize(350,350)
                 .centerCrop()
                 .transform(transformation)

@@ -98,7 +98,7 @@ public class InspectionHeaderFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
             mRowHeaderInfo.setText(ROWHEADER);
-            mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
+            mRowHeaderIcon.setImageResource(R.mipmap.ic_collapse);
             setUpOnClick();
             fillTextView();
         }
@@ -148,7 +148,7 @@ public class InspectionHeaderFragment extends Fragment {
         mRowHeaderIcon.setOnClickListener((view) -> {
             if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
                 if (isVisible) {
-                    mRowHeaderIcon.setImageResource(R.drawable.expandarrow48);
+                    mRowHeaderIcon.setImageResource(R.mipmap.ic_expand);
                     mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
                     mTableRow2.setVisibility(View.GONE);
                     mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
@@ -160,7 +160,7 @@ public class InspectionHeaderFragment extends Fragment {
                     isVisible = false;
 
                 } else {
-                    mRowHeaderIcon.setImageResource(R.drawable.collapsearrow48);
+                    mRowHeaderIcon.setImageResource(R.mipmap.ic_collapse);
                     mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
                     mTableRow2.setVisibility(View.VISIBLE);
                     mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));

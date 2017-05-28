@@ -55,7 +55,7 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
     public void onBindViewHolder(GridViewHolder holder, int position) {
         String file = mDocuments.get(position).getName();
         holder.mTextView.setText(file);
-        holder.mImageView.setImageResource(R.drawable.pdf96);
+        holder.mImageView.setImageResource(R.mipmap.ic_pdf);
         // 20161223: bad practice, should not bind listener for every object here
         // setUpClickListener(mDocuments.get(position), holder.mImageView);
     }

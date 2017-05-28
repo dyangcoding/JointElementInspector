@@ -44,9 +44,6 @@ import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.fragments.OverviewTabFragment;
 
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
-    private ActionMenuView amvMenu;
-    // 20170525: make viewpager inside toolbar
-    private SlidingTabLayout mSlidingTabLayout;
     private ExpandableListHeader headerData;
     private Context mContext;
     // 20161101: make it global
@@ -79,49 +76,34 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             menuToolBar.setTitle("");
             setSupportActionBar(menuToolBar);
             initDrawer(menuToolBar);
-            // 20170524: we try drawer layout
-            //amvMenu = (ActionMenuView) menuToolBar.findViewById(R.id.amvMenu);
         }
-        /*
-        amvMenu.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                return onOptionsItemSelected(menuItem);
-            }
-        });
-        */
         // data transport from open file activity
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
+        if (bundle != null)
             headerData = bundle.getParcelable("com.ExpandableListData");
-            // 20170524: after open File, we need reload visualViewTab to show 3D object
-        }
         // 2016114: extract method
         // 20170525: we make viewpager inside toolbar for better look and feel
         setUpTab();
-
         setUpViewPager(tabLayout);
-        // setUpViewPager();
     }
-
     private void initDrawer(Toolbar menuToolBar) {
         PrimaryDrawerItem openFile = new PrimaryDrawerItem()
-                .withIcon(R.drawable.viewfile48)
+                .withIcon(R.mipmap.ic_viewfile)
                 .withName(R.string.drawer_item_openfile);
         PrimaryDrawerItem openFromServer = new PrimaryDrawerItem()
-                .withIcon(R.drawable.document48)
+                .withIcon(R.mipmap.ic_doc)
                 .withName(R.string.drawer_item_openFromServer);
         PrimaryDrawerItem save = new PrimaryDrawerItem()
-                .withIcon(R.drawable.save48)
+                .withIcon(R.mipmap.ic_save)
                 .withName(R.string.drawer_item_save);
         PrimaryDrawerItem saveAs = new PrimaryDrawerItem()
-                .withIcon(R.drawable.saveas48)
+                .withIcon(R.mipmap.ic_saveas)
                 .withName(R.string.drawer_item_saveAs);
         PrimaryDrawerItem saveReport = new PrimaryDrawerItem()
-                .withIcon(R.drawable.sendfile48)
+                .withIcon(R.mipmap.ic_sendfile)
                 .withName(R.string.drawer_item_saveExcelReport);
         PrimaryDrawerItem photo = new PrimaryDrawerItem()
-                .withIcon(R.drawable.camera48)
+                .withIcon(R.mipmap.ic_camera)
                 .withName(R.string.drawer_item_takePhoto);
         SecondaryDrawerItem aboutUs = new SecondaryDrawerItem()
                 .withIcon(R.mipmap.ic_aboutus)
@@ -149,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 ).build();
         setUpDrawerItemClick(result);
     }
-
     private void setUpDrawerItemClick(Drawer result) {
         result.setOnDrawerItemClickListener((view, position, drawerItem) -> {
             switch (position) {
@@ -182,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             return true;
         });
     }
-
     private AccountHeader initHeader() {
         return new AccountHeaderBuilder()
                 .withActivity(this)
@@ -275,35 +255,6 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.menu_openFromServer:
-                Intent openFileIntent = new Intent(this, OpenFileActivity.class);
-                startActivityForResult(openFileIntent, REQUEST_CODE);
-                return true;
-            case R.id.menu_save:
-                Toast.makeText(mContext, "Save coming soon", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.menu_saveAs:
-                Toast.makeText(mContext, "SaveAs coming soon", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.menu_JTViewer:
-                Toast.makeText(mContext, "JTViewer coming soon", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.menu_openPDFFromServer:
-                Toast.makeText(mContext, "open PDF from Server coming soon", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.menu_saveReport:
-                Toast.makeText(mContext, "Save Report coming soon", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.menu_takePhoto:
-                onPrepareCapturePhoto();
-                return true;
-            case R.id.menu_context:
-                return true;
-        }
-        */
         return true;
     }
     // 20161215: should check if device has camera and inform user
@@ -321,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private void onCapturePhoto() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         if (this.headerData == null) {
-            adb.setIcon(R.drawable.attention48);
+            adb.setIcon(R.mipmap.ic_attention);
             adb.setTitle("Photograhieren ohne Anzeigen");
             adb.setMessage("Sie haben noch keine XML Datei geöffnet, wenn Sie " +
                     "fortfahren, sind neu gemachte Bilder nicht in diesem Programm anzuzeigen. ");
@@ -350,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 inSpecificFolder = true;
                 captureImage();
             } else {
-                adb.setIcon(R.drawable.attention48);
+                adb.setIcon(R.mipmap.ic_attention);
                 adb.setTitle("keine Ordner gefunden ! ");
                 adb.setMessage("Der Ordner, in dem Bilder zu speichern sind, existiert nicht. Stellen Sie sicher," +
                         "dass XML Dateien aus Teamcenter korreckt exportiert werden. ");
@@ -363,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         }
     }
     // store images in specific folder if withSpecificFolder is true, argument file could be null
-    // 20161215: TODO should create image file
+    // 20161215: Done created image file in createImageFile
     // 20170107: just use intent to capture photos und push data in the file by onActivityResult
     private void captureImage() {
         try {
@@ -399,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setIcon(R.drawable.attention48)
+                .setIcon(R.mipmap.ic_attention)
                 .setTitle("Programm Beenden")
                 .setMessage("Möchten Sie wirklich das Programm beenden ? ")
                 .setNegativeButton(android.R.string.no, null)

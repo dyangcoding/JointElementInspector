@@ -28,8 +28,6 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
     // this contains the data to be displayed
     private ExpandableListHeader headerData;
     private static final String PRODUCT_STRUCTURE = "Product Structure";
-    private static final String PRODUCT_STRUCTURE_PART_NAME = "Part Name";
-    private static final String PRODUCT_STRUCTURE_ITEM_TYPE = "Item Type";
     private NestedScrollView mNestedScrollView;
 
     //private ParentFragment
@@ -39,10 +37,8 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         if (bundle != null)
             headerData = bundle.getParcelable("com.ExpandableListData");
     }
-
     public ProductStructureFragment() {
     }
-
     public static ProductStructureFragment newInstance(ExpandableListHeader headerData) {
         ProductStructureFragment productStructureFragment = new ProductStructureFragment();
         Bundle bundle = new Bundle();
@@ -59,11 +55,6 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         TextView productStructureHeader = (TextView) view.findViewById(R.id.productStructureHeader);
         productStructureHeader.setText(PRODUCT_STRUCTURE);
         // 20160902: list structure item header
-        // 20161111: don not need it any more
-        //TextView productStructurePartName = (TextView) view.findViewById(R.id.productStructure_partName);
-        //productStructurePartName.setText(PRODUCT_STRUCTURE_PART_NAME);
-        //TextView productStructureItemType = (TextView) view.findViewById(R.id.productStructure_itemType);
-        //productStructureItemType.setText(PRODUCT_STRUCTURE_ITEM_TYPE);
         final ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.parentLevel);
         // 20160831: check null value
         // 20160902: show proper indicator
@@ -72,14 +63,12 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
             // 20160831: use get Activity to obtain the context, and this is working
             expandableListView.setAdapter(new ParentLevelAdapter(getActivity(), headerData));
             expandableListView.setIndicatorBounds(width - GetPixelFromDips(320), width - GetPixelFromDips(5));
-            //expandableListView.setChildIndicatorBounds(width - GetPixelFromDips(40), width - GetPixelFromDips(10));
             setUpOnGroupExpandListener(expandableListView);
             setUpOnGroupClickListener(expandableListView);
             setUpChildClick(expandableListView);
         }
         return view;
     }
-
     private void setUpOnGroupClickListener(ExpandableListView expandableListView) {
         expandableListView.setOnGroupClickListener((parent, view, groupPosition, id) -> {
             if (mNestedScrollView != null) {
@@ -89,7 +78,6 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
             return false;
         });
     }
-
     private void setUpOnGroupExpandListener(final ExpandableListView expandableListView) {
         expandableListView.setOnGroupExpandListener(i -> {
             if (mNestedScrollView != null) {
@@ -105,9 +93,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
             }
         });
     }
-
     // 20170129: Done: by multi times onclick should not add the same fragment
-    // 20170223: TODO: refactor
     // 20170517: same fragment is only loaded once
     private void setUpChildClick(ExpandableListView expandableListView) {
         final List<ExpandableListItem> childList = this.headerData.getChildOfOccurrence();
@@ -136,14 +122,12 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
                 return true;
         });
     }
-
     private int GetPixelFromDips(float pixels) {
         // Get the screen's density scale
         final float scale = getResources().getDisplayMetrics().density;
         // Convert the dps to pixels, based on density scale
         return (int) (pixels * scale + 0.5f);
     }
-
     // make height of expand list view suitable
     protected void setExpandListViewHeight(ExpandableListView listView, int group) {
         ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
@@ -170,7 +154,6 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
-
     // 20170221: get reference of parent view pager from overview fragment
     protected ViewPager getViewPagerFromOverview() {
         OverviewTabFragment fragmentOverview = (OverviewTabFragment) getParentFragment();
@@ -186,7 +169,6 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
             return fragmentOverview.getScrollView();
         return null;
     }
-
     @Override
     public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldright, int oldBottom) {
         // 20170223: should only automatically scroll down by expanding structure list item
