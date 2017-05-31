@@ -45,7 +45,7 @@ public class PhotoTabFragment extends Fragment {
         GridLayoutManager glm = new GridLayoutManager(mContext, columns);
         mRecyclerView.setLayoutManager(glm);
         mSwipeRefreshLayout = (SwipeRefreshLayout) photoView.findViewById(R.id.photo_swipeContainer);
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         return photoView;
     }
     @Override
@@ -74,7 +74,7 @@ public class PhotoTabFragment extends Fragment {
                 setUpPhotoAdapter(specificDir);
             } else {
                 new AlertDialog.Builder(mContext)
-                        .setIcon(R.drawable.attention48)
+                        .setIcon(R.mipmap.ic_attention)
                         .setTitle("External Storage not available")
                         .setMessage("Can not reach external storage, probably has been removed.")
                         .create().show();
@@ -148,7 +148,7 @@ public class PhotoTabFragment extends Fragment {
                     Toast.makeText(mContext, "There is no photo files to show.", Toast.LENGTH_LONG).show();
             } else {
                 new AlertDialog.Builder(mContext)
-                        .setIcon(R.drawable.attention48)
+                        .setIcon(R.mipmap.ic_attention)
                         .setTitle("Photo Path not correct")
                         .setMessage("The path where all photo files to be loaded is not correct.")
                         .create().show();

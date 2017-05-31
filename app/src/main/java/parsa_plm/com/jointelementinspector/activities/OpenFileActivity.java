@@ -51,7 +51,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
     @Override
     public void OnCannotFileRead(File file) {
         new AlertDialog.Builder(this)
-                .setIcon(R.drawable.viewfile48)
+                .setIcon(R.mipmap.ic_viewfile)
                 .setTitle(file.getName() + "folder can't be read!")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -65,7 +65,7 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
         final ExpandableListHeader expandableListHeader = null;
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         if (!file.getName().toLowerCase().endsWith("xml")) {
-            adb.setIcon(R.drawable.viewfile48);
+            adb.setIcon(R.mipmap.ic_viewfile);
             adb.setMessage("Only File with .xml extension is accepted.");
             adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
@@ -75,12 +75,12 @@ public class OpenFileActivity extends Activity implements IFolderItemListener {
             });
             adb.show();
         } else {
-            adb.setIcon(R.drawable.viewfile48);
+            adb.setIcon(R.mipmap.ic_viewfile);
             adb.setTitle("Open File: " + file.getName());
             adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // 20161125: use async task to process file
-                    new ParseXMLFileTask(OpenFileActivity.this, OpenFileActivity.this, file.getPath()).execute();
+                    new ParseXMLFileTask(OpenFileActivity.this, file.getPath()).execute();
                 }
             });
             adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

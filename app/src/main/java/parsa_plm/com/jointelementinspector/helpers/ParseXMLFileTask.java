@@ -35,16 +35,8 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
     private ProgressDialog mProgressDialog;
     private String mFilePath;
     private Context mContext;
-    private OpenFileActivity mOpenFileActivity;
-    // 20170504: origin vertex to transform weld point in the right position
-    private double[][] originVertex = new double[][]{
-            {0},
-            {0},
-            {0},
-            {1}
-    };
-    public ParseXMLFileTask(OpenFileActivity openFileActivity, Context context, String filePath) {
-        this.mOpenFileActivity = openFileActivity;
+
+    public ParseXMLFileTask(Context context, String filePath) {
         this.mFilePath = filePath;
         this.mContext = context;
     }
@@ -107,7 +99,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             Intent intent = new Intent(mContext, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("com.ExpandableListData", expandableListHeader);
-            mOpenFileActivity.setResult(Activity.RESULT_OK, intent);
             this.mContext.startActivity(intent);
         }
     }
@@ -433,11 +424,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
                         if (notNullAndEmpty(transformMatrix)) {
                             double[][] matrix = Utility.generateMatrix(transformMatrix);
                             weldPoint = new Occurrence(name, joins_it.trim(),
-                                    scalePosition(matrix[0][3]), scalePosition(matrix[1][3]), scalePosition(matrix[2][3]),weldPointsAttrs);
+                                    Utility.scalePosition(matrix[0][3]),
+                                    Utility.scalePosition(matrix[1][3]),
+                                    Utility.scalePosition(matrix[2][3]),weldPointsAttrs);
                             itemOfChild.add(weldPoint);
-                            Log.i(TAG, "PositionX: " + String.valueOf(scalePosition(matrix[0][3])));
-                            Log.i(TAG, "PositionY: " + String.valueOf(scalePosition(matrix[1][3])));
-                            Log.i(TAG, "PositionZ: " + String.valueOf(scalePosition(matrix[2][3])));
                         }
                     }
                 }
@@ -594,17 +584,5 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
     }
     private boolean notNullAndEmpty(String s) {
         return s != null && !s.isEmpty();
-    }
-
-    private void writeMatrixInConsole(double[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                Log.i(TAG, "writeMatrixInConsole: " + matrix[i][j]);
-            }
-        }
-    }
-    private int scalePosition(double position) {
-        double scale = position * 1000;
-        return Double.valueOf(scale).intValue();
     }
 }

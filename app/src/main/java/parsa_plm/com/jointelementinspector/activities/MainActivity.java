@@ -30,6 +30,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,12 +63,12 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 20161023: this code only for test
-        //if (LeakCanary.isInAnalyzerProcess(this)) {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
         // This process is dedicated to LeakCanary for heap analysis.
         // You should not init your app in this process.
-        //return;
-        //}
-        //LeakCanary.install(getApplication());
+           return;
+        }
+        LeakCanary.install(getApplication());
         setContentView(R.layout.menu_toolbar);
         mContext = this;
         Toolbar menuToolBar = (Toolbar) findViewById(R.id.menu_toolbar);

@@ -47,7 +47,7 @@ public class DocumentTabFragment extends Fragment {
         mGridView.setLayoutManager(sglm);
         // 20170108: swipe refresh layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) documentView.findViewById(R.id.document_swipeContainer);
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         return documentView;
     }
     @Override
@@ -143,7 +143,7 @@ public class DocumentTabFragment extends Fragment {
                     Toast.makeText(mContext, "There is no document files to open.", Toast.LENGTH_LONG).show();
             } else {
                 new AlertDialog.Builder(mContext)
-                        .setIcon(R.drawable.attention48)
+                        .setIcon(R.mipmap.ic_attention)
                         .setTitle("Document Path not correct")
                         .setMessage("The document path where all pdf files to be loaded is not correct.")
                         .create().show();

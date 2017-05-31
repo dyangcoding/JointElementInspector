@@ -17,7 +17,6 @@ public class Utility {
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return  (int) (dpWidth / 180);
     }
-
     //20170504: generate matrix for transform form one row array of weld point
     public static double[][] generateMatrix(String array) {
         if (array == null || array.isEmpty())
@@ -33,7 +32,6 @@ public class Utility {
         }
         return result;
     }
-
     // 20170504: deal with weld point transform matrix multiplication and return the position of
     // weld points
     public static double[][] multiplyByMatrix(double[][] m1, double[][] m2) {
@@ -52,7 +50,6 @@ public class Utility {
         }
         return mResult;
     }
-
     // 20170504: convert list of occurrence to json
     public static String convertList2Json(List<Occurrence> list) throws IOException {
         if (list == null || list.size() == 0)
@@ -60,5 +57,10 @@ public class Utility {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         return objectMapper.writeValueAsString(list);
+    }
+    // 20170531: used to scale the position of weld points
+    public static int scalePosition(double position) {
+        double scale = position * 1000;
+        return Double.valueOf(scale).intValue();
     }
 }
