@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
     private List<Occurrence> items;
-    private static Context mContext;
+    private Context mContext;
     public WeldPointAdapter(List<Occurrence> items, Context context) {
         this.items = items;
         this.mContext = context;
@@ -56,8 +56,8 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         viewHolder.result.setText("   OK  ");
         return view;
     }
-    static class ViewHolder {
-        static boolean allValid = true;
+    public class ViewHolder {
+        boolean allValid = true;
         TextView itemName;
         TextView itemType;
         @BindView(R.id.weldPoints_resultText)

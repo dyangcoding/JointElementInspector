@@ -31,14 +31,12 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         this.mDocuments = documents;
         this.mItemClickListener = listener;
     }
-    public static class GridViewHolder extends RecyclerView.ViewHolder {
+    static class GridViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mTextView;
-        public GridViewHolder(View itemView) {
+        GridViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.document_image_view);
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            mImageView.setPadding(8, 8, 8, 8);
             mTextView = (TextView) itemView.findViewById(R.id.document_text_view);
         }
     }
@@ -58,25 +56,6 @@ public class DocumentGridAdapter extends RecyclerView.Adapter<DocumentGridAdapte
         holder.mImageView.setImageResource(R.mipmap.ic_pdf);
         // 20161223: bad practice, should not bind listener for every object here
         // setUpClickListener(mDocuments.get(position), holder.mImageView);
-    }
-    // 20161223 not used any more
-    private void setUpClickListener(final File file, ImageView imageview) {
-        imageview.setOnClickListener(view -> {
-            if (file != null) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                String fileParent = file.getParentFile().getName();
-                File externalPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                // 20161220: now the correct path
-                File f = new File(externalPath + File.separator + fileParent + File.separator + file.getName());
-                intent.setDataAndType(Uri.fromFile(f), "application/pdf");
-                PackageManager pm = mContext.getPackageManager();
-                List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-                if (activities.size() > 0)
-                    mContext.startActivity(intent);
-                else
-                    Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
-            }
-        });
     }
     @Override
     public int getItemCount() {

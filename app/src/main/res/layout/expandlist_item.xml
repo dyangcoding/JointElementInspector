@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="match_parent"
+             android:stretchColumns="1,2">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/expandListItem"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:fontFamily="serif"
-              android:gravity="center_vertical"
-              android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
-</LinearLayout>
+    <TableRow
+        android:layout_margin="1dp"
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="middle">
+
+        <ImageView
+            android:id="@+id/item_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="expand list item icon"/>
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/expandListItem"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="serif"
+                  android:gravity="center_vertical"
+                  android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                  android:paddingLeft="15dp"
+                  android:textSize="18sp"/>
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/expandListItem_type"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="serif"
+                  android:gravity="center_vertical"
+                  android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                  android:paddingLeft="15dp"
+                  android:textSize="18sp"/>
+    </TableRow>
+
+</TableLayout>

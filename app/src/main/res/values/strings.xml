@@ -12,7 +12,9 @@
     <string name="folderPath">Path</string>
     <string name="partName">Part Name</string>
     <string name="itemType">Item Type</string>
+    <string name="InspectorHeader">Inspector Header Information</string>
     <string name="tableRowIcon">TableRowIcon</string>
+    <string name="ProductStructureHeader">Product Structure</string>
     <string name="weldjoints">Weld Joints</string>
     <string name="joints">Item Name</string>
     <string name="result">Result</string>

@@ -26,10 +26,9 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
         this.mImages = images;
         this.mItemClickListener = listener;
     }
-
-    public static class GridViewHolder extends RecyclerView.ViewHolder {
+    static class GridViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
-        public GridViewHolder(View itemView) {
+        GridViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.photo_image_view);
         }
@@ -47,10 +46,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     }
     @Override
     public void onBindViewHolder(GridViewHolder holder, int position) {
-        Transformation transformation = new RoundedTransformationBuilder()
-                .borderWidthDp(0)
-                .oval(false)
-                .build();
         Picasso
                 .with(mContext)
                 .load(mImages.get(position))
@@ -58,7 +53,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
                 .error(R.mipmap.ic_loadimageerror)
                 .resize(350,350)
                 .centerCrop()
-                .transform(transformation)
                 .into(holder.mImageView);
     }
     @Override

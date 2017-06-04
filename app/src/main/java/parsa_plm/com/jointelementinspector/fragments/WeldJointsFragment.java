@@ -2,6 +2,7 @@ package parsa_plm.com.jointelementinspector.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.models.ExpandableListItem;
 import com.jointelementinspector.main.R;
@@ -26,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WeldJointsFragment extends Fragment {
-    private ViewPager mViewPager;
     @BindView(R.id.weldJoints_Crack)
     VerticalTextView mCrack;
     @BindView(R.id.weldJoints_CraterCrack)
@@ -81,10 +82,14 @@ public class WeldJointsFragment extends Fragment {
     VerticalTextView mTempColours;
     @BindView(R.id.tableRow1)
     TableRow mTableRow1;
+    @BindView(R.id.weldJointsHeaderText)
+    TextView jointsHeader;
+    @BindView(R.id.listview)
+    ListView mListView;
+    private ViewPager mViewPager;
     private ExpandableListHeader mHeaderData;
-    private TextView jointsHeader;
-    private ListView mListView;
-    
+    private Unbinder mUnbinder;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
@@ -101,13 +106,15 @@ public class WeldJointsFragment extends Fragment {
         weldJointsFragment.setArguments(bundle);
         return weldJointsFragment;
     }
-    // fast version
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weldjoints, container, false);
-        jointsHeader = (TextView) view.findViewById(R.id.weldJointsHeaderText);
-        setUpTableRow();
-        mListView = (ListView) view.findViewById(R.id.listview);
+        mUnbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         List<Occurrence> dataList = null;
         if (mHeaderData != null) {
             List<ExpandableListItem> list = mHeaderData.getChildOfOccurrence();
@@ -122,8 +129,6 @@ public class WeldJointsFragment extends Fragment {
         setListViewHeightBasedOnChildren(mListView);
         setViewPager();
         setUpListItemClick();
-        ButterKnife.bind(this, view);
-        return view;
     }
     // 20170221: on item click should change current view to visual view pager,
     // we need reference to viewpager from main activity
@@ -134,7 +139,7 @@ public class WeldJointsFragment extends Fragment {
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
         });
     }
-    // soll Werte should be set from xml file
+    // soll Werte should be set from xml file, later
     private void setUpTableRow() {
     }
     // 20170210: view.measure is now given correct value to make list height suitable
@@ -153,19 +158,19 @@ public class WeldJointsFragment extends Fragment {
             totalHeight += view.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        params.height = height;
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 60;
         listView.setLayoutParams(params);
         listView.requestLayout();
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
     // 20170223: get reference of viewpager so that we could switch to tab visual view
     private void setViewPager() {
         ProductStructureFragment fragment = (ProductStructureFragment) getParentFragment();
         if (fragment != null)
             mViewPager = fragment.getViewPagerFromOverview();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 }

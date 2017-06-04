@@ -13,11 +13,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.jointelementinspector.main.R;
@@ -40,23 +40,15 @@ import java.util.Date;
 
 import parsa_plm.com.jointelementinspector.adapters.PagerAdapter;
 import parsa_plm.com.jointelementinspector.customLayout.NoSwipeViewPager;
-import parsa_plm.com.jointelementinspector.customLayout.SlidingTabLayout;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.fragments.OverviewTabFragment;
+import parsa_plm.com.jointelementinspector.utils.AppConstants;
 
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
     private ExpandableListHeader headerData;
     private Context mContext;
     // 20161101: make it global
     TabLayout tabLayout;
-    private static final int REQUEST_CODE = 1;
-    private final int CAMERA_CAPTURE = 2;
-    // TODO all final string should replaced for multi language support
-    private static final String TITLE_OVERVIEW = "Overview";
-    // 20170113: 3d visual viewer
-    private static final String TITLE_VISUALVIEWER = "3D Viewer";
-    private static final String TITLE_DOCUMENT = "Document";
-    private static final String TITLE_PHOTOS = "Photo";
     private boolean inSpecificFolder = false;
     private String mSpecificFolder;
     @Override
@@ -137,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             switch (position) {
                 case 1:
                     Intent openFileIntent = new Intent(this, OpenFileActivity.class);
-                    startActivityForResult(openFileIntent, REQUEST_CODE);
+                    startActivityForResult(openFileIntent, AppConstants.REQUEST_CODE);
                     result.closeDrawer();
                     break;
                 case 2:
@@ -184,13 +176,12 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private void setUpTab() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (tabLayout != null) {
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_OVERVIEW));
+            tabLayout.addTab(tabLayout.newTab().setText(AppConstants.TITLE_OVERVIEW));
             // 20170113: 3d viewer
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_VISUALVIEWER));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_DOCUMENT));
-            tabLayout.addTab(tabLayout.newTab().setText(TITLE_PHOTOS));
+            tabLayout.addTab(tabLayout.newTab().setText(AppConstants.TITLE_VISUALVIEWER));
+            tabLayout.addTab(tabLayout.newTab().setText(AppConstants.TITLE_DOCUMENT));
+            tabLayout.addTab(tabLayout.newTab().setText(AppConstants.TITLE_PHOTOS));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-            //tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#2ecc71"));
         }
     }
     // 20161031: this one should be used to obtain data
@@ -202,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         File photoFile = null;
         FileOutputStream outputStream = null;
         Bitmap bitmap = null;
-        if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_CAPTURE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == AppConstants.CAMERA_CAPTURE) {
             try {
                 photoFile = createImageFile();
                 outputStream = new FileOutputStream(photoFile);
@@ -225,13 +216,10 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private void setUpViewPager(final TabLayout tabLayout) {
         // 20170331: disable swiping of view pager for better usability
         final NoSwipeViewPager viewPager = (NoSwipeViewPager) findViewById(R.id.noSwipePager);
+        viewPager.setOffscreenPageLimit(3);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 4);
         viewPager.setAdapter(pagerAdapter);
-        // mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        // add animation for view pager, test later
-        // viewPager.setPageTransformer(true, new CubeOutTransformer());
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener((TabLayout) mSlidingTabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -320,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     private void captureImage() {
         try {
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(captureIntent, CAMERA_CAPTURE);
+            startActivityForResult(captureIntent, AppConstants.CAMERA_CAPTURE);
         } catch (ActivityNotFoundException e) {
             String errorMessage = " your device doesn't support capturing images! ";
             Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
@@ -353,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         new AlertDialog.Builder(this)
                 .setIcon(R.mipmap.ic_attention)
                 .setTitle("Programm Beenden")
-                .setMessage("Möchten Sie wirklich das Programm beenden ? ")
+                .setMessage("Moechten Sie wirklich das Programm beenden ? ")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

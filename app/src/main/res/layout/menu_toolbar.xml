@@ -8,34 +8,49 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/menu_toolbar"
-        android:layout_width="?attr/actionBarSize"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         android:gravity="top|start"
-        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <android.support.v7.widget.ActionMenuView
+        <!--android.support.v7.widget.ActionMenuView
             android:id="@+id/amvMenu"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
+            <parsa_plm.com.jointelementinspector.customLayout.SlidingTabLayout
+                android:id="@+id/sliding_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout-->
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_below="@+id/menu_toolbar"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:tabMaxWidth="0dp"
-        app:tabGravity="fill"
+        app:tabTextAppearance="@style/CustomTextStyle"
+        app:tabGravity="center"
         app:tabMode="fixed"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:tabIndicatorHeight="3dp"/>
 
-    <android.support.v4.view.ViewPager
+    <parsa_plm.com.jointelementinspector.customLayout.NoSwipeViewPager
         android:id="@+id/noSwipePager"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

@@ -362,7 +362,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         }
         return childOfOccurrence;
     }
-
     private List<Occurrence> getChildWeldPoints(NodeList occurrence, NodeList associatedAttachment, NodeList form, String idsOfItemWeldPoint, List<Occurrence> itemOfChild) {
         // last use idsItemWeldPoint to find weld point
         // first version, obtain weld point name to display list structure, late more attribute
@@ -435,7 +434,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         }
         return itemOfChild;
     }
-
     private String getWeldPointAttribute(NodeList form, String id4Form, Map<String, String> character) {
         String joints_itemType = null;
         if (notNullAndEmpty(id4Form)) {
@@ -458,7 +456,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         }
         return joints_itemType;
     }
-
     private void setDefaultValue(NodeList nodes, Map<String, String> character) {
         for (String key : character.keySet()) {
             for (int i = 0; i < nodes.getLength(); ++i) {
@@ -472,7 +469,6 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             }
         }
     }
-
     private void getWPAttribute(Map<String, String> character, Element eleNode, String nodeTitle) {
         String nodeValue;
         switch (nodeTitle) {

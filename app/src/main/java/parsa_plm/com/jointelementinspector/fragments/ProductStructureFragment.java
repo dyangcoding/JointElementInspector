@@ -1,12 +1,12 @@
 package parsa_plm.com.jointelementinspector.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +16,28 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.models.ExpandableListItem;
 import parsa_plm.com.jointelementinspector.models.Occurrence;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.adapters.ParentLevelAdapter;
+import parsa_plm.com.jointelementinspector.utils.AppConstants;
 
 import java.util.List;
 
 public class ProductStructureFragment extends Fragment implements View.OnLayoutChangeListener {
     // this contains the data to be displayed
     private ExpandableListHeader headerData;
-    private static final String PRODUCT_STRUCTURE = "Product Structure";
-    private NestedScrollView mNestedScrollView;
-
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView mNestedScrollView;
+    @BindView(R.id.productStructureHeader)
+    TextView productStructureHeader;
+    @BindView(R.id.parentLevel)
+    ExpandableListView expandableListView;
+    private Unbinder mUnbinder;
     //private ParentFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,27 +55,25 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         productStructureFragment.setArguments(bundle);
         return productStructureFragment;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_productstructure, container, false);
-        mNestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedScrollView);
-        TextView productStructureHeader = (TextView) view.findViewById(R.id.productStructureHeader);
-        productStructureHeader.setText(PRODUCT_STRUCTURE);
-        // 20160902: list structure item header
-        final ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.parentLevel);
+        mUnbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         // 20160831: check null value
-        // 20160902: show proper indicator
-        int width = getResources().getDisplayMetrics().widthPixels;
         if (expandableListView != null) {
             // 20160831: use get Activity to obtain the context, and this is working
             expandableListView.setAdapter(new ParentLevelAdapter(getActivity(), headerData));
+            int width = getResources().getDisplayMetrics().widthPixels;
             expandableListView.setIndicatorBounds(width - GetPixelFromDips(320), width - GetPixelFromDips(5));
             setUpOnGroupExpandListener(expandableListView);
             setUpOnGroupClickListener(expandableListView);
             setUpChildClick(expandableListView);
         }
-        return view;
     }
     private void setUpOnGroupClickListener(ExpandableListView expandableListView) {
         expandableListView.setOnGroupClickListener((parent, view, groupPosition, id) -> {
@@ -181,5 +187,10 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         }else {
             scrollView.smoothScrollTo(0, scrollView.getBottom());
         }
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 }

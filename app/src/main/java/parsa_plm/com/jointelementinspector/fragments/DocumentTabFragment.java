@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.adapters.DocumentGridAdapter;
@@ -28,26 +32,31 @@ import java.util.List;
 
 public class DocumentTabFragment extends Fragment {
     private ExpandableListHeader headerData;
-    private RecyclerView mGridView;
+    @BindView(R.id.document_recycler_view)
+    RecyclerView mGridView;
     private Context mContext;
     // 20170108: add swipe refresh layout
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.document_swipeContainer)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private Unbinder mUnbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
-        mGridView = (RecyclerView) documentView.findViewById(R.id.document_recycler_view);
-        mGridView.setHasFixedSize(true);
-        mGridView.setItemViewCacheSize(30);
-        mGridView.setDrawingCacheEnabled(true);
-        mGridView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        //20161220: change Grid Layout to staggered layout
-        int columns = Utility.calculateColumns(mContext);
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL);
-        mGridView.setLayoutManager(sglm);
-        // 20170108: swipe refresh layout
-        mSwipeRefreshLayout = (SwipeRefreshLayout) documentView.findViewById(R.id.document_swipeContainer);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        mUnbinder = ButterKnife.bind(this, documentView);
+        if (mGridView != null) {
+            mGridView.setHasFixedSize(true);
+            mGridView.setItemViewCacheSize(30);
+            mGridView.setDrawingCacheEnabled(true);
+            mGridView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            //20161220: change Grid Layout to staggered layout
+            int columns = Utility.calculateColumns(mContext);
+            GridLayoutManager sglm = new GridLayoutManager(getContext(), columns);
+            mGridView.setLayoutManager(sglm);
+        }
+        if (mSwipeRefreshLayout != null)
+            // 20170108: swipe refresh layout
+            mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         return documentView;
     }
     @Override
@@ -76,8 +85,8 @@ public class DocumentTabFragment extends Fragment {
         }
     }
     // 20161223: add listener
-    private void setUpDocumentAdapter(final List<File> documents, final String documentPath) {
-        final DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, (view, position) -> {
+    private void setUpDocumentAdapter(List<File> documents, String documentPath) {
+        DocumentGridAdapter adapter = new DocumentGridAdapter(mContext, documents, (view, position) -> {
             setUpOnClickListener(position, documents, documentPath);
         });
         setSwipeRefresh(adapter, documentPath);
@@ -151,5 +160,10 @@ public class DocumentTabFragment extends Fragment {
             }
         }
         return pdfFiles;
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 }

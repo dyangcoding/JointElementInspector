@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity;
@@ -29,23 +32,28 @@ import java.util.List;
 public class PhotoTabFragment extends Fragment {
     private ExpandableListHeader headerData;
     // 20161216: use recycler view
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.image_recycler_view)
+    RecyclerView mRecyclerView;
     private Context mContext;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.photo_swipeContainer)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private Unbinder mUnbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
-        mRecyclerView = (RecyclerView) photoView.findViewById(R.id.image_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemViewCacheSize(30);
-        mRecyclerView.setDrawingCacheEnabled(true);
-        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        int columns = Utility.calculateColumns(mContext);
-        GridLayoutManager glm = new GridLayoutManager(mContext, columns);
-        mRecyclerView.setLayoutManager(glm);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) photoView.findViewById(R.id.photo_swipeContainer);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        mUnbinder = ButterKnife.bind(this, photoView);
+        if (mRecyclerView != null) {
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setItemViewCacheSize(30);
+            mRecyclerView.setDrawingCacheEnabled(true);
+            mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            int columns = Utility.calculateColumns(mContext);
+            GridLayoutManager glm = new GridLayoutManager(mContext, columns);
+            mRecyclerView.setLayoutManager(glm);
+        }
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         return photoView;
     }
     @Override
@@ -83,7 +91,6 @@ public class PhotoTabFragment extends Fragment {
     }
     private void setUpPhotoAdapter(String specificDir) {
         final List<File> images = getImages(specificDir);
-        //ImageListAdapter adapter = new ImageListAdapter(mContext, images);
         // 20161216: new adapter for better usability
         ImageGridAdapter gridAdapter = new ImageGridAdapter(mContext, images, (view, position) -> {
             setUpClickListener(position, images);
@@ -156,6 +163,11 @@ public class PhotoTabFragment extends Fragment {
             }
         }
         return images;
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 }
 

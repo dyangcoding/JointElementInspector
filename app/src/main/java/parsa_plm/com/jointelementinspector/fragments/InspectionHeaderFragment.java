@@ -1,6 +1,7 @@
 package parsa_plm.com.jointelementinspector.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,14 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
+
 import com.jointelementinspector.main.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import parsa_plm.com.jointelementinspector.utils.AppConstants;
 
 public class InspectionHeaderFragment extends Fragment {
     // 20161023: use butter knife for injection
@@ -52,23 +56,11 @@ public class InspectionHeaderFragment extends Fragment {
     TextView mInspectorNorm;
     @BindView(R.id.tableRow5)
     TableRow mTableRow5;
+    private Unbinder mUnbinder;
     private ExpandableListHeader headerData;
     private boolean isVisible = true;
     // 20161023: string builder
     private StringBuilder sb = new StringBuilder();
-    // 20161014: add header Info for expand
-    private static final String ROWHEADER = "Inspector Header Information";
-    private static final String PART_NAME = "Part Name: ";
-    private static final String PART_Nr = "Part Number: ";
-    private static final String ORDER_Nr = "Order Number: ";
-    private static final String INSPECTOR = "Inspector: ";
-    private static final String INSPECTOR_DATE = "Inspector Date: ";
-    private static final String VEHICLE = "Vehicle: ";
-    private static final String INSPECTOR_TIMESPAN = "Inspector Time Span: ";
-    private static final String FREQUENCY = "Frequency: ";
-    private static final String INSPECTOR_METHOD = "Inspector Method: ";
-    private static final String INSPECTOR_SCOPE = "Inspector Scope: ";
-    private static final String INSPECTOR_NORM = "Inspector Norm: ";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,52 +81,51 @@ public class InspectionHeaderFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View headerView = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
-        ButterKnife.bind(this, headerView);
+        View headerView = inflater.inflate(R.layout.fragment_inspectionheader, container, false);
+        mUnbinder = ButterKnife.bind(this, headerView);
         return headerView;
     }
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (headerData != null) {
-            mRowHeaderInfo.setText(ROWHEADER);
-            mRowHeaderIcon.setImageResource(R.mipmap.ic_collapse);
             setUpOnClick();
             fillTextView();
         }
     }
     private void fillTextView() {
-        sb.append(PART_NAME).append(headerData.getPartName());
+        CheckNullView();
+        sb.append(AppConstants.PART_NAME).append(headerData.getPartName());
         mPartName.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(PART_Nr).append(headerData.getPartNr());
+        sb.append(AppConstants.PART_Nr).append(headerData.getPartNr());
         mPartNr.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(ORDER_Nr).append(headerData.getOrderNr());
+        sb.append(AppConstants.ORDER_Nr).append(headerData.getOrderNr());
         mOrderNr.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(INSPECTOR).append(headerData.getInspector());
+        sb.append(AppConstants.INSPECTOR).append(headerData.getInspector());
         mInspector.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(INSPECTOR_DATE).append(headerData.getInspectorDate());
+        sb.append(AppConstants.INSPECTOR_DATE).append(headerData.getInspectorDate());
         mInspectorDate.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(VEHICLE).append(headerData.getVehicle());
+        sb.append(AppConstants.VEHICLE).append(headerData.getVehicle());
         mVehicle.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(INSPECTOR_TIMESPAN).append(headerData.getInspectorTimeSpan());
+        sb.append(AppConstants.INSPECTOR_TIMESPAN).append(headerData.getInspectorTimeSpan());
         mInspectorTimeSpan.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(FREQUENCY).append(headerData.getFrequency());
+        sb.append(AppConstants.FREQUENCY).append(headerData.getFrequency());
         mFrequency.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(INSPECTOR_METHOD).append(headerData.getInspectorMethod());
+        sb.append(AppConstants.INSPECTOR_METHOD).append(headerData.getInspectorMethod());
         mInspectorMethod.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(INSPECTOR_SCOPE).append(headerData.getInspectorScope());
+        sb.append(AppConstants.INSPECTOR_SCOPE).append(headerData.getInspectorScope());
         mInspectorScope.setText(sb.toString());
         clearStringBuilder(sb);
-        sb.append(INSPECTOR_NORM).append(headerData.getInspectorNorm());
+        sb.append(AppConstants.INSPECTOR_NORM).append(headerData.getInspectorNorm());
         mInspectorNorm.setText(sb.toString());
         clearStringBuilder(sb);
     }
@@ -144,38 +135,48 @@ public class InspectionHeaderFragment extends Fragment {
             sb.trimToSize();
         }
     }
+    private void CheckNullView() {
+        if (mPartName == null || mPartNr == null || mOrderNr == null
+                || mInspector == null || mInspectorDate == null || mVehicle == null
+                || mInspectorTimeSpan == null || mFrequency == null || mInspectorMethod == null
+                || mInspectorScope == null || mInspectorNorm == null)
+            return;
+    }
     private void setUpOnClick() {
-        mRowHeaderIcon.setOnClickListener((view) -> {
-            if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
-                if (isVisible) {
-                    mRowHeaderIcon.setImageResource(R.mipmap.ic_expand);
-                    mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                    mTableRow2.setVisibility(View.GONE);
-                    mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                    mTableRow3.setVisibility(View.GONE);
-                    mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                    mTableRow4.setVisibility(View.GONE);
-                    mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                    mTableRow5.setVisibility(View.GONE);
-                    isVisible = false;
+        if (mRowHeaderIcon != null) {
+            mRowHeaderIcon.setOnClickListener((view) -> {
+                if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
+                    if (isVisible) {
+                        mRowHeaderIcon.setImageResource(R.mipmap.ic_expand);
+                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow2.setVisibility(View.GONE);
+                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow3.setVisibility(View.GONE);
+                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow4.setVisibility(View.GONE);
+                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                        mTableRow5.setVisibility(View.GONE);
+                        isVisible = false;
 
-                } else {
-                    mRowHeaderIcon.setImageResource(R.mipmap.ic_collapse);
-                    mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                    mTableRow2.setVisibility(View.VISIBLE);
-                    mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                    mTableRow3.setVisibility(View.VISIBLE);
-                    mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                    mTableRow4.setVisibility(View.VISIBLE);
-                    mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                    mTableRow5.setVisibility(View.VISIBLE);
-                    isVisible = true;
+                    } else {
+                        mRowHeaderIcon.setImageResource(R.mipmap.ic_collapse);
+                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow2.setVisibility(View.VISIBLE);
+                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow3.setVisibility(View.VISIBLE);
+                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow4.setVisibility(View.VISIBLE);
+                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                        mTableRow5.setVisibility(View.VISIBLE);
+                        isVisible = true;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mUnbinder.unbind();
     }
 }
