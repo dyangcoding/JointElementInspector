@@ -20,8 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import parsa_plm.com.jointelementinspector.utils.AppConstants;
 
+import static parsa_plm.com.jointelementinspector.utils.AppConstants.PARCELABLE;
+
 public class InspectionHeaderFragment extends Fragment {
-    // 20161023: use butter knife for injection
+    // 20161023: use butter knife
     @BindView(R.id.RowHeaderInfo)
     TextView mRowHeaderInfo;
     @BindView(R.id.RowHeaderIcon)
@@ -67,7 +69,7 @@ public class InspectionHeaderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null)
-            headerData = bundle.getParcelable("com.ExpandableListData");
+            headerData = bundle.getParcelable(PARCELABLE);
     }
     public InspectionHeaderFragment() {
     }
@@ -75,7 +77,7 @@ public class InspectionHeaderFragment extends Fragment {
         InspectionHeaderFragment headerFragment = new InspectionHeaderFragment();
         Bundle bundle = new Bundle();
         if (headerData != null)
-            bundle.putParcelable("com.ExpandableListData", headerData);
+            bundle.putParcelable(PARCELABLE, headerData);
         headerFragment.setArguments(bundle);
         return headerFragment;
     }
@@ -94,40 +96,41 @@ public class InspectionHeaderFragment extends Fragment {
         }
     }
     private void fillTextView() {
-        CheckNullView();
-        sb.append(AppConstants.PART_NAME).append(headerData.getPartName());
-        mPartName.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.PART_Nr).append(headerData.getPartNr());
-        mPartNr.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.ORDER_Nr).append(headerData.getOrderNr());
-        mOrderNr.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.INSPECTOR).append(headerData.getInspector());
-        mInspector.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.INSPECTOR_DATE).append(headerData.getInspectorDate());
-        mInspectorDate.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.VEHICLE).append(headerData.getVehicle());
-        mVehicle.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.INSPECTOR_TIMESPAN).append(headerData.getInspectorTimeSpan());
-        mInspectorTimeSpan.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.FREQUENCY).append(headerData.getFrequency());
-        mFrequency.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.INSPECTOR_METHOD).append(headerData.getInspectorMethod());
-        mInspectorMethod.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.INSPECTOR_SCOPE).append(headerData.getInspectorScope());
-        mInspectorScope.setText(sb.toString());
-        clearStringBuilder(sb);
-        sb.append(AppConstants.INSPECTOR_NORM).append(headerData.getInspectorNorm());
-        mInspectorNorm.setText(sb.toString());
-        clearStringBuilder(sb);
+        if (!CheckNullView()) {
+            sb.append(AppConstants.PART_NAME).append(headerData.getPartName());
+            mPartName.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.PART_Nr).append(headerData.getPartNr());
+            mPartNr.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.ORDER_Nr).append(headerData.getOrderNr());
+            mOrderNr.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.INSPECTOR).append(headerData.getInspector());
+            mInspector.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.INSPECTOR_DATE).append(headerData.getInspectorDate());
+            mInspectorDate.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.VEHICLE).append(headerData.getVehicle());
+            mVehicle.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.INSPECTOR_TIMESPAN).append(headerData.getInspectorTimeSpan());
+            mInspectorTimeSpan.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.FREQUENCY).append(headerData.getFrequency());
+            mFrequency.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.INSPECTOR_METHOD).append(headerData.getInspectorMethod());
+            mInspectorMethod.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.INSPECTOR_SCOPE).append(headerData.getInspectorScope());
+            mInspectorScope.setText(sb.toString());
+            clearStringBuilder(sb);
+            sb.append(AppConstants.INSPECTOR_NORM).append(headerData.getInspectorNorm());
+            mInspectorNorm.setText(sb.toString());
+            clearStringBuilder(sb);
+        }
     }
     private void clearStringBuilder(StringBuilder sb) {
         if (sb != null) {
@@ -135,12 +138,15 @@ public class InspectionHeaderFragment extends Fragment {
             sb.trimToSize();
         }
     }
-    private void CheckNullView() {
+    private boolean CheckNullView() {
+        boolean nullView = false;
         if (mPartName == null || mPartNr == null || mOrderNr == null
                 || mInspector == null || mInspectorDate == null || mVehicle == null
                 || mInspectorTimeSpan == null || mFrequency == null || mInspectorMethod == null
-                || mInspectorScope == null || mInspectorNorm == null)
-            return;
+                || mInspectorScope == null || mInspectorNorm == null) {
+            nullView = true;
+        }
+        return nullView;
     }
     private void setUpOnClick() {
         if (mRowHeaderIcon != null) {

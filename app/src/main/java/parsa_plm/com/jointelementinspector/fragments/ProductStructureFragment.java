@@ -43,7 +43,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null)
-            headerData = bundle.getParcelable("com.ExpandableListData");
+            headerData = bundle.getParcelable(AppConstants.PARCELABLE);
     }
     public ProductStructureFragment() {
     }
@@ -51,7 +51,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         ProductStructureFragment productStructureFragment = new ProductStructureFragment();
         Bundle bundle = new Bundle();
         if (headerData != null)
-            bundle.putParcelable("com.ExpandableListData", headerData);
+            bundle.putParcelable(AppConstants.PARCELABLE, headerData);
         productStructureFragment.setArguments(bundle);
         return productStructureFragment;
     }
@@ -107,13 +107,13 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         expandableListView.setOnChildClickListener((listView, view, group_position, child_position, id) ->{
                 List<Occurrence> dataInNestedFragment = childList.get(child_position).getChildItemList();
                 FragmentManager childFragmentManager = getChildFragmentManager();
-                Fragment fragment = childFragmentManager.findFragmentByTag("weldJointsFragment");
+                Fragment fragment = childFragmentManager.findFragmentByTag(AppConstants.WeldJOINTS_FRAGMENT);
             if (dataInNestedFragment.size() > 0) {
                     if (fragment == null) {
                         FragmentTransaction childFragTrans = childFragmentManager.beginTransaction();
                         // add AW fragment to replace weld points fragment
                         WeldJointsFragment weldJointsFragment = WeldJointsFragment.newInstance(headerData);
-                        childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, "weldJointsFragment");
+                        childFragTrans.add(R.id.fragment_placeHolder_weldJoints, weldJointsFragment, AppConstants.WeldJOINTS_FRAGMENT);
                         childFragTrans.commit();
                     }
                 } else {

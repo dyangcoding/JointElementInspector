@@ -21,6 +21,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.adapters.DocumentGridAdapter;
@@ -30,8 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentTabFragment extends Fragment {
-    private ExpandableListHeader headerData;
+public class DocumentTabFragment extends BaseTabFragment {
     @BindView(R.id.document_recycler_view)
     RecyclerView mGridView;
     private Context mContext;
@@ -44,15 +44,15 @@ public class DocumentTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
         mUnbinder = ButterKnife.bind(this, documentView);
+        mContext = getContext();
         if (mGridView != null) {
             mGridView.setHasFixedSize(true);
             mGridView.setItemViewCacheSize(30);
             mGridView.setDrawingCacheEnabled(true);
             mGridView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-            //20161220: change Grid Layout to staggered layout
             int columns = Utility.calculateColumns(mContext);
-            GridLayoutManager sglm = new GridLayoutManager(getContext(), columns);
-            mGridView.setLayoutManager(sglm);
+            GridLayoutManager gl = new GridLayoutManager(mContext, columns);
+            mGridView.setLayoutManager(gl);
         }
         if (mSwipeRefreshLayout != null)
             // 20170108: swipe refresh layout
@@ -60,23 +60,9 @@ public class DocumentTabFragment extends Fragment {
         return documentView;
     }
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mContext = context;
-        Activity mainActivity = null;
-        OverviewTabFragment.onFragmentInteractionListener listener;
-        try {
-            if (context instanceof Activity)
-                mainActivity = (Activity) context;
-            listener = (OverviewTabFragment.onFragmentInteractionListener) mainActivity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");
-        }
-        if (listener != null) headerData = listener.onFragmentCreated();
-    }
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ExpandableListHeader headerData = getHeaderData();
         if (headerData != null) {
             String mDocumentPath = headerData.getFileDirectory();
             List<File> filePath = getPDFFiles(mDocumentPath);

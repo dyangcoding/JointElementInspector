@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         // data transport from open file activity
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)
-            headerData = bundle.getParcelable("com.ExpandableListData");
+            headerData = bundle.getParcelable(AppConstants.PARCELABLE);
         // 2016114: extract method
         // 20170525: we make viewpager inside toolbar for better look and feel
         setUpTab();
@@ -133,19 +133,19 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                     result.closeDrawer();
                     break;
                 case 2:
-                    Toast.makeText(mContext, "open PDF from Server coming soon", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, AppConstants.PDF_FROM_SERVER, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 3:
-                    Toast.makeText(mContext, "Save coming soon", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, AppConstants.SAVE, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 4:
-                    Toast.makeText(mContext, "SaveAs coming soon", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, AppConstants.SAVE_AS, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 5:
-                    Toast.makeText(mContext, "Save Report coming soon", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, AppConstants.SAVE_REPORT, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 6:
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 .withHeaderBackground(R.drawable.drawerheader)
                 .withSelectionListEnabledForSingleProfile(false)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Parsa PLM GmbH")
+                        new ProfileDrawerItem().withName(AppConstants.PARSA_PLM)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -207,9 +207,9 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             }
             // 20170108: inform user where the photo was stored
             if (inSpecificFolder)
-                Toast.makeText(mContext, " Photo is stored in: " + mSpecificFolder, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, AppConstants.PHOTO_STORED_MESSAGE + mSpecificFolder, Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(mContext, " Photo is stored in: " + mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, AppConstants.PHOTO_STORED_MESSAGE + mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), Toast.LENGTH_LONG).show();
         }
     }
     // test removed argument final TabLayout tabLayout
@@ -249,11 +249,11 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     // 20161215: should check if device has camera and inform user
     private void onPrepareCapturePhoto() {
         if (!mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-            Toast.makeText(mContext, "Your Device has no camera, break. ", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, AppConstants.NO_CAMERA, Toast.LENGTH_LONG).show();
             return;
         }
         if (!isExternalStorageWritable()) {
-            Toast.makeText(mContext, "External Storage is not available, break.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, AppConstants.EXTERNAL_STORAGE, Toast.LENGTH_LONG).show();
             return;
         }
         onCapturePhoto();
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 captureImage();
             } else {
                 adb.setIcon(R.mipmap.ic_attention);
-                adb.setTitle("keine Ordner gefunden ! ");
+                adb.setTitle(AppConstants.NO_DIRECTORY);
                 adb.setMessage("Der Ordner, in dem Bilder zu speichern sind, existiert nicht. Stellen Sie sicher," +
                         "dass XML Dateien aus Teamcenter korreckt exportiert werden. ");
                 adb.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -310,8 +310,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(captureIntent, AppConstants.CAMERA_CAPTURE);
         } catch (ActivityNotFoundException e) {
-            String errorMessage = " your device doesn't support capturing images! ";
-            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, AppConstants.CAPUTURE_IMAGE_MASSAGE, Toast.LENGTH_SHORT);
             toast.show();
         }
     }
@@ -340,8 +339,8 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setIcon(R.mipmap.ic_attention)
-                .setTitle("Programm Beenden")
-                .setMessage("Moechten Sie wirklich das Programm beenden ? ")
+                .setTitle(AppConstants.EXIST)
+                .setMessage(AppConstants.EXIST_MESSAGE)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

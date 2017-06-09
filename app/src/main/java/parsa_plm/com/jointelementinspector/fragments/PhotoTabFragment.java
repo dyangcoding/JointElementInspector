@@ -19,18 +19,19 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity;
 import parsa_plm.com.jointelementinspector.adapters.ImageGridAdapter;
+import parsa_plm.com.jointelementinspector.utils.AppConstants;
 import parsa_plm.com.jointelementinspector.utils.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoTabFragment extends Fragment {
-    private ExpandableListHeader headerData;
+public class PhotoTabFragment extends BaseTabFragment {
     // 20161216: use recycler view
     @BindView(R.id.image_recycler_view)
     RecyclerView mRecyclerView;
@@ -42,6 +43,7 @@ public class PhotoTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
+        mContext = getContext();
         mUnbinder = ButterKnife.bind(this, photoView);
         if (mRecyclerView != null) {
             mRecyclerView.setHasFixedSize(true);
@@ -57,23 +59,9 @@ public class PhotoTabFragment extends Fragment {
         return photoView;
     }
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mContext = context;
-        Activity mainActivity = null;
-        OverviewTabFragment.onFragmentInteractionListener listener = null;
-        try {
-            if (context instanceof Activity)
-                mainActivity = (Activity) context;
-            listener = (OverviewTabFragment.onFragmentInteractionListener) mainActivity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");
-        }
-        if (listener != null) headerData = listener.onFragmentCreated();
-    }
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ExpandableListHeader headerData = getHeaderData();
         if (headerData != null) {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 String storageDir = mContext.getExternalFilesDir(null).toString();
@@ -83,7 +71,7 @@ public class PhotoTabFragment extends Fragment {
             } else {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.mipmap.ic_attention)
-                        .setTitle("External Storage not available")
+                        .setTitle(AppConstants.EXTERNAL_STORAGE)
                         .setMessage("Can not reach external storage, probably has been removed.")
                         .create().show();
             }

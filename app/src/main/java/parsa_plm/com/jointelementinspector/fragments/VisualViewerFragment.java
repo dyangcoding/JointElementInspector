@@ -17,43 +17,29 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.helpers.WebViewInterface;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 
 import org.xwalk.core.XWalkView;
 
-public class VisualViewerFragment extends Fragment {
+import static parsa_plm.com.jointelementinspector.utils.AppConstants.URL;
+
+public class VisualViewerFragment extends BaseTabFragment {
     private final String TAG = getClass().toString();
     private static int loadCounter = 0;
     @BindView(R.id.xwalkWebView)
     XWalkView xWalkWebView;
-    private ExpandableListHeader headerData;
-    private Context mContext;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mContext = context;
-        Activity mainActivity = null;
-        OverviewTabFragment.onFragmentInteractionListener listener;
-        try {
-            if (context instanceof Activity)
-                mainActivity = (Activity) context;
-            listener = (OverviewTabFragment.onFragmentInteractionListener) mainActivity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(mainActivity.toString() + "must implement onFragmentInteractionListener");
-        }
-        if (listener != null)
-            headerData = listener.onFragmentCreated();
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View visualView = inflater.inflate(R.layout.tab_fragment_visualviewer, container, false);
         ButterKnife.bind(this, visualView);
         if (xWalkWebView != null) {
-            xWalkWebView.addJavascriptInterface(new WebViewInterface(mContext, headerData), "Android");
-            xWalkWebView.load("file:///android_asset/crosswalkWeb/three.js-dev/editor/index.html", null);
+            ExpandableListHeader headerData = getHeaderData();
+            xWalkWebView.addJavascriptInterface(new WebViewInterface(getContext(), headerData), "Android");
+            xWalkWebView.load(URL, null);
             Log.i(TAG, "onCreateView: load Counter" + String.valueOf(loadCounter++));
         }
         return visualView;
