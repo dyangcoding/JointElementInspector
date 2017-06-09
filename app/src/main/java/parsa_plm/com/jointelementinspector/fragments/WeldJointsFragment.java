@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import parsa_plm.com.jointelementinspector.utils.AppConstants;
 
 public class WeldJointsFragment extends Fragment {
     @BindView(R.id.weldJoints_Crack)
@@ -94,7 +95,7 @@ public class WeldJointsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null)
-            mHeaderData = bundle.getParcelable("com.ExpandableListData");
+            mHeaderData = bundle.getParcelable(AppConstants.PARCELABLE);
     }
     public WeldJointsFragment() {
     }
@@ -102,7 +103,7 @@ public class WeldJointsFragment extends Fragment {
         WeldJointsFragment weldJointsFragment = new WeldJointsFragment();
         Bundle bundle = new Bundle();
         if (mHeaderData != null)
-            bundle.putParcelable("com.ExpandableListData", mHeaderData);
+            bundle.putParcelable(AppConstants.PARCELABLE, mHeaderData);
         weldJointsFragment.setArguments(bundle);
         return weldJointsFragment;
     }

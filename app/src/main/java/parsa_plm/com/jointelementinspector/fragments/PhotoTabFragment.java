@@ -38,13 +38,12 @@ public class PhotoTabFragment extends BaseTabFragment {
     private Context mContext;
     @BindView(R.id.photo_swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    private Unbinder mUnbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
         mContext = getContext();
-        mUnbinder = ButterKnife.bind(this, photoView);
+        setUnBinder(ButterKnife.bind(this, photoView));
         if (mRecyclerView != null) {
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setItemViewCacheSize(30);
@@ -72,7 +71,7 @@ public class PhotoTabFragment extends BaseTabFragment {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.mipmap.ic_attention)
                         .setTitle(AppConstants.EXTERNAL_STORAGE)
-                        .setMessage("Can not reach external storage, probably has been removed.")
+                        .setMessage(AppConstants.EXTERNAL_STORAGE_FAILED_MESSAGE)
                         .create().show();
             }
         }
@@ -106,9 +105,9 @@ public class PhotoTabFragment extends BaseTabFragment {
                         int updatedItemCount = 0;
                         updatedItemCount = refreshPhotos.size() - oldPhotosCount;
                         if (updatedItemCount > 0)
-                            Toast.makeText(mContext, updatedItemCount + " Image updated.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, updatedItemCount + AppConstants.IMAGE_UPDATED, Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(mContext, Math.abs(updatedItemCount) + " Image removed. ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, Math.abs(updatedItemCount) + AppConstants.IMAGE_REMOVED, Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -140,22 +139,17 @@ public class PhotoTabFragment extends BaseTabFragment {
                             images.add(f);
                     }
                 } else
-                    Toast.makeText(mContext, "There is no photo files to show.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, AppConstants.NO_PHOTO, Toast.LENGTH_LONG).show();
             } else {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.mipmap.ic_attention)
-                        .setTitle("Photo Path not correct")
-                        .setMessage("The path where all photo files to be loaded is not correct.")
+                        .setTitle(AppConstants.PHOTO_PATH_INCORRECT)
+                        .setMessage(AppConstants.PHOTO_PATH_FAILED_MESSAGE)
                         .create().show();
                 return null;
             }
         }
         return images;
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
     }
 }
 

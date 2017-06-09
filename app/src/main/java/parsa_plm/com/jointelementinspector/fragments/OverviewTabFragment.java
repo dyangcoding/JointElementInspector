@@ -28,7 +28,6 @@ public class OverviewTabFragment extends BaseTabFragment {
     // 20170223: vertical scroll view should automatically scroll down when structure list get expanded
     @BindView(R.id.scrollView_overview)
     ScrollView mScrollView;
-    private Unbinder mUnbinder;
 
     public OverviewTabFragment() {
         setArguments(new Bundle());
@@ -37,7 +36,7 @@ public class OverviewTabFragment extends BaseTabFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewPager = (ViewPager) container;
         View view = inflater.inflate(R.layout.tab_fragment_overview, container, false);
-        mUnbinder = ButterKnife.bind(this, view);
+        setUnBinder(ButterKnife.bind(this, view));
         ButterKnife.setDebug(true);
         ExpandableListHeader headerData = getHeaderData();
         // 20160902: no data no layout
@@ -94,10 +93,5 @@ public class OverviewTabFragment extends BaseTabFragment {
     // 20170223: get reference of scroll view to set listener in child fragment
     public ScrollView getScrollView() {
         return mScrollView;
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
     }
 }

@@ -35,7 +35,7 @@ public class VisualViewerFragment extends BaseTabFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View visualView = inflater.inflate(R.layout.tab_fragment_visualviewer, container, false);
-        ButterKnife.bind(this, visualView);
+        setUnBinder(ButterKnife.bind(this, visualView));
         if (xWalkWebView != null) {
             ExpandableListHeader headerData = getHeaderData();
             xWalkWebView.addJavascriptInterface(new WebViewInterface(getContext(), headerData), "Android");

@@ -88,7 +88,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         expandableListView.setOnGroupExpandListener(i -> {
             if (mNestedScrollView != null) {
                 FragmentManager fragmentManager = getChildFragmentManager();
-                WeldJointsFragment fragment = (WeldJointsFragment) fragmentManager.findFragmentByTag("weldJointsFragment");
+                WeldJointsFragment fragment = (WeldJointsFragment) fragmentManager.findFragmentByTag(AppConstants.WeldJOINTS_FRAGMENT);
                 if (fragment == null)
                     mNestedScrollView.addOnLayoutChangeListener(this);
             }

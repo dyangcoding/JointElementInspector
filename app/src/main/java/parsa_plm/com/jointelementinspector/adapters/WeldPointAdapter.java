@@ -56,7 +56,7 @@ public class WeldPointAdapter extends BaseAdapter implements ListAdapter {
         viewHolder.result.setText("   OK  ");
         return view;
     }
-    public class ViewHolder {
+    class ViewHolder {
         boolean allValid = true;
         TextView itemName;
         TextView itemType;

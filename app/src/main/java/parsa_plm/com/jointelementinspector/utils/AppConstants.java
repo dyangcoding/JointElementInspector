@@ -1,7 +1,5 @@
 package parsa_plm.com.jointelementinspector.utils;
 
-import android.accessibilityservice.GestureDescription;
-
 public final class AppConstants {
     // 20161014: add header Info
     public static final String PART_NAME = "Part Name: ";
@@ -47,6 +45,20 @@ public final class AppConstants {
     public static final String EXIST_MESSAGE = "DO YOU REALLY WANT TO EXIST PROGRAM ? ";
     public static final String NO_CAMERA = "Your Device has no camera, break. ";
     public static final String EXTERNAL_STORAGE = "External Storage is not available, break.";
+    public static final String EXTERNAL_STORAGE_FAILED_MESSAGE = "Can not reach external storage, probably has been removed.";
     public static final String TAKE_PHOTO_WITHOUTFILE = "";
     public static final String PHOTO_STORED_MESSAGE = " Photo is stored in: ";
+    public static final String NO_INSTALLED_PROGRAM = "There is no program installed to open pdf.";
+    public static final String IMAGE_UPDATED = " Image updated.";
+    public static final String IMAGE_REMOVED = " Image removed. ";
+    public static final String NO_PHOTO = "There is no photo files to show.";
+    public static final String PHOTO_PATH_INCORRECT = "Photo Path not correct";
+    public static final String PHOTO_PATH_FAILED_MESSAGE = "The path where all photo files to be loaded is not correct.";
+    public static final String ITEM_ADDED = " Item added.";
+    public static final String ITEM_REMOVED = " Item removed. ";
+    public static final String NO_DOCUMENT = "There is no document files to open.";
+    public static final String DOC_PATH_INCORRECT = "Document Path not correct";
+    public static final String DOC_PATH_FAILED_MESSAGE = "The document path where all pdf files to be loaded is not correct.";
+    // intent data format
+    public static final String INTENT_DATA_TYPE = "application/pdf";
 }

@@ -25,6 +25,7 @@ import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
 import parsa_plm.com.jointelementinspector.adapters.DocumentGridAdapter;
+import parsa_plm.com.jointelementinspector.utils.AppConstants;
 import parsa_plm.com.jointelementinspector.utils.Utility;
 
 import java.io.File;
@@ -38,12 +39,11 @@ public class DocumentTabFragment extends BaseTabFragment {
     // 20170108: add swipe refresh layout
     @BindView(R.id.document_swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    private Unbinder mUnbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
-        mUnbinder = ButterKnife.bind(this, documentView);
+        setUnBinder(ButterKnife.bind(this, documentView));
         mContext = getContext();
         if (mGridView != null) {
             mGridView.setHasFixedSize(true);
@@ -97,9 +97,9 @@ public class DocumentTabFragment extends BaseTabFragment {
                         int updatedItemCount = 0;
                         updatedItemCount = refreshPdfs.size() - oldDocumentsCount;
                         if (updatedItemCount > 0)
-                            Toast.makeText(mContext, updatedItemCount + " item added.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, updatedItemCount + AppConstants.ITEM_ADDED, Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(mContext, Math.abs(updatedItemCount) + " item removed. ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, Math.abs(updatedItemCount) + AppConstants.ITEM_REMOVED, Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -112,13 +112,13 @@ public class DocumentTabFragment extends BaseTabFragment {
         // 20161220: now the correct path
         File f = new File(documentPath + File.separator + file.getName());
         if (f.exists()) {
-            intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+            intent.setDataAndType(Uri.fromFile(f), AppConstants.INTENT_DATA_TYPE);
             PackageManager pm = mContext.getPackageManager();
             List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
             if (activities.size() > 0)
                 mContext.startActivity(intent);
             else
-                Toast.makeText(mContext, "There is no program installed to open pdf.", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, AppConstants.NO_INSTALLED_PROGRAM, Toast.LENGTH_LONG).show();
         } else
             Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
     }
@@ -135,21 +135,16 @@ public class DocumentTabFragment extends BaseTabFragment {
                             pdfFiles.add(f);
                     }
                 } else
-                    Toast.makeText(mContext, "There is no document files to open.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, AppConstants.NO_DOCUMENT, Toast.LENGTH_LONG).show();
             } else {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.mipmap.ic_attention)
-                        .setTitle("Document Path not correct")
-                        .setMessage("The document path where all pdf files to be loaded is not correct.")
+                        .setTitle(AppConstants.DOC_PATH_INCORRECT)
+                        .setMessage(AppConstants.DOC_PATH_FAILED_MESSAGE)
                         .create().show();
                 return null;
             }
         }
         return pdfFiles;
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
     }
 }
