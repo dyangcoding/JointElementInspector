@@ -17,17 +17,15 @@ public class ImageDisplayActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displayimage);
-        Context mContext = this;
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         // 20170112: get the screen width and set high of resize to 0 to keep aspect ratio
         int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
         String file = getIntent().getExtras().getString("path");
         if (file != null) {
             File f = new File(file);
             ImageView imageView = (ImageView) findViewById(R.id.activity_displayImageView);
-            Picasso picasso = Picasso.with(mContext);
+            Picasso picasso = Picasso.with(getBaseContext());
             picasso.setIndicatorsEnabled(true);
             picasso
                     .load(f)

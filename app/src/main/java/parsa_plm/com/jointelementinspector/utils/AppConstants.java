@@ -61,4 +61,7 @@ public final class AppConstants {
     public static final String DOC_PATH_FAILED_MESSAGE = "The document path where all pdf files to be loaded is not correct.";
     // intent data format
     public static final String INTENT_DATA_TYPE = "application/pdf";
+    // file path
+    public static final String DOC_FILE_PATH = "DocumentFilePath";
+    public static final String IMAGE_FILE_PATH = "ImageFilePath";
 }

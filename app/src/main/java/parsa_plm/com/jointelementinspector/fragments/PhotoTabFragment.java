@@ -1,16 +1,14 @@
 package parsa_plm.com.jointelementinspector.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
@@ -38,7 +35,8 @@ public class PhotoTabFragment extends BaseTabFragment {
     private Context mContext;
     @BindView(R.id.photo_swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private String mImagePath;
+    public PhotoTabFragment() { setArguments(new Bundle()); }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
@@ -75,6 +73,21 @@ public class PhotoTabFragment extends BaseTabFragment {
                         .create().show();
             }
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String savedFilePath = (String) bundle.get(AppConstants.IMAGE_FILE_PATH);
+            onOpenImage(savedFilePath);
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mImagePath != null)
+            getArguments().putString(AppConstants.IMAGE_FILE_PATH, mImagePath);
     }
     private void setUpPhotoAdapter(String specificDir) {
         final List<File> images = getImages(specificDir);
@@ -114,15 +127,20 @@ public class PhotoTabFragment extends BaseTabFragment {
         }
     }
     private void setUpClickListener(int position, List<File> images) {
-        Intent intent = new Intent(mContext, ImageDisplayActivity.class);
-        String filePath = images.get(position).getAbsolutePath();
+        mImagePath = images.get(position).getAbsolutePath();
         // 20170108: should check if the file is available
-        File f = new File(filePath);
-        if (f.exists()) {
-            intent.putExtra("path", filePath);
-            mContext.startActivity(intent);
-        } else
-            Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+        onOpenImage(mImagePath);
+    }
+    private void onOpenImage(String filePath) {
+        if (filePath != null) {
+            File f = new File(mImagePath);
+            if (f.exists()) {
+                Intent intent = new Intent(mContext, ImageDisplayActivity.class);
+                intent.putExtra("path", filePath);
+                mContext.startActivity(intent);
+            } else
+                Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+        }
     }
     // 20161214: wir only need images
     // 20161216: change signature

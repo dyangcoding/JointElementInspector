@@ -15,7 +15,6 @@ import com.jointelementinspector.main.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.utils.AppConstants;
@@ -72,7 +71,6 @@ public class OverviewTabFragment extends BaseTabFragment {
         super.onPause();
         if (mScrollView != null)
             getArguments().putInt(AppConstants.OVERVIEW_VERTIVAL_POSITION, mScrollView.getScrollY());
-        Log.i(TAG, "onPause: " + AppConstants.OVERVIEW_VERTIVAL_POSITION + String.valueOf(mScrollView.getScrollY()));
     }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

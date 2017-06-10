@@ -1,18 +1,16 @@
 package parsa_plm.com.jointelementinspector.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import com.jointelementinspector.main.R;
@@ -39,7 +36,8 @@ public class DocumentTabFragment extends BaseTabFragment {
     // 20170108: add swipe refresh layout
     @BindView(R.id.document_swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private String mDocFilePath;
+    public DocumentTabFragment() { setArguments(new Bundle()); }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
@@ -69,6 +67,21 @@ public class DocumentTabFragment extends BaseTabFragment {
             if (filePath != null)
                 setUpDocumentAdapter(filePath, mDocumentPath);
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Bundle bundle = getArguments();
+        if (bundle !=null) {
+            String docuFilePath = (String) bundle.get(AppConstants.DOC_FILE_PATH);
+            onOpenFile(docuFilePath);
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mDocFilePath != null)
+            getArguments().putString(AppConstants.DOC_FILE_PATH, mDocFilePath);
     }
     // 20161223: add listener
     private void setUpDocumentAdapter(List<File> documents, String documentPath) {
@@ -107,20 +120,26 @@ public class DocumentTabFragment extends BaseTabFragment {
     }
     // 20170108: should check if the file exists, which has been clicked
     private void setUpOnClickListener(int position, List<File> documents, String documentPath) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        File file = documents.get(position);
+        mDocFilePath = documents.get(position).getAbsolutePath();
         // 20161220: now the correct path
-        File f = new File(documentPath + File.separator + file.getName());
-        if (f.exists()) {
-            intent.setDataAndType(Uri.fromFile(f), AppConstants.INTENT_DATA_TYPE);
-            PackageManager pm = mContext.getPackageManager();
-            List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-            if (activities.size() > 0)
-                mContext.startActivity(intent);
-            else
-                Toast.makeText(mContext, AppConstants.NO_INSTALLED_PROGRAM, Toast.LENGTH_LONG).show();
-        } else
-            Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+        // mDocFilePath = documentPath + File.separator + file.getName();
+        onOpenFile(mDocFilePath);
+    }
+    private void onOpenFile(String filePath) {
+        if (filePath != null) {
+            File mDocFile = new File(filePath);
+            if (mDocFile.exists()) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.fromFile(mDocFile), AppConstants.INTENT_DATA_TYPE);
+                PackageManager pm = mContext.getPackageManager();
+                List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+                if (activities.size() > 0)
+                    mContext.startActivity(intent);
+                else
+                    Toast.makeText(mContext, AppConstants.NO_INSTALLED_PROGRAM, Toast.LENGTH_LONG).show();
+            } else
+                Toast.makeText(mContext, " Can not access file " + mDocFile.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+        }
     }
     private List<File> getPDFFiles(String documentPath) {
         List<File> pdfFiles = new ArrayList<>();
