@@ -123,7 +123,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
                         removeFragment.remove(fragment);
                         removeFragment.commit();
                     }
-                    Toast.makeText(getContext(), " Dieses Element enthaelt keine weitere Daten. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), AppConstants.NO_FURTHER_DATA, Toast.LENGTH_LONG).show();
                 }
                 return true;
         });
@@ -180,7 +180,7 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
         // 20170223: should only automatically scroll down by expanding structure list item
         ScrollView scrollView = getScrollView();
         FragmentManager fragmemtManager = getChildFragmentManager();
-        WeldJointsFragment weldJointsFragment = (WeldJointsFragment) fragmemtManager.findFragmentByTag("weldJointsFragment");
+        WeldJointsFragment weldJointsFragment = (WeldJointsFragment) fragmemtManager.findFragmentByTag(AppConstants.WeldJOINTS_FRAGMENT);
         if (weldJointsFragment != null) {
             if (scrollView != null)
                 scrollView.smoothScrollTo(0, scrollView.getBottom());

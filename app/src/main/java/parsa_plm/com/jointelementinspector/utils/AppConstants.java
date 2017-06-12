@@ -59,9 +59,14 @@ public final class AppConstants {
     public static final String NO_DOCUMENT = "There is no document files to open.";
     public static final String DOC_PATH_INCORRECT = "Document Path not correct";
     public static final String DOC_PATH_FAILED_MESSAGE = "The document path where all pdf files to be loaded is not correct.";
+    public static final String NO_FURTHER_DATA = " This element contains no further data. ";
     // intent data format
     public static final String INTENT_DATA_TYPE = "application/pdf";
     // file path
     public static final String DOC_FILE_PATH = "DocumentFilePath";
     public static final String IMAGE_FILE_PATH = "ImageFilePath";
+    // preference
+    public static final String JOINT_ELEMENT_PREF = "JointElementPref";
+    // last opened activity
+    public static final String LAST_ACTIVITY = "lastActivity";
 }

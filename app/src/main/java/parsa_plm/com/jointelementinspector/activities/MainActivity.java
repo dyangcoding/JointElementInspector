@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,24 +47,24 @@ import parsa_plm.com.jointelementinspector.fragments.OverviewTabFragment;
 import parsa_plm.com.jointelementinspector.utils.AppConstants;
 
 public class MainActivity extends AppCompatActivity implements OverviewTabFragment.onFragmentInteractionListener {
+    private final String TAG = getClass().getName();
     private ExpandableListHeader headerData;
-    private Context mContext;
     // 20161101: make it global
     TabLayout tabLayout;
     private boolean inSpecificFolder = false;
     private String mSpecificFolder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 20161023: this code only for test
         if (LeakCanary.isInAnalyzerProcess(this)) {
-        // This process is dedicated to LeakCanary for heap analysis.
-        // You should not init your app in this process.
-           return;
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
         }
         LeakCanary.install(getApplication());
         setContentView(R.layout.menu_toolbar);
-        mContext = this;
         Toolbar menuToolBar = (Toolbar) findViewById(R.id.menu_toolbar);
         if (menuToolBar != null) {
             // hide the tool bar title
@@ -75,9 +77,27 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         if (bundle != null)
             headerData = bundle.getParcelable(AppConstants.PARCELABLE);
         // 2016114: extract method
-        // 20170525: we make viewpager inside toolbar for better look and feel
         setUpTab();
         setUpViewPager(tabLayout);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 20170611: reopen last activity
+        SharedPreferences prefs = getSharedPreferences(AppConstants.JOINT_ELEMENT_PREF, MODE_PRIVATE);
+        String lastActivity = prefs.getString(AppConstants.LAST_ACTIVITY, null);
+        if (lastActivity != null)
+            dispatchActivity(lastActivity);
+    }
+    private void dispatchActivity(String lastActivity) {
+        Class<?> activityClass = null;
+        try {
+            activityClass = Class.forName(lastActivity);
+        } catch (ClassNotFoundException ex) {
+            Log.i(TAG, "dispatchActivity: " + ex.toString());
+        }
+        if (activityClass != null)
+            startActivity(new Intent(this, activityClass));
     }
     private void initDrawer(Toolbar menuToolBar) {
         PrimaryDrawerItem openFile = new PrimaryDrawerItem()
@@ -128,24 +148,23 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         result.setOnDrawerItemClickListener((view, position, drawerItem) -> {
             switch (position) {
                 case 1:
-                    Intent openFileIntent = new Intent(this, OpenFileActivity.class);
-                    startActivityForResult(openFileIntent, AppConstants.REQUEST_CODE);
+                    onOpenFileClick();
                     result.closeDrawer();
                     break;
                 case 2:
-                    Toast.makeText(mContext, AppConstants.PDF_FROM_SERVER, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, AppConstants.PDF_FROM_SERVER, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 3:
-                    Toast.makeText(mContext, AppConstants.SAVE, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, AppConstants.SAVE, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 4:
-                    Toast.makeText(mContext, AppConstants.SAVE_AS, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, AppConstants.SAVE_AS, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 5:
-                    Toast.makeText(mContext, AppConstants.SAVE_REPORT, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, AppConstants.SAVE_REPORT, Toast.LENGTH_LONG).show();
                     result.closeDrawer();
                     break;
                 case 6:
@@ -155,6 +174,11 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             }
             return true;
         });
+    }
+    private void onOpenFileClick() {
+        Intent openFileIntent = new Intent(this, OpenFileActivity.class);
+        openFileIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityForResult(openFileIntent, AppConstants.REQUEST_CODE);
     }
     private AccountHeader initHeader() {
         return new AccountHeaderBuilder()
@@ -203,13 +227,13 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
                 outputStream.flush();
                 outputStream.close();
             } catch (IOException ex) {
-                Toast.makeText(mContext, ex.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
             }
             // 20170108: inform user where the photo was stored
             if (inSpecificFolder)
-                Toast.makeText(mContext, AppConstants.PHOTO_STORED_MESSAGE + mSpecificFolder, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, AppConstants.PHOTO_STORED_MESSAGE + mSpecificFolder, Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(mContext, AppConstants.PHOTO_STORED_MESSAGE + mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, AppConstants.PHOTO_STORED_MESSAGE + this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString(), Toast.LENGTH_LONG).show();
         }
     }
     // test removed argument final TabLayout tabLayout
@@ -225,20 +249,18 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // 20170524: drawer layout
-        //MenuInflater inflater = getMenuInflater();
-        //inflater.inflate(R.menu.menu_mainmenu, amvMenu.getMenu());
         getMenuInflater().inflate(R.menu.menu_context, menu);
         return true;
     }
@@ -248,12 +270,12 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
     }
     // 20161215: should check if device has camera and inform user
     private void onPrepareCapturePhoto() {
-        if (!mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-            Toast.makeText(mContext, AppConstants.NO_CAMERA, Toast.LENGTH_LONG).show();
+        if (!this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            Toast.makeText(this, AppConstants.NO_CAMERA, Toast.LENGTH_LONG).show();
             return;
         }
         if (!isExternalStorageWritable()) {
-            Toast.makeText(mContext, AppConstants.EXTERNAL_STORAGE, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, AppConstants.EXTERNAL_STORAGE, Toast.LENGTH_LONG).show();
             return;
         }
         onCapturePhoto();
@@ -281,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             // should check if the specific folder exist
             // communication between main activity and tab photo fragment,
             // also between tab document fragment
-            String externalDir = mContext.getExternalFilesDir(null).toString();
+            String externalDir = this.getExternalFilesDir(null).toString();
             String[] xmlFileDir = headerData.getFileDirectory().split("/");
             String specificFolder = externalDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
             File file = new File(specificFolder);
@@ -322,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
         if (inSpecificFolder)
             storageDir = mSpecificFolder;
         else
-            storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+            storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
         File f = new File(storageDir);
         return File.createTempFile(imageFileName, ".jpg", f);
     }

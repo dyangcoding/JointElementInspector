@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jointelementinspector.main">
+          package="com.jointelementinspector.main">
 
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="false"
         android:requiresSmallestWidthDp="600"
         android:smallScreens="false"
-        android:xlargeScreens="true" />
+        android:xlargeScreens="true"/>
 
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="16" />
+        android:targetSdkVersion="16"/>
 
-    <uses-feature android:name="android.hardware.camera"
-                    android:required="true"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -26,24 +28,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="parsa_plm.com.jointelementinspector.activities.MainActivity"
+        <activity
+            android:name="parsa_plm.com.jointelementinspector.activities.MainActivity"
+            android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"
             android:excludeFromRecents="false"
-            android:label="@string/app_name">
+            android:exported="true"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="parsa_plm.com.jointelementinspector.activities.OpenFileActivity"
+        <activity
+            android:name="parsa_plm.com.jointelementinspector.activities.OpenFileActivity"
             android:noHistory="true"
             android:screenOrientation="landscape">
         </activity>
-        <activity android:name="parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity"
-                  android:noHistory="true"
-                  android:screenOrientation="landscape">
+        <activity
+            android:name="parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity"
+            android:noHistory="true"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

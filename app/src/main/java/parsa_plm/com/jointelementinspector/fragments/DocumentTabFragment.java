@@ -72,9 +72,13 @@ public class DocumentTabFragment extends BaseTabFragment {
     public void onResume() {
         super.onResume();
         Bundle bundle = getArguments();
-        if (bundle !=null) {
-            String docuFilePath = (String) bundle.get(AppConstants.DOC_FILE_PATH);
-            onOpenFile(docuFilePath);
+        if (bundle != null) {
+            String filePath = (String) bundle.get(AppConstants.DOC_FILE_PATH);
+            onOpenFile(filePath);
+            // 20170611: release
+            bundle.clear();
+            if (mDocFilePath != null)
+                mDocFilePath = null;
         }
     }
     @Override

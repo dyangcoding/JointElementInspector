@@ -81,6 +81,10 @@ public class PhotoTabFragment extends BaseTabFragment {
         if (bundle != null) {
             String savedFilePath = (String) bundle.get(AppConstants.IMAGE_FILE_PATH);
             onOpenImage(savedFilePath);
+            // 20170611: release
+            bundle.clear();
+            if (mImagePath != null)
+                mImagePath = null;
         }
     }
     @Override
