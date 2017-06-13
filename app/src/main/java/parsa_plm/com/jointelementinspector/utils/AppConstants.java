@@ -69,4 +69,6 @@ public final class AppConstants {
     public static final String JOINT_ELEMENT_PREF = "JointElementPref";
     // last opened activity
     public static final String LAST_ACTIVITY = "lastActivity";
+    // data process
+    public static final String DATA_PROCESS = "  data processing ...   ";
 }

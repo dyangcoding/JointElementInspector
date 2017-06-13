@@ -149,36 +149,35 @@ public class InspectionHeaderFragment extends Fragment {
         return nullView;
     }
     private void setUpOnClick() {
-        if (mRowHeaderIcon != null) {
-            mRowHeaderIcon.setOnClickListener((view) -> {
-                if (mTableRow2 != null && mTableRow3 != null && mTableRow4 != null && mTableRow5 != null) {
-                    if (isVisible) {
-                        mRowHeaderIcon.setImageResource(R.mipmap.ic_expand);
-                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow2.setVisibility(View.GONE);
-                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow3.setVisibility(View.GONE);
-                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow4.setVisibility(View.GONE);
-                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
-                        mTableRow5.setVisibility(View.GONE);
-                        isVisible = false;
-
-                    } else {
-                        mRowHeaderIcon.setImageResource(R.mipmap.ic_collapse);
-                        mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow2.setVisibility(View.VISIBLE);
-                        mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow3.setVisibility(View.VISIBLE);
-                        mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow4.setVisibility(View.VISIBLE);
-                        mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-                        mTableRow5.setVisibility(View.VISIBLE);
-                        isVisible = true;
-                    }
-                }
-            });
-        }
+        if (mRowHeaderIcon == null)
+            return;
+        mRowHeaderIcon.setOnClickListener((view) -> {
+            if (mTableRow2 == null || mTableRow3 == null || mTableRow4 == null || mTableRow5 == null)
+                return;
+            if (isVisible) {
+                mRowHeaderIcon.setImageResource(R.mipmap.ic_expand);
+                mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                mTableRow2.setVisibility(View.GONE);
+                mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                mTableRow3.setVisibility(View.GONE);
+                mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                mTableRow4.setVisibility(View.GONE);
+                mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+                mTableRow5.setVisibility(View.GONE);
+                isVisible = false;
+            } else {
+                mRowHeaderIcon.setImageResource(R.mipmap.ic_collapse);
+                mTableRow2.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                mTableRow2.setVisibility(View.VISIBLE);
+                mTableRow3.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                mTableRow3.setVisibility(View.VISIBLE);
+                mTableRow4.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                mTableRow4.setVisibility(View.VISIBLE);
+                mTableRow5.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
+                mTableRow5.setVisibility(View.VISIBLE);
+                isVisible = true;
+            }
+        });
     }
     @Override
     public void onDestroyView() {

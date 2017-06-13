@@ -179,13 +179,11 @@ public class ProductStructureFragment extends Fragment implements View.OnLayoutC
     public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldright, int oldBottom) {
         // 20170223: should only automatically scroll down by expanding structure list item
         ScrollView scrollView = getScrollView();
-        FragmentManager fragmemtManager = getChildFragmentManager();
-        WeldJointsFragment weldJointsFragment = (WeldJointsFragment) fragmemtManager.findFragmentByTag(AppConstants.WeldJOINTS_FRAGMENT);
+        FragmentManager fm = getChildFragmentManager();
+        WeldJointsFragment weldJointsFragment = (WeldJointsFragment) fm.findFragmentByTag(AppConstants.WeldJOINTS_FRAGMENT);
         if (weldJointsFragment != null) {
             if (scrollView != null)
                 scrollView.smoothScrollTo(0, scrollView.getBottom());
-        }else {
-            scrollView.smoothScrollTo(0, scrollView.getBottom());
         }
     }
     @Override

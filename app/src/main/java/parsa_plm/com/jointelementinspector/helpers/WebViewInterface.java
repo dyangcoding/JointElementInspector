@@ -50,6 +50,7 @@ public class WebViewInterface {
     public int getWeldPointCount() {
         return weldPointCount;
     }
+
     @org.xwalk.core.JavascriptInterface
     public String getFilePath() {
         Log.i(TAG, "getFilePath: " + this.mListHeader.getFileDirectory());

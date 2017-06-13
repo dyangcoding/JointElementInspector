@@ -307,25 +307,23 @@ public class MainActivity extends AppCompatActivity implements OverviewTabFragme
             String[] xmlFileDir = headerData.getFileDirectory().split("/");
             String specificFolder = externalDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
             File file = new File(specificFolder);
-            if (file.isDirectory() && file.exists()) {
-                mSpecificFolder = specificFolder;
-                inSpecificFolder = true;
-                captureImage();
-            } else {
+            if (!file.isDirectory() || !file.exists()) {
                 adb.setIcon(R.mipmap.ic_attention);
                 adb.setTitle(AppConstants.NO_DIRECTORY);
                 adb.setMessage("Der Ordner, in dem Bilder zu speichern sind, existiert nicht. Stellen Sie sicher," +
                         "dass XML Dateien aus Teamcenter korreckt exportiert werden. ");
                 adb.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
             }
+            mSpecificFolder = specificFolder;
+            inSpecificFolder = true;
+            captureImage();
         }
     }
     // store images in specific folder if withSpecificFolder is true, argument file could be null
-    // 20161215: Done created image file in createImageFile
+    // 20161215: create image file in createImageFile
     // 20170107: just use intent to capture photos und push data in the file by onActivityResult
     private void captureImage() {
         try {

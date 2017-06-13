@@ -28,10 +28,11 @@ import parsa_plm.com.jointelementinspector.activities.OpenFileActivity;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
 import parsa_plm.com.jointelementinspector.models.ExpandableListItem;
 import parsa_plm.com.jointelementinspector.models.Occurrence;
+import parsa_plm.com.jointelementinspector.utils.AppConstants;
 import parsa_plm.com.jointelementinspector.utils.Utility;
 
 public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader> {
-    private final String TAG = getClass().toString();
+    private final String TAG = getClass().getName();
     private ProgressDialog mProgressDialog;
     private String mFilePath;
     private Context mContext;
@@ -42,7 +43,7 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
     }
     protected void onPreExecute() {
         this.mProgressDialog = new ProgressDialog(this.mContext);
-        this.mProgressDialog.setMessage("   wird geladen ...   ");
+        this.mProgressDialog.setMessage(AppConstants.DATA_PROCESS);
         this.mProgressDialog.setCancelable(false);
         this.mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         this.mProgressDialog.show();
@@ -98,7 +99,7 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             this.mProgressDialog.dismiss();
             Intent intent = new Intent(mContext, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("com.ExpandableListData", expandableListHeader);
+            intent.putExtra(AppConstants.PARCELABLE, expandableListHeader);
             this.mContext.startActivity(intent);
         }
     }
@@ -123,108 +124,105 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         String type = "NotFound";
         String formRole = "IMAN_master_form";
         // get part name
-        if (notNullAndEmpty(instancedRef)) {
-            String id4ProductRevision = instancedRef.substring(1);
-            for (int l = 0; l < productRevision.getLength(); ++l) {
-                Element eleProRev = (Element) productRevision.item(l);
-                String idRevision = eleProRev.getAttribute("id");
-                if (notNullAndEmpty(id4ProductRevision)) {
-                    if (id4ProductRevision.trim().equalsIgnoreCase(idRevision.trim())) {
-                        partName = eleProRev.getAttribute("name");
-                        type = eleProRev.getAttribute("subType");
-                        break;
-                    }
-                }
+        if (!notNullAndEmpty(instancedRef))
+            return null;
+        String id4ProductRevision = instancedRef.substring(1);
+        for (int l = 0; l < productRevision.getLength(); ++l) {
+            Element eleProRev = (Element) productRevision.item(l);
+            String idRevision = eleProRev.getAttribute("id");
+            if (!notNullAndEmpty(id4ProductRevision))
+                return null;
+            if (id4ProductRevision.trim().equalsIgnoreCase(idRevision.trim())) {
+                partName = eleProRev.getAttribute("name");
+                type = eleProRev.getAttribute("subType");
+                break;
             }
         }
         String[] associatedAttachmentIds = null;
         if (notNullAndEmpty(associatedAttachmentRefs))
             associatedAttachmentIds = associatedAttachmentRefs.split("#");
-
         String associatedAttachmentRole = null;
         String associateAttachmentId = null;
         String attachmentRef = null;
         String childRefs = null;
-        if (associatedAttachmentIds.length > 0) {
-            IdLoop:
-            for (String id : associatedAttachmentIds) {
-                for (int k = 0; k < associatedAttachment.getLength(); ++k) {
-                    Element eleAsso = (Element) associatedAttachment.item(k);
-                    associatedAttachmentRole = eleAsso.getAttribute("role");
-                    associateAttachmentId = eleAsso.getAttribute("id");
-                    if (id.equalsIgnoreCase(associateAttachmentId) && associatedAttachmentRole.equalsIgnoreCase(formRole)) {
-                        attachmentRef = eleAsso.getAttribute("attachmentRef");
-                        // für weitere Attribute
-                        childRefs = eleAsso.getAttribute("childRefs");
-                        break IdLoop;
-                    }
+        if (associatedAttachmentIds.length == 0)
+            return null;
+        IdLoop:
+        for (String id : associatedAttachmentIds) {
+            for (int k = 0; k < associatedAttachment.getLength(); ++k) {
+                Element eleAsso = (Element) associatedAttachment.item(k);
+                associatedAttachmentRole = eleAsso.getAttribute("role");
+                associateAttachmentId = eleAsso.getAttribute("id");
+                if (id.equalsIgnoreCase(associateAttachmentId) && associatedAttachmentRole.equalsIgnoreCase(formRole)) {
+                    attachmentRef = eleAsso.getAttribute("attachmentRef");
+                    // für weitere Attribute
+                    childRefs = eleAsso.getAttribute("childRefs");
+                    break IdLoop;
                 }
             }
         }
         if (notNullAndEmpty(attachmentRef))
             attachmentRef = attachmentRef.substring(1);
-
+        if (!notNullAndEmpty(attachmentRef))
+            return null;
         formLoop:
         for (int k = 0; k < form.getLength(); ++k) {
             Element eleForm = (Element) form.item(k);
-            if (notNullAndEmpty(attachmentRef)) {
-                if (attachmentRef.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
-                    partNr = eleForm.getAttribute("name");
-                    NodeList nodeOfForm = eleForm.getElementsByTagName("UserValue");
-                    for (int i = 0; i < nodeOfForm.getLength(); i++) {
-                        Element eleNode = (Element) nodeOfForm.item(i);
-                        String nodeTitle = eleNode.getAttribute("title");
-                        switch (nodeTitle) {
-                            case "a2_InspDate":
-                                inspectorDate = eleNode.getAttribute("value");
-                                break;
-                            case "a2_Inspector":
-                                inspector = eleNode.getAttribute("value");
-                                break;
-                            case "a2_OrderNr":
-                                orderNr = eleNode.getAttribute("value");
-                                break;
-                            case "project_id":
-                                vehicle = eleNode.getAttribute("value");
-                                break;
-                        }
+            if (attachmentRef.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
+                partNr = eleForm.getAttribute("name");
+                NodeList nodeOfForm = eleForm.getElementsByTagName("UserValue");
+                for (int i = 0; i < nodeOfForm.getLength(); i++) {
+                    Element eleNode = (Element) nodeOfForm.item(i);
+                    String nodeTitle = eleNode.getAttribute("title");
+                    switch (nodeTitle) {
+                        case "a2_InspDate":
+                            inspectorDate = eleNode.getAttribute("value");
+                            break;
+                        case "a2_Inspector":
+                            inspector = eleNode.getAttribute("value");
+                            break;
+                        case "a2_OrderNr":
+                            orderNr = eleNode.getAttribute("value");
+                            break;
+                        case "project_id":
+                            vehicle = eleNode.getAttribute("value");
+                            break;
                     }
-                    break formLoop;
                 }
+                break formLoop;
             }
         }
         // obtain attribute time span and frequency
         String idOfForm4MoreAttri = null;
         if (notNullAndEmpty(childRefs))
             idOfForm4MoreAttri = findId4InspeAttri(childRefs, associatedAttachment);
-
         // use id of form to find more attribute
-        if (notNullAndEmpty(idOfForm4MoreAttri)) {
-            for (int k = 0; k < form.getLength(); ++k) {
-                Element eleForm = (Element) form.item(k);
-                // better to use TRIM() for sure
-                if (idOfForm4MoreAttri.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
-                    NodeList nodeOfForm = eleForm.getElementsByTagName("UserValue");
-                    for (int i = 0; i < nodeOfForm.getLength(); i++) {
-                        Element eleNode = (Element) nodeOfForm.item(i);
-                        String nodeTitle = eleNode.getAttribute("title");
-                        switch (nodeTitle) {
-                            case "a2_InspCycle":
-                                frequency = eleNode.getAttribute("value");
-                                break;
-                            case "a2_InspMethod":
-                                inspectorMethod = eleNode.getAttribute("value");
-                                break;
-                            case "a2_InspScope":
-                                inspectorScope = eleNode.getAttribute("value");
-                                break;
-                            case "a2_InspectionTimespan":
-                                inspectorTimeSpan = eleNode.getAttribute("value");
-                                break;
-                            case "a2_InspRegNORM":
-                                inspectorNorm = eleNode.getAttribute("value");
-                                break;
-                        }
+        if (!notNullAndEmpty(idOfForm4MoreAttri))
+            return null;
+        for (int k = 0; k < form.getLength(); ++k) {
+            Element eleForm = (Element) form.item(k);
+            // better to use TRIM() for sure
+            if (idOfForm4MoreAttri.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
+                NodeList nodeOfForm = eleForm.getElementsByTagName("UserValue");
+                for (int i = 0; i < nodeOfForm.getLength(); i++) {
+                    Element eleNode = (Element) nodeOfForm.item(i);
+                    String nodeTitle = eleNode.getAttribute("title");
+                    switch (nodeTitle) {
+                        case "a2_InspCycle":
+                            frequency = eleNode.getAttribute("value");
+                            break;
+                        case "a2_InspMethod":
+                            inspectorMethod = eleNode.getAttribute("value");
+                            break;
+                        case "a2_InspScope":
+                            inspectorScope = eleNode.getAttribute("value");
+                            break;
+                        case "a2_InspectionTimespan":
+                            inspectorTimeSpan = eleNode.getAttribute("value");
+                            break;
+                        case "a2_InspRegNORM":
+                            inspectorNorm = eleNode.getAttribute("value");
+                            break;
                     }
                 }
             }
@@ -257,14 +255,14 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             Element eleAssociated = (Element) associatedAttachment.item(k);
             // idCompareTo contains blank
             String idCompareTo = eleAssociated.getAttribute("id");
-            if (notNullAndEmpty(idCompareTo)) {
-                if (idCompareTo.trim().equalsIgnoreCase(id2FindAttachment.trim())) {
-                    idOfForm4InspeAttri = eleAssociated.getAttribute("attachmentRef");
-                    if (notNullAndEmpty(idOfForm4InspeAttri)) {
-                        idOfForm4InspeAttri = idOfForm4InspeAttri.substring(1);
-                        break;
-                    }
-                }
+            if (notNullAndEmpty(idCompareTo))
+                return null;
+            if (idCompareTo.trim().equalsIgnoreCase(id2FindAttachment.trim())) {
+                idOfForm4InspeAttri = eleAssociated.getAttribute("attachmentRef");
+                if (!notNullAndEmpty(idOfForm4InspeAttri))
+                    return null;
+                idOfForm4InspeAttri = idOfForm4InspeAttri.substring(1);
+                break;
             }
         }
         return idOfForm4InspeAttri;
@@ -305,51 +303,52 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
                 }
             }
             // first find item name and item type, if id not in design revision, muss be in product revision
-            if (notNullAndEmpty(childInstancedRef)) {
-                String idOfRevisions = childInstancedRef.split("#")[1];
-                boolean itemFound = false;
-                for (int k = 0; k < designRevision.getLength(); ++k) {
-                    Element eleDesignRevison = (Element) designRevision.item(k);
-                    if (idOfRevisions.trim().equalsIgnoreCase(eleDesignRevison.getAttribute("id").trim())) {
-                        itemName = eleDesignRevison.getAttribute("name");
-                        itemType = eleDesignRevison.getAttribute("subType");
-                        if (itemName != null && itemType != null) itemFound = true;
-                    }
+            if (!notNullAndEmpty(childInstancedRef))
+                return null;
+            String idOfRevisions = childInstancedRef.split("#")[1];
+            boolean itemFound = false;
+            for (int k = 0; k < designRevision.getLength(); ++k) {
+                Element eleDesignRevison = (Element) designRevision.item(k);
+                if (idOfRevisions.trim().equalsIgnoreCase(eleDesignRevison.getAttribute("id").trim())) {
+                    itemName = eleDesignRevison.getAttribute("name");
+                    itemType = eleDesignRevison.getAttribute("subType");
+                    if (itemName != null && itemType != null)
+                        itemFound = true;
                 }
-                if (!itemFound) {
-                    for (int k = 0; k < productRevision.getLength(); ++k) {
-                        Element eleProductRevision = (Element) productRevision.item(k);
-                        if (idOfRevisions.trim().equalsIgnoreCase(eleProductRevision.getAttribute("id").trim())) {
-                            itemName = eleProductRevision.getAttribute("name");
-                            itemType = eleProductRevision.getAttribute("subType");
-                        }
+            }
+            if (!itemFound) {
+                for (int k = 0; k < productRevision.getLength(); ++k) {
+                    Element eleProductRevision = (Element) productRevision.item(k);
+                    if (idOfRevisions.trim().equalsIgnoreCase(eleProductRevision.getAttribute("id").trim())) {
+                        itemName = eleProductRevision.getAttribute("name");
+                        itemType = eleProductRevision.getAttribute("subType");
                     }
                 }
             }
             // now use associated attachment to find item number
-            if (notNullAndEmpty(childAssociatedAttachmentRefs)) {
-                String[] idsOfChildAttachment = childAssociatedAttachmentRefs.split("#");
-                String idOfForm4ItemNr = null;
-                childAssocitedLoop:
-                for (String idOfChild : idsOfChildAttachment) {
-                    for (int k = 0; k < associatedAttachment.getLength(); ++k) {
-                        Element eleChildAssociated = (Element) associatedAttachment.item(k);
-                        if (idOfChild.trim().equalsIgnoreCase(eleChildAssociated.getAttribute("id").trim())
-                                && formRole.equalsIgnoreCase(eleChildAssociated.getAttribute("role"))) {
-                            idOfForm4ItemNr = eleChildAssociated.getAttribute("attachmentRef");
-                            break childAssocitedLoop;
-                        }
+            if (!notNullAndEmpty(childAssociatedAttachmentRefs))
+                return null;
+            String[] idsOfChildAttachment = childAssociatedAttachmentRefs.split("#");
+            String idOfForm4ItemNr = null;
+            childAssocitedLoop:
+            for (String idOfChild : idsOfChildAttachment) {
+                for (int k = 0; k < associatedAttachment.getLength(); ++k) {
+                    Element eleChildAssociated = (Element) associatedAttachment.item(k);
+                    if (idOfChild.trim().equalsIgnoreCase(eleChildAssociated.getAttribute("id").trim())
+                            && formRole.equalsIgnoreCase(eleChildAssociated.getAttribute("role"))) {
+                        idOfForm4ItemNr = eleChildAssociated.getAttribute("attachmentRef");
+                        break childAssocitedLoop;
                     }
                 }
-                // now use forms id to find form and then get item number
-                if (notNullAndEmpty(idOfForm4ItemNr)) {
-                    String idSplitted = idOfForm4ItemNr.split("#")[1];
-                    for (int k = 0; k < form.getLength(); k++) {
-                        Element eleChildForm = (Element) form.item(k);
-                        if (idSplitted.trim().equalsIgnoreCase(eleChildForm.getAttribute("id").trim())) {
-                            itemNr = eleChildForm.getAttribute("name");
-                        }
-                    }
+            }
+            // now use forms id to find form and then get item number
+            if (notNullAndEmpty(idOfForm4ItemNr))
+                return null;
+            String idSplitted = idOfForm4ItemNr.split("#")[1];
+            for (int k = 0; k < form.getLength(); k++) {
+                Element eleChildForm = (Element) form.item(k);
+                if (idSplitted.trim().equalsIgnoreCase(eleChildForm.getAttribute("id").trim())) {
+                    itemNr = eleChildForm.getAttribute("name");
                 }
             }
             // 20170203: extract method for more readable
@@ -365,93 +364,93 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
     private List<Occurrence> getChildWeldPoints(NodeList occurrence, NodeList associatedAttachment, NodeList form, String idsOfItemWeldPoint, List<Occurrence> itemOfChild) {
         // last use idsItemWeldPoint to find weld point
         // first version, obtain weld point name to display list structure, late more attribute
-        if (notNullAndEmpty(idsOfItemWeldPoint)) {
-            itemOfChild = new ArrayList<>();
-            String[] ids = idsOfItemWeldPoint.split(" ");
-            for (String id2FindWeldPoint : ids) {
-                if (notNullAndEmpty(id2FindWeldPoint)) {
-                    String name = null;
-                    String joints_itemType = null;
-                    Occurrence weldPoint = null;
-                    // 20161021: associated attachments to find characters
-                    String associatedARs = null;
-                    // 20170510: weld points transform matrix
-                    String transformMatrix = null;
-                    occuLoop:
-                    for (int k = 0; k < occurrence.getLength(); k++) {
-                        Element eleOccu = (Element) occurrence.item(k);
-                        if (id2FindWeldPoint.trim().equalsIgnoreCase(eleOccu.getAttribute("id").trim())) {
-                            associatedARs = eleOccu.getAttribute("associatedAttachmentRefs");
-                            NodeList nodes = eleOccu.getElementsByTagName("UserValue");
-                            NodeList transform = eleOccu.getElementsByTagName("Transform");
-                            Node matrixChildren = transform.item(0).getFirstChild();
-                            transformMatrix = matrixChildren.getNodeValue();
-                            for (int i = 0; i < nodes.getLength(); i++) {
-                                Element eleNode = (Element) nodes.item(i);
-                                String nodeTitle = eleNode.getAttribute("title");
-                                if (nodeTitle.equalsIgnoreCase("OccurrenceName")) {
-                                    name = eleNode.getAttribute("value");
-                                    break occuLoop;
-                                }
-                            }
-                        }
-                    }
-                    String id4Form = null;
-                    // check associated attachments
-                    if (notNullAndEmpty(associatedARs)) {
-                        String[] aRs = associatedARs.split("#");
-                        attachmentsLoop:
-                        for (String id4Character : aRs) {
-                            if (notNullAndEmpty(id4Character)) {
-                                for (int k = 0; k < associatedAttachment.getLength(); ++k) {
-                                    Element eleAss = (Element) associatedAttachment.item(k);
-                                    if (id4Character.trim().equalsIgnoreCase(eleAss.getAttribute("id").trim())
-                                            && "TC_Feature_Form_Relation".equalsIgnoreCase(eleAss.getAttribute("role"))) {
-                                        id4Form = eleAss.getAttribute("attachmentRef");
-                                        break attachmentsLoop;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    // 20161021: map which hold all key value paar for wild points
-                    Map<String, String> weldPointsAttrs = new HashMap<>();
-                    // 20170203: extract method
-                    joints_itemType = getWeldPointAttribute(form, id4Form, weldPointsAttrs);
-                    if (notNullAndEmpty(name) && notNullAndEmpty(joints_itemType)) {
-                        String joins_it = joints_itemType.split(" ")[0];
-                        if (notNullAndEmpty(transformMatrix)) {
-                            double[][] matrix = Utility.generateMatrix(transformMatrix);
-                            weldPoint = new Occurrence(name, joins_it.trim(),
-                                    Utility.scalePosition(matrix[0][3]),
-                                    Utility.scalePosition(matrix[1][3]),
-                                    Utility.scalePosition(matrix[2][3]),weldPointsAttrs);
-                            itemOfChild.add(weldPoint);
+        if (!notNullAndEmpty(idsOfItemWeldPoint))
+            return null;
+        itemOfChild = new ArrayList<>();
+        String[] ids = idsOfItemWeldPoint.split(" ");
+        for (String id4WeldPoint : ids) {
+            if (!notNullAndEmpty(id4WeldPoint))
+                return null;
+            String name = null;
+            String joints_itemType = null;
+            Occurrence weldPoint = null;
+            // 20161021: associated attachments to find characters
+            String associatedARs = null;
+            // 20170510: weld points transform matrix
+            String transformMatrix = null;
+            occuLoop:
+            for (int k = 0; k < occurrence.getLength(); k++) {
+                Element eleOccu = (Element) occurrence.item(k);
+                if (id4WeldPoint.trim().equalsIgnoreCase(eleOccu.getAttribute("id").trim())) {
+                    associatedARs = eleOccu.getAttribute("associatedAttachmentRefs");
+                    NodeList nodes = eleOccu.getElementsByTagName("UserValue");
+                    NodeList transform = eleOccu.getElementsByTagName("Transform");
+                    Node matrixChildren = transform.item(0).getFirstChild();
+                    transformMatrix = matrixChildren.getNodeValue();
+                    for (int i = 0; i < nodes.getLength(); i++) {
+                        Element eleNode = (Element) nodes.item(i);
+                        String nodeTitle = eleNode.getAttribute("title");
+                        if (nodeTitle.equalsIgnoreCase("OccurrenceName")) {
+                            name = eleNode.getAttribute("value");
+                            break occuLoop;
                         }
                     }
                 }
             }
+            String id4Form = null;
+            // check associated attachments
+            if (notNullAndEmpty(associatedARs))
+                return null;
+            String[] aRs = associatedARs.split("#");
+            attachmentsLoop:
+            for (String id4Character : aRs) {
+                if (notNullAndEmpty(id4Character))
+                    return null;
+                for (int k = 0; k < associatedAttachment.getLength(); ++k) {
+                    Element eleAss = (Element) associatedAttachment.item(k);
+                    if (id4Character.trim().equalsIgnoreCase(eleAss.getAttribute("id").trim())
+                            && "TC_Feature_Form_Relation".equalsIgnoreCase(eleAss.getAttribute("role"))) {
+                        id4Form = eleAss.getAttribute("attachmentRef");
+                        break attachmentsLoop;
+                    }
+                }
+            }
+            // 20161021: map which hold all key value paar for wild points
+            Map<String, String> weldPointsAttrs = new HashMap<>();
+            // 20170203: extract method
+            joints_itemType = getWeldPointAttribute(form, id4Form, weldPointsAttrs);
+            if (!notNullAndEmpty(name) || !notNullAndEmpty(joints_itemType))
+                return null;
+            String joins_it = joints_itemType.split(" ")[0];
+            if (notNullAndEmpty(transformMatrix))
+                return null;
+            double[][] matrix = Utility.generateMatrix(transformMatrix);
+            weldPoint = new Occurrence(name, joins_it.trim(),
+                    Utility.scalePosition(matrix[0][3]),
+                    Utility.scalePosition(matrix[1][3]),
+                    Utility.scalePosition(matrix[2][3]),weldPointsAttrs);
+            itemOfChild.add(weldPoint);
         }
         return itemOfChild;
     }
     private String getWeldPointAttribute(NodeList form, String id4Form, Map<String, String> character) {
         String joints_itemType = null;
-        if (notNullAndEmpty(id4Form)) {
-            String id4FormSplitted = id4Form.split("#")[1];
-            for (int k = 0; k < form.getLength(); ++k) {
-                Element eleForm = (Element) form.item(k);
-                if (id4FormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
-                    joints_itemType = eleForm.getAttribute("subType");
-                    NodeList nodes = eleForm.getElementsByTagName("UserValue");
-                    // 20170217: get attribute and store in list
-                    for (int i = 0; i < nodes.getLength(); ++i) {
-                        Element eleNode = (Element) nodes.item(i);
-                        String nodeTitle = eleNode.getAttribute("title");
-                        getWPAttribute(character, eleNode, nodeTitle);
-                    }
-                    // 20170217: now wir should check if attribute has default value
-                    setDefaultValue(nodes, character);
+        if (!notNullAndEmpty(id4Form))
+            return null;
+        String id4FormSplitted = id4Form.split("#")[1];
+        for (int k = 0; k < form.getLength(); ++k) {
+            Element eleForm = (Element) form.item(k);
+            if (id4FormSplitted.trim().equalsIgnoreCase(eleForm.getAttribute("id").trim())) {
+                joints_itemType = eleForm.getAttribute("subType");
+                NodeList nodes = eleForm.getElementsByTagName("UserValue");
+                // 20170217: get attribute and store in list
+                for (int i = 0; i < nodes.getLength(); ++i) {
+                    Element eleNode = (Element) nodes.item(i);
+                    String nodeTitle = eleNode.getAttribute("title");
+                    getWPAttribute(character, eleNode, nodeTitle);
                 }
+                // 20170217: now wir should check if attribute has default value
+                setDefaultValue(nodes, character);
             }
         }
         return joints_itemType;

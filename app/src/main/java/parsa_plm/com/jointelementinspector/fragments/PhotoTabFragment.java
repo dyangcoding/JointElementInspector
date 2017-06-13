@@ -60,18 +60,18 @@ public class PhotoTabFragment extends BaseTabFragment {
         super.onActivityCreated(savedInstanceState);
         ExpandableListHeader headerData = getHeaderData();
         if (headerData != null) {
-            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                String storageDir = mContext.getExternalFilesDir(null).toString();
-                String[] xmlFileDir = headerData.getFileDirectory().split("/");
-                String specificDir = storageDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
-                setUpPhotoAdapter(specificDir);
-            } else {
+            if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 new AlertDialog.Builder(mContext)
                         .setIcon(R.mipmap.ic_attention)
                         .setTitle(AppConstants.EXTERNAL_STORAGE)
                         .setMessage(AppConstants.EXTERNAL_STORAGE_FAILED_MESSAGE)
                         .create().show();
+                return;
             }
+            String storageDir = mContext.getExternalFilesDir(null).toString();
+            String[] xmlFileDir = headerData.getFileDirectory().split("/");
+            String specificDir = storageDir + File.separator + xmlFileDir[xmlFileDir.length - 1];
+            setUpPhotoAdapter(specificDir);
         }
     }
     @Override
@@ -108,27 +108,28 @@ public class PhotoTabFragment extends BaseTabFragment {
     // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final ImageGridAdapter adapter, final String folderPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setOnRefreshListener(() -> {
-                // 20170108: hold reference of the old documents
-                int oldPhotosCount = adapter.getItemCount();
-                adapter.clear();
-                List<File> refreshPhotos = getImages(folderPath);
-                if (refreshPhotos != null) {
-                    adapter.addAll(refreshPhotos);
-                    adapter.notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    if (oldPhotosCount != refreshPhotos.size()) {
-                        int updatedItemCount = 0;
-                        updatedItemCount = refreshPhotos.size() - oldPhotosCount;
-                        if (updatedItemCount > 0)
-                            Toast.makeText(mContext, updatedItemCount + AppConstants.IMAGE_UPDATED, Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(mContext, Math.abs(updatedItemCount) + AppConstants.IMAGE_REMOVED, Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
+        if (mSwipeRefreshLayout == null)
+            return;
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            // 20170108: hold reference of the old documents
+            int oldPhotosCount = adapter.getItemCount();
+            adapter.clear();
+            List<File> refreshPhotos = getImages(folderPath);
+            if (refreshPhotos == null) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                return;
+            }
+            adapter.addAll(refreshPhotos);
+            adapter.notifyDataSetChanged();
+            mSwipeRefreshLayout.setRefreshing(false);
+            if (oldPhotosCount != refreshPhotos.size()) {
+                int updatedItemCount = refreshPhotos.size() - oldPhotosCount;
+                if (updatedItemCount > 0)
+                    Toast.makeText(mContext, updatedItemCount + AppConstants.IMAGE_UPDATED, Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(mContext, Math.abs(updatedItemCount) + AppConstants.IMAGE_REMOVED, Toast.LENGTH_LONG).show();
+            }
+        });
     }
     private void setUpClickListener(int position, List<File> images) {
         mImagePath = images.get(position).getAbsolutePath();
@@ -138,12 +139,13 @@ public class PhotoTabFragment extends BaseTabFragment {
     private void onOpenImage(String filePath) {
         if (filePath != null) {
             File f = new File(mImagePath);
-            if (f.exists()) {
-                Intent intent = new Intent(mContext, ImageDisplayActivity.class);
-                intent.putExtra("path", filePath);
-                mContext.startActivity(intent);
-            } else
+            if (!f.exists()) {
                 Toast.makeText(mContext, " Can not access file " + f.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            Intent intent = new Intent(mContext, ImageDisplayActivity.class);
+            intent.putExtra("path", filePath);
+            mContext.startActivity(intent);
         }
     }
     // 20161214: wir only need images
@@ -151,25 +153,25 @@ public class PhotoTabFragment extends BaseTabFragment {
     private List<File> getImages(String imagePath) {
         List<File> images = new ArrayList<>();
         File photoDir = null;
-        if (imagePath != null && !imagePath.isEmpty()) {
-            photoDir = new File(imagePath);
-            if (photoDir.isDirectory() && photoDir.exists()) {
-                File[] files = photoDir.listFiles();
-                if (files.length > 0) {
-                    for (File f : files) {
-                        if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png"))
-                            images.add(f);
-                    }
-                } else
-                    Toast.makeText(mContext, AppConstants.NO_PHOTO, Toast.LENGTH_LONG).show();
-            } else {
-                new AlertDialog.Builder(mContext)
-                        .setIcon(R.mipmap.ic_attention)
-                        .setTitle(AppConstants.PHOTO_PATH_INCORRECT)
-                        .setMessage(AppConstants.PHOTO_PATH_FAILED_MESSAGE)
-                        .create().show();
-                return null;
-            }
+        if (imagePath == null || imagePath.isEmpty())
+            return null;
+        photoDir = new File(imagePath);
+        if (!photoDir.isDirectory() || !photoDir.exists()) {
+            new AlertDialog.Builder(mContext)
+                    .setIcon(R.mipmap.ic_attention)
+                    .setTitle(AppConstants.PHOTO_PATH_INCORRECT)
+                    .setMessage(AppConstants.PHOTO_PATH_FAILED_MESSAGE)
+                    .create().show();
+            return null;
+        }
+        File[] files = photoDir.listFiles();
+        if (files.length == 0) {
+            Toast.makeText(mContext, AppConstants.NO_PHOTO, Toast.LENGTH_LONG).show();
+            return null;
+        }
+        for (File f : files) {
+            if (f.getName().toLowerCase().endsWith("jpg") || f.getName().toLowerCase().endsWith("png"))
+                images.add(f);
         }
         return images;
     }

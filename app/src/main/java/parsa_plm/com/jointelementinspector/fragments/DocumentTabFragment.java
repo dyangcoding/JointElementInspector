@@ -20,7 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
+
 import com.jointelementinspector.main.R;
+
 import parsa_plm.com.jointelementinspector.adapters.DocumentGridAdapter;
 import parsa_plm.com.jointelementinspector.utils.AppConstants;
 import parsa_plm.com.jointelementinspector.utils.Utility;
@@ -37,7 +39,10 @@ public class DocumentTabFragment extends BaseTabFragment {
     @BindView(R.id.document_swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private String mDocFilePath;
-    public DocumentTabFragment() { setArguments(new Bundle()); }
+
+    public DocumentTabFragment() {
+        setArguments(new Bundle());
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View documentView = inflater.inflate(R.layout.tab_fragment_document, container, false);
@@ -100,27 +105,28 @@ public class DocumentTabFragment extends BaseTabFragment {
     // should use more specific method to update items as notifyDItemRangeChanged etc.
     private void setSwipeRefresh(final DocumentGridAdapter adapter, final String documentPath) {
         // 20170108: swipe refresh, with clear and addAll notify works
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setOnRefreshListener(() -> {
-                // 20170108: hold reference of the old documents
-                int oldDocumentsCount = adapter.getItemCount();
-                adapter.clear();
-                List<File> refreshPdfs = getPDFFiles(documentPath);
-                if (refreshPdfs != null) {
-                    adapter.addAll(refreshPdfs);
-                    adapter.notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    if (oldDocumentsCount != refreshPdfs.size()) {
-                        int updatedItemCount = 0;
-                        updatedItemCount = refreshPdfs.size() - oldDocumentsCount;
-                        if (updatedItemCount > 0)
-                            Toast.makeText(mContext, updatedItemCount + AppConstants.ITEM_ADDED, Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(mContext, Math.abs(updatedItemCount) + AppConstants.ITEM_REMOVED, Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
+        if (mSwipeRefreshLayout == null)
+            return;
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            // 20170108: hold reference of the old documents
+            int oldDocumentsCount = adapter.getItemCount();
+            adapter.clear();
+            List<File> refreshPdfs = getPDFFiles(documentPath);
+            if (refreshPdfs == null) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                return;
+            }
+            adapter.addAll(refreshPdfs);
+            adapter.notifyDataSetChanged();
+            mSwipeRefreshLayout.setRefreshing(false);
+            if (oldDocumentsCount != refreshPdfs.size()) {
+                int updatedItemCount = refreshPdfs.size() - oldDocumentsCount;
+                if (updatedItemCount > 0)
+                    Toast.makeText(mContext, updatedItemCount + AppConstants.ITEM_ADDED, Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(mContext, Math.abs(updatedItemCount) + AppConstants.ITEM_REMOVED, Toast.LENGTH_LONG).show();
+            }
+        });
     }
     // 20170108: should check if the file exists, which has been clicked
     private void setUpOnClickListener(int position, List<File> documents, String documentPath) {
@@ -130,43 +136,43 @@ public class DocumentTabFragment extends BaseTabFragment {
         onOpenFile(mDocFilePath);
     }
     private void onOpenFile(String filePath) {
-        if (filePath != null) {
-            File mDocFile = new File(filePath);
-            if (mDocFile.exists()) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(mDocFile), AppConstants.INTENT_DATA_TYPE);
-                PackageManager pm = mContext.getPackageManager();
-                List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-                if (activities.size() > 0)
-                    mContext.startActivity(intent);
-                else
-                    Toast.makeText(mContext, AppConstants.NO_INSTALLED_PROGRAM, Toast.LENGTH_LONG).show();
-            } else
-                Toast.makeText(mContext, " Can not access file " + mDocFile.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+        if (filePath == null)
+            return;
+        File mDocFile = new File(filePath);
+        if (!mDocFile.exists()) {
+            Toast.makeText(mContext, " Can not access file " + mDocFile.toString() + " probably been removed.", Toast.LENGTH_LONG).show();
+            return;
         }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(mDocFile), AppConstants.INTENT_DATA_TYPE);
+        PackageManager pm = mContext.getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        if (activities.size() == 0) {
+            Toast.makeText(mContext, AppConstants.NO_INSTALLED_PROGRAM, Toast.LENGTH_LONG).show();
+            return;
+        }
+        mContext.startActivity(intent);
     }
     private List<File> getPDFFiles(String documentPath) {
         List<File> pdfFiles = new ArrayList<>();
         File documentDir = null;
-        if (documentPath != null && !documentPath.isEmpty()) {
-            documentDir = new File(documentPath);
-            if (documentDir.isDirectory() && documentDir.exists()) {
-                File[] files = documentDir.listFiles();
-                if (files.length > 0) {
-                    for (File f : files) {
-                        if (f.getName().toLowerCase().endsWith(".pdf"))
-                            pdfFiles.add(f);
-                    }
-                } else
-                    Toast.makeText(mContext, AppConstants.NO_DOCUMENT, Toast.LENGTH_LONG).show();
-            } else {
-                new AlertDialog.Builder(mContext)
-                        .setIcon(R.mipmap.ic_attention)
-                        .setTitle(AppConstants.DOC_PATH_INCORRECT)
-                        .setMessage(AppConstants.DOC_PATH_FAILED_MESSAGE)
-                        .create().show();
-                return null;
-            }
+        if (documentPath == null || documentPath.isEmpty())
+            return null;
+        documentDir = new File(documentPath);
+        if (!documentDir.isDirectory() || !documentDir.exists()) {
+            new AlertDialog.Builder(mContext)
+                    .setIcon(R.mipmap.ic_attention)
+                    .setTitle(AppConstants.DOC_PATH_INCORRECT)
+                    .setMessage(AppConstants.DOC_PATH_FAILED_MESSAGE)
+                    .create().show();
+            return null;
+        }
+        File[] files = documentDir.listFiles();
+        if (files.length == 0)
+            Toast.makeText(mContext, AppConstants.NO_DOCUMENT, Toast.LENGTH_LONG).show();
+        for (File f : files) {
+            if (f.getName().toLowerCase().endsWith(".pdf"))
+                pdfFiles.add(f);
         }
         return pdfFiles;
     }
