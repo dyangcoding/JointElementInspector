@@ -33,6 +33,6 @@ this projekt is licensed under the BSD. See the License.md for more details.
 * butterknife
 * picasso
 * recyclerview
-* cardview
+* Jackson
 * materialdrawer
 * crosswalk webview
