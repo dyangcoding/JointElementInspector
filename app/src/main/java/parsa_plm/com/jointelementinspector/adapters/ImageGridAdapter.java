@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jointelementinspector.main.R;
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import parsa_plm.com.jointelementinspector.interfaces.ICustomItemClickListener;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.util.List;

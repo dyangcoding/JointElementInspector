@@ -2,6 +2,7 @@ package parsa_plm.com.jointelementinspector.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -79,18 +80,29 @@ public class DocumentTabFragment extends BaseTabFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             String filePath = (String) bundle.get(AppConstants.DOC_FILE_PATH);
-            onOpenFile(filePath);
-            // 20170611: release
-            bundle.clear();
-            if (mDocFilePath != null)
-                mDocFilePath = null;
+            if (filePath != null) {
+                onOpenFile(filePath);
+                // 20170611: release
+                bundle.clear();
+                if (mDocFilePath != null)
+                    mDocFilePath = null;
+            }
         }
     }
     @Override
     public void onPause() {
         super.onPause();
-        if (mDocFilePath != null)
-            getArguments().putString(AppConstants.DOC_FILE_PATH, mDocFilePath);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(AppConstants.JOINT_ELEMENT_PREF, Context.MODE_PRIVATE);
+        boolean pausedOnBackPressed = prefs.getBoolean(AppConstants.PAUSED_ON_BACK_PRESSED, false);
+        // 20170614: if image display activity was paused on back pressed, we do not need to store file path
+        if (!pausedOnBackPressed) {
+            if (mDocFilePath != null){
+                getArguments().putString(AppConstants.DOC_FILE_PATH, mDocFilePath);
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.remove(AppConstants.PAUSED_ON_BACK_PRESSED);
+                edit.apply();
+            }
+        }
     }
     // 20161223: add listener
     private void setUpDocumentAdapter(List<File> documents, String documentPath) {
@@ -109,17 +121,17 @@ public class DocumentTabFragment extends BaseTabFragment {
             return;
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             // 20170108: hold reference of the old documents
-            int oldDocumentsCount = adapter.getItemCount();
-            adapter.clear();
             List<File> refreshPdfs = getPDFFiles(documentPath);
             if (refreshPdfs == null) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 return;
             }
-            adapter.addAll(refreshPdfs);
-            adapter.notifyDataSetChanged();
             mSwipeRefreshLayout.setRefreshing(false);
+            int oldDocumentsCount = adapter.getItemCount();
             if (oldDocumentsCount != refreshPdfs.size()) {
+                adapter.clear();
+                adapter.addAll(refreshPdfs);
+                adapter.notifyDataSetChanged();
                 int updatedItemCount = refreshPdfs.size() - oldDocumentsCount;
                 if (updatedItemCount > 0)
                     Toast.makeText(mContext, updatedItemCount + AppConstants.ITEM_ADDED, Toast.LENGTH_LONG).show();

@@ -67,6 +67,7 @@ public final class AppConstants {
     public static final String IMAGE_FILE_PATH = "ImageFilePath";
     // preference
     public static final String JOINT_ELEMENT_PREF = "JointElementPref";
+    public static final String PAUSED_ON_BACK_PRESSED = "Paused_On_Back_Pressed";
     // last opened activity
     public static final String LAST_ACTIVITY = "lastActivity";
     // data process

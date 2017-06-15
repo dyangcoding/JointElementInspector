@@ -2,6 +2,7 @@ package parsa_plm.com.jointelementinspector.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +19,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import parsa_plm.com.jointelementinspector.base.BaseTabFragment;
 import parsa_plm.com.jointelementinspector.models.ExpandableListHeader;
+
 import com.jointelementinspector.main.R;
+
 import parsa_plm.com.jointelementinspector.activities.ImageDisplayActivity;
 import parsa_plm.com.jointelementinspector.adapters.ImageGridAdapter;
 import parsa_plm.com.jointelementinspector.utils.AppConstants;
@@ -36,7 +39,11 @@ public class PhotoTabFragment extends BaseTabFragment {
     @BindView(R.id.photo_swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private String mImagePath;
-    public PhotoTabFragment() { setArguments(new Bundle()); }
+    private SharedPreferences mPrefs;
+
+    public PhotoTabFragment() {
+        setArguments(new Bundle());
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View photoView = inflater.inflate(R.layout.tab_fragment_photo, container, false);
@@ -53,6 +60,7 @@ public class PhotoTabFragment extends BaseTabFragment {
         }
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        mPrefs = this.getActivity().getSharedPreferences(AppConstants.JOINT_ELEMENT_PREF, Context.MODE_PRIVATE);
         return photoView;
     }
     @Override
@@ -78,14 +86,22 @@ public class PhotoTabFragment extends BaseTabFragment {
     public void onResume() {
         super.onResume();
         Bundle bundle = getArguments();
-        if (bundle != null) {
-            String savedFilePath = (String) bundle.get(AppConstants.IMAGE_FILE_PATH);
-            onOpenImage(savedFilePath);
-            // 20170611: release
-            bundle.clear();
-            if (mImagePath != null)
-                mImagePath = null;
+        String savedFilePath = (String) bundle.get(AppConstants.IMAGE_FILE_PATH);
+        boolean pausedOnBackPressed = mPrefs.getBoolean(AppConstants.PAUSED_ON_BACK_PRESSED, false);
+        if (savedFilePath != null) {
+            if (!pausedOnBackPressed)
+               onOpenImage(savedFilePath);
+            release(bundle);
         }
+    }
+    private void release(Bundle bundle) {
+        // 20170611: release
+        bundle.clear();
+        if (mImagePath != null)
+            mImagePath = null;
+        SharedPreferences.Editor edit = mPrefs.edit();
+        edit.remove(AppConstants.PAUSED_ON_BACK_PRESSED);
+        edit.apply();
     }
     @Override
     public void onPause() {
@@ -111,18 +127,18 @@ public class PhotoTabFragment extends BaseTabFragment {
         if (mSwipeRefreshLayout == null)
             return;
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            // 20170108: hold reference of the old documents
-            int oldPhotosCount = adapter.getItemCount();
-            adapter.clear();
             List<File> refreshPhotos = getImages(folderPath);
             if (refreshPhotos == null) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 return;
             }
-            adapter.addAll(refreshPhotos);
-            adapter.notifyDataSetChanged();
             mSwipeRefreshLayout.setRefreshing(false);
+            // 20170108: hold reference of the old documents
+            int oldPhotosCount = adapter.getItemCount();
             if (oldPhotosCount != refreshPhotos.size()) {
+                adapter.clear();
+                adapter.addAll(refreshPhotos);
+                adapter.notifyDataSetChanged();
                 int updatedItemCount = refreshPhotos.size() - oldPhotosCount;
                 if (updatedItemCount > 0)
                     Toast.makeText(mContext, updatedItemCount + AppConstants.IMAGE_UPDATED, Toast.LENGTH_LONG).show();

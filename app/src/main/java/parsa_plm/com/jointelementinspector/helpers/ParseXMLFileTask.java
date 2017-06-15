@@ -78,7 +78,7 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             String associatedAttachmentRefs = null;
             String instancedRef = null;
             String occurrenceRefs = null;
-            // 20160817: neues Verfahren ohne verschachtete Schleife
+            // 20160817: compute data without nested loop
             // 20170203: delete for loop
             Element firstOccu = (Element) occurrence.item(0);
             // prepare instanceRef to search product revision
@@ -124,14 +124,18 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         String type = "NotFound";
         String formRole = "IMAN_master_form";
         // get part name
-        if (!notNullAndEmpty(instancedRef))
+        if (!notNullAndEmpty(instancedRef)) {
+            Log.i(TAG, "constructHeader: " + "instancedRef is null or empty");
             return null;
+        }
         String id4ProductRevision = instancedRef.substring(1);
         for (int l = 0; l < productRevision.getLength(); ++l) {
             Element eleProRev = (Element) productRevision.item(l);
             String idRevision = eleProRev.getAttribute("id");
-            if (!notNullAndEmpty(id4ProductRevision))
+            if (!notNullAndEmpty(id4ProductRevision)) {
+                Log.i(TAG, "constructHeader: " + "id4ProductRevision is null or empty");
                 return null;
+            }
             if (id4ProductRevision.trim().equalsIgnoreCase(idRevision.trim())) {
                 partName = eleProRev.getAttribute("name");
                 type = eleProRev.getAttribute("subType");
@@ -145,8 +149,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         String associateAttachmentId = null;
         String attachmentRef = null;
         String childRefs = null;
-        if (associatedAttachmentIds.length == 0)
+        if (associatedAttachmentIds.length == 0) {
+            Log.i(TAG, "constructHeader: " + "associatedAttachmentIds is empty");
             return null;
+        }
         IdLoop:
         for (String id : associatedAttachmentIds) {
             for (int k = 0; k < associatedAttachment.getLength(); ++k) {
@@ -163,8 +169,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         }
         if (notNullAndEmpty(attachmentRef))
             attachmentRef = attachmentRef.substring(1);
-        if (!notNullAndEmpty(attachmentRef))
+        if (!notNullAndEmpty(attachmentRef)) {
+            Log.i(TAG, "constructHeader: " + "attachmentRef is null or empty");
             return null;
+        }
         formLoop:
         for (int k = 0; k < form.getLength(); ++k) {
             Element eleForm = (Element) form.item(k);
@@ -197,8 +205,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
         if (notNullAndEmpty(childRefs))
             idOfForm4MoreAttri = findId4InspeAttri(childRefs, associatedAttachment);
         // use id of form to find more attribute
-        if (!notNullAndEmpty(idOfForm4MoreAttri))
+        if (!notNullAndEmpty(idOfForm4MoreAttri)) {
+            Log.i(TAG, "constructHeader: " + "idOfForm4MoreAttri is null or empty");
             return null;
+        }
         for (int k = 0; k < form.getLength(); ++k) {
             Element eleForm = (Element) form.item(k);
             // better to use TRIM() for sure
@@ -255,12 +265,16 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             Element eleAssociated = (Element) associatedAttachment.item(k);
             // idCompareTo contains blank
             String idCompareTo = eleAssociated.getAttribute("id");
-            if (notNullAndEmpty(idCompareTo))
+            if (!notNullAndEmpty(idCompareTo)) {
+                Log.i(TAG, "constructHeader: " + "idCompareTo is null or empty");
                 return null;
+            }
             if (idCompareTo.trim().equalsIgnoreCase(id2FindAttachment.trim())) {
                 idOfForm4InspeAttri = eleAssociated.getAttribute("attachmentRef");
-                if (!notNullAndEmpty(idOfForm4InspeAttri))
+                if (!notNullAndEmpty(idOfForm4InspeAttri)) {
+                    Log.i(TAG, "constructHeader: " + "idOfForm4InspeAttri is null or empty");
                     return null;
+                }
                 idOfForm4InspeAttri = idOfForm4InspeAttri.substring(1);
                 break;
             }
@@ -303,8 +317,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
                 }
             }
             // first find item name and item type, if id not in design revision, muss be in product revision
-            if (!notNullAndEmpty(childInstancedRef))
+            if (!notNullAndEmpty(childInstancedRef)) {
+                Log.i(TAG, "constructHeader: " + "childInstancedRef is null or empty");
                 return null;
+            }
             String idOfRevisions = childInstancedRef.split("#")[1];
             boolean itemFound = false;
             for (int k = 0; k < designRevision.getLength(); ++k) {
@@ -326,8 +342,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
                 }
             }
             // now use associated attachment to find item number
-            if (!notNullAndEmpty(childAssociatedAttachmentRefs))
+            if (!notNullAndEmpty(childAssociatedAttachmentRefs)) {
+                Log.i(TAG, "constructHeader: " + "childAssociatedAttachmentRefs is null or empty");
                 return null;
+            }
             String[] idsOfChildAttachment = childAssociatedAttachmentRefs.split("#");
             String idOfForm4ItemNr = null;
             childAssocitedLoop:
@@ -342,8 +360,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
                 }
             }
             // now use forms id to find form and then get item number
-            if (notNullAndEmpty(idOfForm4ItemNr))
+            if (!notNullAndEmpty(idOfForm4ItemNr)) {
+                Log.i(TAG, "constructHeader: " + "idOfForm4ItemNr is null or empty");
                 return null;
+            }
             String idSplitted = idOfForm4ItemNr.split("#")[1];
             for (int k = 0; k < form.getLength(); k++) {
                 Element eleChildForm = (Element) form.item(k);
@@ -364,13 +384,17 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
     private List<Occurrence> getChildWeldPoints(NodeList occurrence, NodeList associatedAttachment, NodeList form, String idsOfItemWeldPoint, List<Occurrence> itemOfChild) {
         // last use idsItemWeldPoint to find weld point
         // first version, obtain weld point name to display list structure, late more attribute
-        if (!notNullAndEmpty(idsOfItemWeldPoint))
+        if (!notNullAndEmpty(idsOfItemWeldPoint)) {
+            Log.i(TAG, "constructHeader: " + "idsOfItemWeldPoint is null or empty");
             return null;
+        }
         itemOfChild = new ArrayList<>();
         String[] ids = idsOfItemWeldPoint.split(" ");
         for (String id4WeldPoint : ids) {
-            if (!notNullAndEmpty(id4WeldPoint))
+            if (!notNullAndEmpty(id4WeldPoint)) {
+                Log.i(TAG, "constructHeader: " + "id4WeldPoint is null or empty");
                 return null;
+            }
             String name = null;
             String joints_itemType = null;
             Occurrence weldPoint = null;
@@ -399,8 +423,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             }
             String id4Form = null;
             // check associated attachments
-            if (notNullAndEmpty(associatedARs))
+            if (!notNullAndEmpty(associatedARs)) {
+                Log.i(TAG, "constructHeader: " + "associatedARs is null or empty");
                 return null;
+            }
             String[] aRs = associatedARs.split("#");
             attachmentsLoop:
             for (String id4Character : aRs) {
@@ -422,8 +448,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
             if (!notNullAndEmpty(name) || !notNullAndEmpty(joints_itemType))
                 return null;
             String joins_it = joints_itemType.split(" ")[0];
-            if (notNullAndEmpty(transformMatrix))
+            if (!notNullAndEmpty(transformMatrix)) {
+                Log.i(TAG, "constructHeader: " + "transformMatrix is null or empty");
                 return null;
+            }
             double[][] matrix = Utility.generateMatrix(transformMatrix);
             weldPoint = new Occurrence(name, joins_it.trim(),
                     Utility.scalePosition(matrix[0][3]),
@@ -435,8 +463,10 @@ public class ParseXMLFileTask extends AsyncTask<File, Void, ExpandableListHeader
     }
     private String getWeldPointAttribute(NodeList form, String id4Form, Map<String, String> character) {
         String joints_itemType = null;
-        if (!notNullAndEmpty(id4Form))
+        if (!notNullAndEmpty(id4Form)) {
+            Log.i(TAG, "constructHeader: " + "id4Form is null or empty");
             return null;
+        }
         String id4FormSplitted = id4Form.split("#")[1];
         for (int k = 0; k < form.getLength(); ++k) {
             Element eleForm = (Element) form.item(k);
