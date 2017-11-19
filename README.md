@@ -3,7 +3,7 @@
 Prototype jointElementInspector.
 
 ###### **Introduction**
-this prototype process PLM XML File to display inspector header data und product Structure.
+this prototype process PLM (Product Lifecycle Management) XML File to display inspector header data und product Structure.
 There are also some data which related to the PLM XML would be loaded:
 
 * loading STL File through THREEJS
